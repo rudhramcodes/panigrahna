@@ -1,11 +1,11 @@
 const HERO_IMAGE =
-  "https://res.cloudinary.com/dvsrgdyi7/image/upload/f_auto,q_auto/DSC06503_1_khqkxz";
+  "https://res-console.cloudinary.com/dvsrgdyi7/thumbnails/v1/image/upload/v1780916247/VEtTMDUyMjVfMV9qeWVvdGc=/drilldown";
 
 export default function Hero() {
   return (
     <section className="relative h-screen w-full overflow-hidden">
       <img
-        className="absolute inset-0 h-full w-full object-cover object-[center_30%] md:object-[center_20%]"
+        className="absolute inset-0 h-full w-full object-cover object-[center_30%] md:object-[center_30%]"
         src={HERO_IMAGE}
         alt="Panigrahna"
       />
