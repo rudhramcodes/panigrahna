@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ivory: #fffaf4;
+  --color-parchment: #fdf3e7;
+  --color-walnut: #3d2b1a;
+  --color-taupe: #7a6a58;
+  --color-sand: #e8d5bc;
+  --color-rose-beige: #f0ddd0;
+  --color-maize: #eedfc0;
+
+  --color-sandstone-100: #f5ece0;
+  --color-sandstone-200: #d9c3a8;
+  --color-sandstone-300: #b89878;
+  --color-sandstone-400: #8c7055;
+  --color-sandstone-500: #5e4a36;
+
+  --color-cinnamon-100: #f7e8d4;
+  --color-cinnamon-200: #e8b87a;
+  --color-cinnamon-300: #c97c2e;
+  --color-cinnamon-400: #ae6f31;
+  --color-cinnamon-500: #8a5220;
+
+  --color-ember-100: #fbeae5;
+  --color-ember-200: #f0a898;
+  --color-ember-300: #d95f46;
+  --color-ember-400: #b84332;
+  --color-ember-500: #8c2e20;
+
+  --color-gold-100: #fef6dc;
+  --color-gold-200: #f5d97a;
+  --color-gold-300: #e0aa20;
+  --color-gold-400: #c08a0c;
+  --color-gold-500: #8f6308;
+
+  --ease-expo: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
