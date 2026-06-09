@@ -45,6 +45,7 @@ export default function SmoothScroll({ children, enabled = true }) {
     if (!lenis) return;
 
     if (enabled) {
+      window.scrollTo(0, 0);
       lenis.start();
     } else {
       lenis.stop();

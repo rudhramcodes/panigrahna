@@ -59,6 +59,13 @@ export default function PanigrahnLoader({ onComplete }) {
   const [showParticles, setShowParticles] = useState(false);
 
   useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
+
+  useEffect(() => {
     const outline = outlineRef.current;
     const fill = fillRef.current;
     const detail1 = detailRef1.current;
