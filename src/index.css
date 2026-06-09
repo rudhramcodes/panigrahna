@@ -148,7 +148,9 @@
   --color-gold-400: #c08a0c;
   --color-gold-500: #8f6308;
 
-  --color-primary: #ae6f31;
+  --color-primary: #351c03;
+  --color-secondary: #7a6a58;
+  --color-accent: #f0ddd0;
 
   --ease-expo: cubic-bezier(0.76, 0, 0.24, 1);
   --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
@@ -180,3 +182,4 @@ body {
   font-optical-sizing: auto;
   font-variation-settings: "wdth" 100;
 }
+

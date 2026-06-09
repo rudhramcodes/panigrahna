@@ -15,10 +15,10 @@ import gsap from "gsap";
  */
 
 // ─── Colour constants ────────────────────────────────────────────────────────
-const BRAND = "#ae6f31";          // Cinnamon 400 - Primary CTA
-const BRAND_LIGHT = "#e8b87a";    // Cinnamon 200 - Icon tint
-const BRAND_GLOW = "rgba(174,111,49,0.35)";
-const BG = "#fffaf4";             // Warm Ivory - Main background
+const BRAND = "#B3752F";          // Brand amber
+const BRAND_LIGHT = "#D4943A";    // Highlight tint
+const BRAND_GLOW = "rgba(179,117,47,0.35)";
+const BG = "#F5F2ED";             // Warm cream background
 
 // ─── The Panigrahn SVG path (verbatim from the uploaded logo) ────────────────
 const LOGO_PATH =
@@ -311,16 +311,18 @@ export default function PanigrahnLoader({ onComplete }) {
             style={{ width: "100%", display: "block", overflow: "visible" }}
           >
             <defs>
+              {/* Gradient for filled logo */}
               <linearGradient id="brandGrad" x1="0%" y1="100%" x2="0%" y2="0%">
-                <stop offset="0%" stopColor="#8a5220" />
+                <stop offset="0%" stopColor="#8B5520" />
                 <stop offset="45%" stopColor={BRAND} />
                 <stop offset="100%" stopColor={BRAND_LIGHT} />
               </linearGradient>
 
+              {/* Shimmer overlay gradient */}
               <linearGradient id="shimmer" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="rgba(232,184,122,0)" />
-                <stop offset="50%" stopColor="rgba(232,184,122,0.15)" />
-                <stop offset="100%" stopColor="rgba(232,184,122,0)" />
+                <stop offset="0%" stopColor="rgba(255,220,150,0)" />
+                <stop offset="50%" stopColor="rgba(255,220,150,0.15)" />
+                <stop offset="100%" stopColor="rgba(255,220,150,0)" />
               </linearGradient>
             </defs>
 
@@ -370,7 +372,7 @@ export default function PanigrahnLoader({ onComplete }) {
             {/* ── Detail path 1 (fill) ── */}
             <path
               d={CLIP_PATH_1}
-              fill="#f5d97a"
+              fill="#FEC145"
               style={{
                 clipPath: phase === "fill" ? "inset(0% 0% 0% 0%)" : "inset(100% 0% 0% 0%)",
                 transition: "clip-path 1.1s ease 0s",
@@ -392,7 +394,7 @@ export default function PanigrahnLoader({ onComplete }) {
             {/* ── Detail path 2 (fill) ── */}
             <path
               d={CLIP_PATH_2}
-              fill="#d95f46"
+              fill="#EE2934"
               style={{
                 clipPath: phase === "fill" ? "inset(0% 0% 0% 0%)" : "inset(100% 0% 0% 0%)",
                 transition: "clip-path 1.1s ease 0.2s",
