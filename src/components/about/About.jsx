@@ -1,37 +1,34 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import MaskText from "../mask-text/MaskText";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const MAIN_IMAGE =
   "https://res.cloudinary.com/dvsrgdyi7/image/upload/v1780916141/DSC04563_1_foxptm.jpg";
 
+const HEADING_LINES = [
+  <span><em className="uppercase font-thin">Documenting</em> the <em className="text-secondary">traditions</em></span>,
+  <span className="abt-accent">in the <span className="text-secondary italic">way</span> they are</span>,
+  <span className="abt-accent"><span className="text-secondary italic">meant to be.</span></span>,
+];
+
+const BODY_TEXT =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
+
+const NOTE_TEXT =
+  "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.";
+
 export default function AboutSection() {
-  const sectionRef   = useRef(null);
-  const imgRef       = useRef(null);
-  const imgWrapRef   = useRef(null);
-  const bodyRef      = useRef(null);
-  const noteRef      = useRef(null);
+  const sectionRef = useRef(null);
+  const imgRef = useRef(null);
+  const imgWrapRef = useRef(null);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 72%",
-          once: true,
-        },
-      });
-
-      tl.fromTo([bodyRef.current, noteRef.current],
-          { opacity: 0, y: 22 },
-          { opacity: 1, y: 0, duration: 0.8, ease: "power3.out", stagger: 0.14 },
-          "-=0.5"
-        );
-
       gsap.to(imgRef.current, {
         yPercent: -12,
         ease: "none",
@@ -44,12 +41,12 @@ export default function AboutSection() {
       });
 
       const section = sectionRef.current;
-      const img     = imgRef.current;
+      const img = imgRef.current;
 
       const handleMouseMove = (e) => {
         const { left, top, width, height } = section.getBoundingClientRect();
-        const x = (e.clientX - left) / width  - 0.5;
-        const y = (e.clientY - top)  / height - 0.5;
+        const x = (e.clientX - left) / width - 0.5;
+        const y = (e.clientY - top) / height - 0.5;
         gsap.to(img, {
           rotationY: x * 4,
           rotationX: -y * 4,
@@ -86,16 +83,6 @@ export default function AboutSection() {
           font-family: 'Berlingske Serif', Georgia, serif;
           font-size: clamp(2.2rem, 4.5vw, 4.5rem);
         }
-        .abt-hl em {
-          // font-style: italic;
-        }
-        .abt-hl strong {
-          // font-weight: 600;
-        }
-        .abt-hl .abt-accent {
-          // font-style: italic;
-        }
-
         @media (max-width: 1024px) {
           .abt-hl { font-size: clamp(1.8rem, 4vw, 3.2rem); }
         }
@@ -109,33 +96,33 @@ export default function AboutSection() {
         className="relative w-full overflow-hidden"
         style={{ background: "#fdf3e7" }}
       >
-        {/* ─── MAIN CONTENT GRID ─── */}
         <div
           className="max-w-[1480px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16"
           style={{ paddingTop: "clamp(4rem, 8vw, 8rem)", paddingBottom: "clamp(4rem, 8vw, 8rem)" }}
         >
-          <div className="flex flex-col lg:flex-row lg:items-start lg:gap-0">
+          <div className="flex flex-col lg:flex-row lg:items-start lg:gap-6 xl:gap-8">
 
             {/* ── LEFT — EDITORIAL HEADLINE ── */}
             <div
-              className="w-full lg:w-[38%] flex-shrink-0 lg:pr-6 xl:pr-8 mb-10 md:mb-0 self-start"
+              className="w-full lg:w-[38%] flex-shrink-0 mb-10 md:mb-0 self-start"
               style={{ position: "sticky", top: "8vh" }}
             >
-              <h2 className="abt-hl leading-none tracking-tight text-right text-primary font-normal" aria-label="Documenting the traditions in the way they are meant to be.">
-                <em className="uppercase font-thin">Documenting</em> the <em className="text-secondary">traditions</em>{" "}
-                <span className="abt-accent">in the <span className="text-secondary italic">way</span> they are <span className="text-secondary italic">meant to be.</span></span>
-              </h2>
+              <MaskText
+                outerTag="h2"
+                tag="span"
+                className="abt-hl leading-none tracking-tight w-[90%] sm:w-full sm:text-right text-primary font-normal"
+                amount={0.5}
+                staggerDelay={0.1}
+                lines={HEADING_LINES}
+              />
             </div>
 
             {/* ── CENTER — IMAGE ── */}
-            <div className="w-full md:w-[55%] lg:w-[34%] flex-shrink-0 mb-10 md:mb-0 md:pr-8 lg:pr-0 lg:mx-4 xl:mx-6 abt-img-container">
+            <div className="w-full md:w-[55%] lg:w-[34%] flex-shrink-0 mb-10 md:mb-0 abt-img-container">
               <div
                 ref={imgWrapRef}
                 className="relative overflow-hidden"
-                style={{
-                  aspectRatio: "3/4",
-                  borderRadius: "2px",
-                }}
+                style={{ aspectRatio: "3/4", borderRadius: "2px" }}
               >
                 <img
                   ref={imgRef}
@@ -149,91 +136,36 @@ export default function AboutSection() {
 
             {/* ── RIGHT — BODY COPY ── */}
             <div
-              className="w-full md:w-[45%] lg:w-[28%] flex-shrink-0 flex flex-col justify-end lg:pt-8 lg:pl-6 xl:pl-10"
+              className="w-full md:w-[45%] lg:w-[28%] flex-shrink-0 flex flex-col justify-end lg:pt-8"
               style={{ alignSelf: "flex-end" }}
             >
-
-              {/* Traditions label */}
-              <span
-                className="block mb-5"
-                style={{
+              <MaskText
+                className="mb-6"
+                tag="p"
+                amount={0.5}
+                lines={[BODY_TEXT]}
+                outerStyle={{
                   fontFamily: "'Open Sans', sans-serif",
-                  fontSize: "0.6rem",
-                  letterSpacing: "0.2em",
-                  textTransform: "uppercase",
-                  color: "#b89878",
-                  fontWeight: 300,
-                }}
-              >
-                Our philosophy
-              </span>
-
-              <p
-                ref={bodyRef}
-                style={{
-                  fontFamily: "'Open Sans', sans-serif",
-                  fontSize: "clamp(0.9rem, 1vw, 1rem)",
+                  fontSize: "clamp(0.8rem, 0.9vw, 0.9rem)",
                   lineHeight: 1.85,
                   color: "#5e4a36",
                   fontWeight: 300,
-                  marginBottom: "2rem",
-                  opacity: 0,
                 }}
-              >
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
-              </p>
+              />
 
-              <p
-                ref={noteRef}
-                style={{
+              <MaskText
+                tag="p"
+                amount={0.5}
+                lines={[NOTE_TEXT]}
+                outerStyle={{
                   fontFamily: "'Berlingske Serif', Georgia, serif",
-                  fontSize: "clamp(1rem, 1.1vw, 1.15rem)",
+                  fontSize: "clamp(0.85rem, 1vw, 1rem)",
                   fontStyle: "italic",
                   fontWeight: 300,
                   color: "#7a6a58",
                   lineHeight: 1.7,
-                  opacity: 0,
                 }}
-              >
-                Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                cupidatat non proident.
-              </p>
-
-              {/* Mobile year counter */}
-              {/* <div
-                className="flex lg:hidden items-end gap-3 mt-10"
-              >
-                <span
-                  style={{
-                    fontFamily: "'Berlingske Serif', Georgia, serif",
-                    fontSize: "clamp(3rem, 12vw, 5rem)",
-                    fontWeight: 300,
-                    lineHeight: 1,
-                    color: "#3d2b1a",
-                    letterSpacing: "-0.04em",
-                  }}
-                >
-                  8+
-                </span>
-                <span
-                  className="pb-2"
-                  style={{
-                    fontFamily: "'Open Sans', sans-serif",
-                    fontSize: "0.65rem",
-                    letterSpacing: "0.14em",
-                    textTransform: "uppercase",
-                    color: "#7a6a58",
-                    fontWeight: 300,
-                    lineHeight: 1.5,
-                  }}
-                >
-                  Years of<br />tradition
-                </span>
-              </div> */}
+              />
             </div>
 
           </div>
