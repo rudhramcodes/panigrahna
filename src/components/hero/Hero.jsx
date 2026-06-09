@@ -40,6 +40,42 @@ export default function Hero() {
         alt="Panigrahna"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-walnut/30 via-transparent to-transparent" />
+
+      {/* Mobile: bottom-left */}
+      <div className="absolute inset-x-0 bottom-0 px-5 sm:px-8 md:px-12 pb-8 sm:pb-10 lg:hidden pointer-events-none select-none">
+        <h1 className="font-serif text-sand font-thin leading-none tracking-tight">
+          <span
+            className="block font-serif text-sand font-thin leading-none tracking-tighter self-start"
+            style={{ fontSize: "clamp(4rem, 10vw, 3.5rem)" }}
+          >
+            To,
+          </span>
+          <span
+            className="block font-serif text-sand font-thin leading-none tracking-tighter self-start"
+            style={{ fontSize: "clamp(6rem, 10vw, 3.5rem)", marginTop: "-0.15em" }}
+          >
+            Eternity.
+          </span>
+        </h1>
+      </div>
+
+      {/* Desktop: bottom-left */}
+      <div className="hidden lg:flex absolute inset-0 px-16 pointer-events-none select-none">
+        <div className="flex flex-col justify-end w-full h-full pb-4">
+          <span
+            className="block font-serif text-sand font-thin leading-none tracking-tighter self-start"
+            style={{ fontSize: "clamp(6rem, 18vw, 10rem)" }}
+          >
+            To,
+          </span>
+          <span
+            className="block font-serif text-sand font-thin leading-none tracking-tighter self-start"
+            style={{ fontSize: "clamp(6rem, 18vw, 14rem)", marginTop: "-0.18em" }}
+          >
+            Eternity.
+          </span>
+        </div>
+      </div>
     </section>
   );
 }
