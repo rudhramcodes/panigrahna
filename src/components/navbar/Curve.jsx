@@ -17,7 +17,7 @@ const curve = {
 export default function Curve() {
   return (
     <svg
-      className="absolute top-0 left-[-99px] h-full w-[100px]"
+      className="absolute left-[-99px] top-0 h-full w-[100px]"
       viewBox="0 0 200 1000"
       preserveAspectRatio="none"
       fill="var(--color-sandstone-500)"

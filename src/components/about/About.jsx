@@ -10,8 +10,8 @@ const MAIN_IMAGE =
 
 const HEADING_LINES = [
   <span><em className="uppercase font-thin">Documenting</em> the <em className="text-secondary">traditions</em></span>,
-  <span className="abt-accent">in the <span className="text-secondary italic handwritten-underline"><span style={{position: "relative", zIndex: 1}}>way</span></span> they</span>,
-  <span className="abt-accent">are <span className="text-secondary italic">meant to be.</span></span>,
+  <span>in the <span className="text-secondary italic handwritten-underline"><span style={{position: "relative", zIndex: 1}}>way</span></span> they</span>,
+  <span>are <span className="text-secondary italic">meant to be.</span></span>,
 ];
 
 const BODY_TEXT =
@@ -23,7 +23,6 @@ const NOTE_TEXT =
 export default function AboutSection() {
   const sectionRef = useRef(null);
   const imgRef = useRef(null);
-  const imgWrapRef = useRef(null);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -56,7 +55,8 @@ export default function AboutSection() {
         }
         @media (max-width: 767px) {
           .abt-hl { font-size: clamp(1.5rem, 5.5vw, 2.5rem); }
-        }        .handwritten-underline {
+        }
+        .handwritten-underline {
           position: relative;
           display: inline;
         }
@@ -75,34 +75,30 @@ export default function AboutSection() {
 
       <section
         ref={sectionRef}
-        className="relative w-full overflow-hidden"
-        style={{ background: "#fdf3e7" }}
+        className="relative w-full overflow-hidden bg-parchment"
       >
         <div
-          className="max-w-[1480px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16"
+          className="mx-auto max-w-[1480px] px-5 sm:px-8 md:px-12 lg:px-16"
           style={{ paddingTop: "clamp(4rem, 8vw, 8rem)", paddingBottom: "clamp(4rem, 8vw, 8rem)" }}
         >
           <div className="flex flex-col lg:flex-row lg:items-start lg:gap-6 xl:gap-8">
 
-            {/* ── LEFT — EDITORIAL HEADLINE ── */}
             <div
-              className="w-full lg:w-[38%] flex-shrink-0 mb-10 md:mb-0 self-start"
+              className="w-full flex-shrink-0 self-start lg:w-[38%] mb-10 md:mb-0"
               style={{ position: "sticky", top: "8vh" }}
             >
               <MaskText
                 outerTag="h2"
                 tag="span"
-                className="abt-hl leading-none tracking-tight w-[90%] sm:w-full sm:text-right text-primary font-normal"
+                className="abt-hl leading-none tracking-tight sm:w-full sm:text-right text-primary font-normal"
                 amount={0.5}
                 staggerDelay={0.1}
                 lines={HEADING_LINES}
               />
             </div>
 
-            {/* ── CENTER — IMAGE ── */}
-            <div className="w-full md:w-[55%] lg:w-[34%] flex-shrink-0 mb-10 md:mb-0 abt-img-container">
+            <div className="w-full flex-shrink-0 mb-10 md:mb-0 md:w-[55%] lg:w-[34%]">
               <div
-                ref={imgWrapRef}
                 className="relative overflow-hidden"
                 style={{ aspectRatio: "3/4", borderRadius: "2px" }}
               >
@@ -111,18 +107,17 @@ export default function AboutSection() {
                   src={MAIN_IMAGE}
                   alt="Heritage Documentation"
                   className="w-full object-cover object-center"
-                  style={{ height: "115%", marginTop: "-5%", display: "block", willChange: "transform", transform: "scale(1.15)" }}
+                  style={{ height: "115%", marginTop: "-5%", display: "block", transform: "scale(1.15)" }}
                 />
               </div>
             </div>
 
-            {/* ── RIGHT — BODY COPY ── */}
             <div
-              className="w-full md:w-[45%] lg:w-[28%] flex-shrink-0 min-w-0 flex flex-col justify-end lg:pt-8"
+              className="flex w-full min-w-0 flex-shrink-0 flex-col justify-end lg:w-[28%] md:w-[45%] lg:pt-8"
               style={{ alignSelf: "flex-end" }}
             >
               <MaskText
-                className="mb-6 w-[80%]"
+                className="mb-6 sm:w-[80%]"
                 tag="p"
                 amount={0.5}
                 lines={[BODY_TEXT]}
@@ -139,7 +134,7 @@ export default function AboutSection() {
 
               <MaskText
                 tag="p"
-                className="w-[80%]"
+                className="sm:w-[80%]"
                 amount={0.5}
                 lines={[NOTE_TEXT]}
                 outerStyle={{

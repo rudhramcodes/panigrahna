@@ -7,7 +7,7 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="fixed left-0 top-0 z-[60] flex w-full items-center justify-between px-6 py-5 sm:px-10">
+      <header className="fixed left-0 top-0 z-[60] flex w-full items-center justify-between px-5 sm:px-8 md:px-12 lg:px-16 py-5">
         <a
           href="#"
           className="relative z-10 transition-opacity duration-300 hover:opacity-70"
