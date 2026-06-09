@@ -10,8 +10,8 @@ const MAIN_IMAGE =
 
 const HEADING_LINES = [
   <span><em className="uppercase font-thin">Documenting</em> the <em className="text-secondary">traditions</em></span>,
-  <span className="abt-accent">in the <span className="text-secondary italic">way</span> they are</span>,
-  <span className="abt-accent"><span className="text-secondary italic">meant to be.</span></span>,
+  <span className="abt-accent">in the <span className="text-secondary italic">way</span> they</span>,
+  <span className="abt-accent">are <span className="text-secondary italic">meant to be.</span></span>,
 ];
 
 const BODY_TEXT =
@@ -39,38 +39,6 @@ export default function AboutSection() {
           scrub: 1.4,
         },
       });
-
-      const section = sectionRef.current;
-      const img = imgRef.current;
-
-      const handleMouseMove = (e) => {
-        const { left, top, width, height } = section.getBoundingClientRect();
-        const x = (e.clientX - left) / width - 0.5;
-        const y = (e.clientY - top) / height - 0.5;
-        gsap.to(img, {
-          rotationY: x * 4,
-          rotationX: -y * 4,
-          transformPerspective: 900,
-          duration: 0.8,
-          ease: "power2.out",
-        });
-      };
-      const handleMouseLeave = () => {
-        gsap.to(img, {
-          rotationY: 0,
-          rotationX: 0,
-          duration: 0.9,
-          ease: "power2.out",
-        });
-      };
-
-      section.addEventListener("mousemove", handleMouseMove);
-      section.addEventListener("mouseleave", handleMouseLeave);
-
-      return () => {
-        section.removeEventListener("mousemove", handleMouseMove);
-        section.removeEventListener("mouseleave", handleMouseLeave);
-      };
     }, sectionRef);
 
     return () => ctx.revert();
@@ -129,18 +97,18 @@ export default function AboutSection() {
                   src={MAIN_IMAGE}
                   alt="Heritage Documentation"
                   className="w-full object-cover object-center"
-                  style={{ height: "115%", marginTop: "-5%", display: "block", willChange: "transform" }}
+                  style={{ height: "115%", marginTop: "-5%", display: "block", willChange: "transform", transform: "scale(1.15)" }}
                 />
               </div>
             </div>
 
             {/* ── RIGHT — BODY COPY ── */}
             <div
-              className="w-full md:w-[45%] lg:w-[28%] flex-shrink-0 flex flex-col justify-end lg:pt-8"
+              className="w-full md:w-[45%] lg:w-[28%] flex-shrink-0 min-w-0 flex flex-col justify-end lg:pt-8"
               style={{ alignSelf: "flex-end" }}
             >
               <MaskText
-                className="mb-6"
+                className="mb-6 w-[80%]"
                 tag="p"
                 amount={0.5}
                 lines={[BODY_TEXT]}
@@ -150,11 +118,14 @@ export default function AboutSection() {
                   lineHeight: 1.85,
                   color: "#5e4a36",
                   fontWeight: 300,
+                  overflowWrap: "break-word",
+                  wordBreak: "break-word",
                 }}
               />
 
               <MaskText
                 tag="p"
+                className="w-[80%]"
                 amount={0.5}
                 lines={[NOTE_TEXT]}
                 outerStyle={{
@@ -164,6 +135,8 @@ export default function AboutSection() {
                   fontWeight: 300,
                   color: "#7a6a58",
                   lineHeight: 1.7,
+                  overflowWrap: "break-word",
+                  wordBreak: "break-word",
                 }}
               />
             </div>
