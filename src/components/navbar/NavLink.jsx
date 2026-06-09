@@ -37,7 +37,7 @@ export default function NavLink({ data, isActive, setSelectedIndicator }) {
       />
       <a
         href={href}
-        className="text-4xl font-light tracking-wide text-white no-underline transition-colors duration-300 hover:text-neutral-400 sm:text-5xl md:text-6xl"
+        className="font-serif text-4xl font-light  text-white no-underline transition-colors duration-300 hover:text-neutral-400 sm:text-5xl md:text-6xl"
       >
         {title}
       </a>

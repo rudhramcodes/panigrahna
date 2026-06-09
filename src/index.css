@@ -1,6 +1,121 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Berlingske Serif";
+  src: url("/font/BerlingskeSerif-Lt.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Berlingske Serif";
+  src: url("/font/BerlingskeSerif-LtItalic.woff2") format("woff2");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Berlingske Serif";
+  src: url("/font/BerlingskeSerif-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Berlingske Serif";
+  src: url("/font/BerlingskeSerif-Italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Berlingske Serif";
+  src: url("/font/BerlingskeSerif-Md.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Berlingske Serif";
+  src: url("/font/BerlingskeSerif-MdItalic.woff2") format("woff2");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Berlingske Serif";
+  src: url("/font/BerlingskeSerif-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Berlingske Serif";
+  src: url("/font/BerlingskeSerif-SemBdIta.woff2") format("woff2");
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Berlingske Serif";
+  src: url("/font/BerlingskeSerif-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Berlingske Serif";
+  src: url("/font/BerlingskeSerif-BoldItalic.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Berlingske Serif";
+  src: url("/font/BerlingskeSerif-ExtraBold.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Berlingske Serif";
+  src: url("/font/BerlingskeSerif-ExtBdIta.woff2") format("woff2");
+  font-weight: 800;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Berlingske Serif";
+  src: url("/font/BerlingskeSerif-Blk.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Berlingske Serif";
+  src: url("/font/BerlingskeSerif-BlkItalic.woff2") format("woff2");
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
 @theme {
+  --font-sans: "Open Sans", sans-serif;
+  --font-serif: "Berlingske Serif", "Georgia", serif;
+
   --color-ivory: #fffaf4;
   --color-parchment: #fdf3e7;
   --color-walnut: #3d2b1a;
@@ -33,6 +148,8 @@
   --color-gold-400: #c08a0c;
   --color-gold-500: #8f6308;
 
+  --color-primary: #ae6f31;
+
   --ease-expo: cubic-bezier(0.76, 0, 0.24, 1);
   --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -56,4 +173,10 @@ html.lenis body {
 
 .lenis.lenis-smooth iframe {
   pointer-events: none;
+}
+
+body {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-variation-settings: "wdth" 100;
 }

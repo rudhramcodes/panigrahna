@@ -39,7 +39,7 @@ export default function Nav() {
           className="mt-12 flex flex-col gap-3 md:mt-20"
           onMouseLeave={() => setSelectedIndicator("/")}
         >
-          <div className="mb-8 border-b border-sandstone-400 pb-4 text-[11px] uppercase tracking-widest text-sandstone-300">
+          <div className="mb-8 border-b border-sandstone-400 pb-4 font-serif text-[11px] uppercase tracking-widest text-sandstone-300">
             Navigation
           </div>
           {NAV_ITEMS.map((data, index) => (
@@ -52,7 +52,7 @@ export default function Nav() {
           ))}
         </div>
 
-        <div className="flex w-full justify-between gap-10 text-xs text-sandstone-300">
+        <div className="flex w-full justify-between gap-10 font-serif text-xs text-sandstone-300">
           <a href="#" className="transition-colors hover:text-cinnamon-200">Instagram</a>
           <a href="#" className="transition-colors hover:text-cinnamon-200">LinkedIn</a>
           <a href="#" className="transition-colors hover:text-cinnamon-200">Twitter</a>
