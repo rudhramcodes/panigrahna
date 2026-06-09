@@ -10,8 +10,7 @@ const MAIN_IMAGE =
 
 const HEADING_LINES = [
   <span><em className="uppercase font-thin">Documenting</em> the <em className="text-secondary">traditions</em></span>,
-  <span>in the <span className="text-secondary italic handwritten-underline"><span style={{position: "relative", zIndex: 1}}>way</span></span> they</span>,
-  <span>are <span className="text-secondary italic">meant to be.</span></span>,
+  <span>in the <span className="text-secondary italic handwritten-underline"><span style={{position: "relative", zIndex: 1}}>way</span></span> they are <span className="text-secondary italic">meant to be.</span></span>,
 ];
 
 const BODY_TEXT =
