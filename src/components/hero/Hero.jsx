@@ -5,7 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const HERO_IMAGE =
-  "https://res-console.cloudinary.com/dvsrgdyi7/thumbnails/v1/image/upload/v1780916247/VEtTMDUyMjVfMV9qeWVvdGc=/drilldown";
+  "https://res.cloudinary.com/dvsrgdyi7/image/upload/f_auto,q_auto/v1780916141/TKS05225_1_jyeotg";
 
 export default function Hero() {
   const sectionRef = useRef(null);

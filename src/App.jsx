@@ -5,6 +5,7 @@ import Hero from "./components/hero/Hero";
 import Navbar from "./components/navbar/Navbar";
 import AboutSection from "./components/about/About";
 import Projects from "./components/projects/Projects";
+import Project2 from "./components/projects/project2";
 
 const App = () => {
   const [loaderDone, setLoaderDone] = useState(false);
@@ -18,6 +19,7 @@ const App = () => {
         <Hero />
         <AboutSection />
         <Projects />
+        <Project2 />
       </div>
     </SmoothScroll>
   );
