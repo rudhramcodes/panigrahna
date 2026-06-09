@@ -18,7 +18,7 @@ export default function Navbar() {
 
         <button
           onClick={() => setIsActive(!isActive)}
-          className="relative z-[70] flex h-[50px] w-[50px] items-center justify-center rounded-full bg-cinnamon-400 transition-transform duration-300 hover:scale-105 sm:h-20 sm:w-20"
+          className="relative z-[70] flex h-[50px] w-[50px] items-center justify-center rounded-full bg-cinnamon-400 transition-transform duration-300 cursor-pointer hover:scale-105 sm:h-20 sm:w-20"
           aria-label={isActive ? "Close menu" : "Open menu"}
           aria-expanded={isActive}
         >

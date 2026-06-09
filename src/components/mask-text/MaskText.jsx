@@ -9,6 +9,7 @@ export default function MaskText({
   tag: Tag = "p",
   amount = 0.75,
   staggerDelay = 0.075,
+  lineOverflow,
 }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { amount, once: true });
@@ -30,7 +31,7 @@ export default function MaskText({
   return (
     <OuterTag ref={ref} className={className} style={outerStyle}>
       {lines.map((line, i) => (
-        <div key={i} className="overflow-hidden">
+        <div key={i} className={lineOverflow?.[i] ? "" : "overflow-hidden"}>
           <MotionTag
             custom={i}
             variants={animation}

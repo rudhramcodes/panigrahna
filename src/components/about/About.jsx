@@ -10,7 +10,7 @@ const MAIN_IMAGE =
 
 const HEADING_LINES = [
   <span><em className="uppercase font-thin">Documenting</em> the <em className="text-secondary">traditions</em></span>,
-  <span className="abt-accent">in the <span className="text-secondary italic">way</span> they</span>,
+  <span className="abt-accent">in the <span className="text-secondary italic handwritten-underline"><span style={{position: "relative", zIndex: 1}}>way</span></span> they</span>,
   <span className="abt-accent">are <span className="text-secondary italic">meant to be.</span></span>,
 ];
 
@@ -56,6 +56,20 @@ export default function AboutSection() {
         }
         @media (max-width: 767px) {
           .abt-hl { font-size: clamp(1.5rem, 5.5vw, 2.5rem); }
+        }        .handwritten-underline {
+          position: relative;
+          display: inline;
+        }
+        .handwritten-underline::before {
+          content: '';
+          position: absolute;
+          inset: 0.06em -0.14em 0.02em -0.06em;
+          background: #C8A882;
+          opacity: 0.22;
+          border-radius: 4px 1px 6px 2px;
+          z-index: 0;
+          transform: rotate(-0.6deg) skewX(0.3deg);
+          clip-path: polygon(0% 0%, 100% 3%, 100% 100%, 0% 97%);
         }
       `}</style>
 
