@@ -1,5 +1,7 @@
+import { useState, useEffect } from 'react';
 import { cloudinaryUrl } from "../../lib/cloudinary";
 import CircularGallery from "./CircularGallery";
+import MobileCarousel from "./MobileCarousel";
 
 const COUPLES = [
   { name: "Harsh & Sayonee", image: "TKS05225_1_jyeotg.jpg" },
@@ -20,6 +22,15 @@ const GALLERY_ITEMS = COUPLES.map((couple) => ({
 }));
 
 export default function Project2() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
   return (
     <section
       className="relative flex flex-col w-full bg-sand/50 overflow-hidden select-none"
@@ -43,15 +54,19 @@ export default function Project2() {
       </div>
 
       <div className="flex-1 relative min-h-0">
-        <CircularGallery
-          items={GALLERY_ITEMS}
-          bend={3}
-          borderRadius={0.05}
-          font="300 22px 'Berlingske Serif'"
-          textColor="#3d2b1a"
-          scrollSpeed={1.7}
-          scrollEase={0.05}
-        />
+        {isMobile ? (
+          <MobileCarousel items={GALLERY_ITEMS} />
+        ) : (
+          <CircularGallery
+            items={GALLERY_ITEMS}
+            bend={3}
+            borderRadius={0.05}
+            font="300 22px 'Berlingske Serif'"
+            textColor="#3d2b1a"
+            scrollSpeed={1.7}
+            scrollEase={0.05}
+          />
+        )}
       </div>
     </section>
   );

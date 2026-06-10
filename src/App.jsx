@@ -6,6 +6,7 @@ import Navbar from "./components/navbar/Navbar";
 import AboutSection from "./components/about/About";
 import Projects from "./components/projects/Projects";
 import Project2 from "./components/projects/project2";
+import Films from "./components/films/Films";
 
 const App = () => {
   const [loaderDone, setLoaderDone] = useState(false);
@@ -20,6 +21,7 @@ const App = () => {
         <AboutSection />
         <Projects />
         <Project2 />
+        <Films />
       </div>
     </SmoothScroll>
   );

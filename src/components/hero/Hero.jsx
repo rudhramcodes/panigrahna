@@ -64,13 +64,13 @@ export default function Hero() {
         <div className="flex flex-col justify-end w-full h-full pb-4">
           <span
             className="block font-serif text-sand font-thin leading-none tracking-tighter self-start"
-            style={{ fontSize: "clamp(6rem, 18vw, 10rem)" }}
+            style={{ fontSize: "clamp(6rem, 18vw, 8rem)" }}
           >
             To,
           </span>
           <span
             className="block font-serif text-sand font-thin leading-none tracking-tighter self-start"
-            style={{ fontSize: "clamp(6rem, 18vw, 14rem)", marginTop: "-0.18em" }}
+            style={{ fontSize: "clamp(6rem, 18vw, 8rem)", marginTop: "-0.18em" }}
           >
             Eternity.
           </span>
