@@ -1,19 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
-const BASE = "https://res.cloudinary.com/dvsrgdyi7/image/upload/f_auto,q_auto,w_800";
+import { cloudinaryUrl } from "../../lib/cloudinary";
+
+const IMG_800 = (path) => cloudinaryUrl(path, { width: 800 });
 
 const IMAGES = [
-  `${BASE}/v1780916391/TKS05269_1_yvjsbn.jpg`,
-  `${BASE}/v1780916388/TKS05296_1_houjrv.jpg`,
-  `${BASE}/v1780916388/TKS05280_1_otriau.jpg`,
-  `${BASE}/v1780916386/TKS05350_1_icb4yl.jpg`,
-  `${BASE}/v1780916386/TKS05320_1_iljauy.jpg`,
-  `${BASE}/v1780916152/DSC06503_1_qx8pds.jpg`,
-  `${BASE}/v1780916146/DSC06398_1_chgpws.jpg`,
-  `${BASE}/v1780916144/DSC06360_1_yfjfkb.jpg`,
-  `${BASE}/v1780916143/DSC06642_1_lhpqi2.jpg`,
-  `${BASE}/v1780916141/DSC06501_1_czy9w8.jpg`,
+  IMG_800("TKS05269_1_yvjsbn.jpg"),
+  IMG_800("TKS05296_1_houjrv.jpg"),
+  IMG_800("TKS05280_1_otriau.jpg"),
+  IMG_800("TKS05350_1_icb4yl.jpg"),
+  IMG_800("TKS05320_1_iljauy.jpg"),
+  IMG_800("DSC06503_1_qx8pds.jpg"),
+  IMG_800("DSC06398_1_chgpws.jpg"),
+  IMG_800("DSC06360_1_yfjfkb.jpg"),
+  IMG_800("DSC06642_1_lhpqi2.jpg"),
+  IMG_800("DSC06501_1_czy9w8.jpg"),
 ];
 
 const COLUMNS = [
@@ -68,10 +70,10 @@ export default function Projects() {
   const yVals = [y1, y2, y3, y4];
 
   return (
-    <section className="w-full">
+    <section className="hidden md:block w-full">
       <div
         ref={galleryRef}
-        className="relative w-full overflow-hidden flex flex-wrap lg:flex-nowrap gap-[2vw] p-[2vw] bg-sand"
+        className="relative w-full overflow-hidden flex flex-wrap lg:flex-nowrap gap-[2vw] p-[2vw] bg-sand/50"
         style={{ height: "175vh" }}
       >
         {COLUMNS.map((col, i) => (

@@ -2,11 +2,11 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import MaskText from "../mask-text/MaskText";
+import { cloudinaryUrl } from "../../lib/cloudinary";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const MAIN_IMAGE =
-  "https://res.cloudinary.com/dvsrgdyi7/image/upload/v1780916141/DSC04563_1_foxptm.jpg";
+const MAIN_IMAGE = cloudinaryUrl("DSC04563_1_foxptm");
 
 const HEADING_LINES = [
   <span><em className="uppercase font-thin">Documenting</em> the <em className="text-secondary">traditions</em></span>,
@@ -74,7 +74,7 @@ export default function AboutSection() {
 
       <section
         ref={sectionRef}
-        className="relative w-full overflow-hidden bg-sand"
+        className="relative w-full overflow-hidden bg-sand/50"
       >
         <div
           className="mx-auto max-w-[1480px] px-5 sm:px-8 md:px-12 lg:px-16"

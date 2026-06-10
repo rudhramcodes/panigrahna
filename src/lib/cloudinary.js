@@ -1,0 +1,42 @@
+export const CLOUDINARY_BASE = import.meta.env.VITE_CLOUDINARY_BASE;
+const CLOUDINARY_VERSION = import.meta.env.VITE_CLOUDINARY_VERSION;
+
+/**
+ * @param {string} publicId - Image public ID, e.g. "TKS05225_1_jyeotg"
+ * @param {object} [options]
+ * @param {string} [options.format="auto"] - "auto" (best), "webp", "avif", "jpg", "png"
+ * @param {string|number} [options.quality="auto"] - "auto" (best), "best", "good", "low", ya 1-100
+ * @param {number} [options.width] - Width in pixels
+ * @param {number} [options.height] - Height in pixels
+ * @param {string} [options.crop] - "fill", "fit", "thumb", "scale"
+ * @param {string} [options.gravity] - "auto", "center", "face"
+ * @returns {string} Full Cloudinary URL
+ *
+ * @example
+ * cloudinaryUrl("TKS05225_1_jyeotg", { width: 1920 })
+ *
+ * @example
+ * cloudinaryUrl("TKS05269_1_yvjsob.jpg", { width: 800 })
+ *
+ * @example
+ * cloudinaryUrl("DSC04563_1_foxptm")
+ */
+export function cloudinaryUrl(publicId, options = {}) {
+  const {
+    format = "auto",
+    quality = "auto",
+    width,
+    height,
+    crop,
+    gravity,
+  } = options;
+
+  const params = [`f_${format}`, `q_${quality}`];
+
+  if (width) params.push(`w_${width}`);
+  if (height) params.push(`h_${height}`);
+  if (crop) params.push(`c_${crop}`);
+  if (gravity) params.push(`g_${gravity}`);
+
+  return `${CLOUDINARY_BASE}/${params.join(",")}/${CLOUDINARY_VERSION}/${publicId}`;
+}

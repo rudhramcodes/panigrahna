@@ -1,11 +1,11 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { cloudinaryUrl } from "../../lib/cloudinary";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const HERO_IMAGE =
-  "https://res.cloudinary.com/dvsrgdyi7/image/upload/f_auto,q_auto,w_1920/v1780916141/TKS05225_1_jyeotg";
+const HERO_IMAGE = cloudinaryUrl("TKS05225_1_jyeotg", { width: 1920 });
 
 export default function Hero() {
   const sectionRef = useRef(null);
