@@ -29,10 +29,12 @@ export function cloudinaryUrl(publicId, options = {}) {
     height,
     crop,
     gravity,
+    angle,
   } = options;
 
   const params = [`f_${format}`, `q_${quality}`];
 
+  if (angle !== undefined) params.push(`a_${angle}`);
   if (width) params.push(`w_${width}`);
   if (height) params.push(`h_${height}`);
   if (crop) params.push(`c_${crop}`);
