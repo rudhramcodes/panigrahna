@@ -71,7 +71,7 @@ export default function Projects() {
     <section className="w-full">
       <div
         ref={galleryRef}
-        className="relative w-full overflow-hidden flex flex-wrap lg:flex-nowrap gap-[2vw] p-[2vw] bg-rose-beige"
+        className="relative w-full overflow-hidden flex flex-wrap lg:flex-nowrap gap-[2vw] p-[2vw] bg-sand"
         style={{ height: "175vh" }}
       >
         {COLUMNS.map((col, i) => (

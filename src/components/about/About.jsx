@@ -74,7 +74,7 @@ export default function AboutSection() {
 
       <section
         ref={sectionRef}
-        className="relative w-full overflow-hidden bg-parchment"
+        className="relative w-full overflow-hidden bg-sand"
       >
         <div
           className="mx-auto max-w-[1480px] px-5 sm:px-8 md:px-12 lg:px-16"
