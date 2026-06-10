@@ -1,5 +1,5 @@
-export const CLOUDINARY_BASE = import.meta.env.VITE_CLOUDINARY_BASE;
-const CLOUDINARY_VERSION = import.meta.env.VITE_CLOUDINARY_VERSION;
+const CLOUDINARY_BASE = "https://res.cloudinary.com/dvsrgdyi7/image/upload";
+const CLOUDINARY_VERSION = "v1780916141";
 
 /**
  * @param {string} publicId - Image public ID, e.g. "TKS05225_1_jyeotg"
