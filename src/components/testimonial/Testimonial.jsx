@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import styles from "./Testimonial.module.css";
@@ -59,21 +59,35 @@ function StarRating({ color = "#EAB308", size = 16 }) {
 const ease = [0.16, 1, 0.3, 1];
 const transition = { duration: 0.45, ease };
 
-const textVariants = {
-  initial: (dir) => ({ opacity: 0, y: dir > 0 ? 40 : -40 }),
-  animate: { opacity: 1, y: 0 },
-  exit: (dir) => ({ opacity: 0, y: dir > 0 ? -40 : 40 }),
-};
-
 const imageVariants = {
-  initial: { opacity: 0, scale: 1.04 },
-  animate: { opacity: 1, scale: 1 },
-  exit: { opacity: 0, scale: 0.96 },
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0 },
 };
 
 export default function Testimonial() {
   const [current, setCurrent] = useState(0);
   const [dir, setDir] = useState(1);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  const textVariants = {
+    initial: (d) => ({
+      opacity: 0,
+      ...(isMobile ? { x: d > 0 ? 40 : -40 } : { y: d > 0 ? 40 : -40 }),
+    }),
+    animate: { opacity: 1, ...(isMobile ? { x: 0 } : { y: 0 }) },
+    exit: (d) => ({
+      opacity: 0,
+      ...(isMobile ? { x: d > 0 ? -40 : 40 } : { y: d > 0 ? -40 : 40 }),
+    }),
+  };
 
   const t = TESTIMONIALS[current];
 
@@ -88,7 +102,7 @@ export default function Testimonial() {
   }, []);
 
   return (
-    <section className="w-full h-screen bg-[#f5f5f5] p-8 max-sm:p-4 overflow-hidden">
+    <section className="w-full h-screen bg-sand/50 p-8 max-sm:p-4 overflow-hidden">
       <div className="grid h-full grid-cols-[58%_42%] max-md:grid-cols-1 max-md:h-auto">
 
         {/* ── Left: text ── */}
