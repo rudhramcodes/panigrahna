@@ -92,7 +92,7 @@ export default function Footer() {
     <footer className="relative z-10 bg-walnut overflow-hidden">
       {/* ══════ PRE-FOOTER CTA (Awwwards Level) ══════ */}
       <motion.section
-        className="relative z-20 bg-[#f5ede4] pt-[clamp(5rem,8vw,8rem)] pb-[clamp(3rem,5vw,5rem)]"
+        className="relative z-20 bg-[#f5ede4] pt-[clamp(5rem,8vw,8rem)] pb-[clamp(3rem,5vw,8rem)]"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
@@ -105,7 +105,8 @@ export default function Footer() {
           >
             Let&rsquo;s Create Something
             <br />
-            <span className="italic font-light text-cinnamon-300">Meaningful Together.</span>
+            <span className="italic font-light text-cinnamon-300">Meaningful </span>
+            Together.
           </motion.h2>
 
           {/* <motion.p
@@ -159,7 +160,7 @@ export default function Footer() {
             >
               <div className="max-w-[400px]">
                 <motion.div variants={fadeUp} className="mb-10">
-                  <img src="/images/logo.svg" alt="Logo" className="h-10 w-auto brightness-0 invert opacity-40" />
+                  <img src="/images/logo.svg" alt="Logo" className="h-12 w-auto brightness-0 invert" />
                 </motion.div>
                 <motion.h3 variants={fadeUp} className="font-serif text-[clamp(2.5rem,4vw,3.5rem)] leading-[1.1] text-sand/90 font-thin tracking-tighter mb-12">
                   Capturing the <span className="italic text-cinnamon-200">extraordinary</span> in every shared glance.

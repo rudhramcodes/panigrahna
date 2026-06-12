@@ -26,12 +26,12 @@ export default function Navbar() {
           className="relative z-10 transition-opacity duration-300 hover:opacity-70"
           aria-label="Panigrahna — Home"
         >
-          <img src="/images/logo.svg" alt="Panigrahna" className="h-8 w-auto md:h-10" />
+          <img src="/images/logo.svg" alt="Panigrahna" className="h-8 w-auto md:h-11" />
         </a>
 
         <button
           onClick={() => setIsActive(!isActive)}
-          className="relative z-[70] flex h-[50px] w-[50px] items-center justify-center rounded-full bg-walnut transition-transform duration-300 cursor-pointer hover:scale-105 sm:h-20 sm:w-20"
+          className="relative z-[70] flex h-[50px] w-[50px] items-center justify-center rounded-full bg-cinnamon-500 transition-transform duration-300 cursor-pointer hover:scale-105 sm:h-20 sm:w-20"
           aria-label={isActive ? "Close menu" : "Open menu"}
           aria-expanded={isActive}
         >
