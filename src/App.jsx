@@ -7,6 +7,8 @@ import AboutSection from "./components/about/About";
 import Projects from "./components/projects/Projects";
 import Project2 from "./components/projects/project2";
 import Films from "./components/films/Films";
+import InstagramSectionEmbed from "./components/instagram/InstagramSectionEmbed";
+// old InstagramSection kept as backup — import InstagramSection from "./components/instagram/InstagramSection";
 
 const App = () => {
   const [loaderDone, setLoaderDone] = useState(false);
@@ -37,6 +39,7 @@ const App = () => {
         <Projects />
         <Project2 />
         <Films />
+        <InstagramSectionEmbed />
       </div>
     </SmoothScroll>
   );
