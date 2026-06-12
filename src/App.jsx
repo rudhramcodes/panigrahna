@@ -8,6 +8,7 @@ import Projects from "./components/projects/Projects";
 import Project2 from "./components/projects/project2";
 import Films from "./components/films/Films";
 import InstagramSectionEmbed from "./components/instagram/InstagramSectionEmbed";
+import Testimonial from "./components/testimonial/Testimonial";
 // old InstagramSection kept as backup — import InstagramSection from "./components/instagram/InstagramSection";
 
 const App = () => {
@@ -40,6 +41,7 @@ const App = () => {
         <Project2 />
         <Films />
         <InstagramSectionEmbed />
+        <Testimonial />
       </div>
     </SmoothScroll>
   );
