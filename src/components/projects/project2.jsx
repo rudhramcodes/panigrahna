@@ -7,7 +7,7 @@ const COUPLES = [
   { name: "Harsh & Sayonee", image: "TKS05225_1_jyeotg.jpg" },
   { name: "Rahul & Jeevani", image: "DSC04563_1_foxptm.jpg" },
   { name: "Prachi & Preet", image: "DSC06503_1_qx8pds.jpg" },
-  { name: "Ronak & Jessica", image: "TKS05350_1_icb4yl.jpg" },
+  { name: "Ronak & Jessica", image: "TKS04526_dxtewa.jpg" },
   { name: "Rutvik & Aishwarya", image: "HRS_6891_1_rpow6s.jpg", angle: -90 },
 ];
 
