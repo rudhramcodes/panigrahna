@@ -94,7 +94,7 @@ export default function AboutSection() {
               />
             </div>
 
-            <div className="w-full flex-shrink-0 mb-6 md:mb-0 md:w-[55%] lg:w-[34%]">
+            <div className="w-full flex-shrink-0 my-6 md:mb-0 md:w-[55%] lg:w-[34%]">
               <div
                 className="relative overflow-hidden"
                 style={{
