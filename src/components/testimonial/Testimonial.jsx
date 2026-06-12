@@ -102,7 +102,7 @@ export default function Testimonial() {
   }, []);
 
   return (
-    <section className="w-full h-screen bg-sand/50 p-8 max-sm:p-4 overflow-hidden">
+    <section className="w-full h-screen bg-[#F5F5F5] p-8 max-sm:p-4 overflow-hidden">
       <div className="grid h-full grid-cols-[58%_42%] max-md:grid-cols-1 max-md:h-auto">
 
         {/* ── Left: text ── */}

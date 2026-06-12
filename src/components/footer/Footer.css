@@ -1,0 +1,16 @@
+/* Parallax background — clean and minimalist */
+.footer-parallax-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: transparent;
+  will-change: transform;
+  pointer-events: none;
+}
+
+/* Ensure smooth transitions for interactive elements */
+footer a, 
+footer button {
+  transition: all 500ms var(--ease-smooth);
+}
+
