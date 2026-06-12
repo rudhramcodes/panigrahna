@@ -2,11 +2,9 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import MaskText from "../mask-text/MaskText";
-import { cloudinaryUrl } from "../../lib/cloudinary";
+import CldImage from "../ui/CldImage";
 
 gsap.registerPlugin(ScrollTrigger);
-
-const MAIN_IMAGE = cloudinaryUrl("DSC04563_1_foxptm");
 
 const HEADING_LINES = [
   <span><em className="uppercase font-thin">Documenting</em> the <em className="text-secondary">traditions</em></span>,
@@ -78,12 +76,12 @@ export default function AboutSection() {
       >
         <div
           className="mx-auto max-w-[1480px] px-5 sm:px-8 md:px-12 lg:px-16"
-          style={{ paddingTop: "clamp(4rem, 8vw, 8rem)", paddingBottom: "clamp(4rem, 8vw, 8rem)" }}
+          style={{ paddingTop: "clamp(3rem, 8vw, 8rem)", paddingBottom: "clamp(3rem, 8vw, 8rem)" }}
         >
           <div className="flex flex-col lg:flex-row lg:items-start lg:gap-6 xl:gap-8">
 
             <div
-              className="w-full flex-shrink-0 self-start lg:w-[38%] mb-10 md:mb-0"
+              className="w-full flex-shrink-0 self-start lg:w-[38%] mb-6 md:mb-0"
               style={{ position: "sticky", top: "8vh" }}
             >
               <MaskText
@@ -96,17 +94,25 @@ export default function AboutSection() {
               />
             </div>
 
-            <div className="w-full flex-shrink-0 mb-10 md:mb-0 md:w-[55%] lg:w-[34%]">
+            <div className="w-full flex-shrink-0 mb-6 md:mb-0 md:w-[55%] lg:w-[34%]">
               <div
                 className="relative overflow-hidden"
-                style={{ aspectRatio: "3/4", borderRadius: "2px" }}
+                style={{
+                  aspectRatio: "3/4",
+                  borderRadius: "2px",
+                }}
               >
-                <img
-                  ref={imgRef}
-                  src={MAIN_IMAGE}
+                <CldImage
+                  publicId="DSC04563_1_foxptm"
                   alt="Heritage Documentation"
-                  className="w-full object-cover object-center"
+                  width={700}
+                  imgRef={imgRef}
+                  wrapperClassName="w-full h-full"
+                  imgClassName="w-full h-full object-cover object-center"
+                  options={{ crop: "fill", gravity: "auto" }}
                   style={{ height: "115%", marginTop: "-5%", display: "block", transform: "scale(1.15)" }}
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
             </div>
@@ -116,7 +122,7 @@ export default function AboutSection() {
               style={{ alignSelf: "flex-end" }}
             >
               <MaskText
-                className="mb-6 sm:w-[80%]"
+                className="mb-4 sm:w-[80%]"
                 tag="p"
                 amount={0.5}
                 lines={[BODY_TEXT]}

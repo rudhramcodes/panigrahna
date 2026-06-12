@@ -6,7 +6,7 @@
 .films-inner {
   max-width: 1480px;
   margin: 0 auto;
-  padding: clamp(4rem, 8vw, 8rem) clamp(1.25rem, 4vw, 4rem);
+  padding: clamp(2rem, 8vw, 8rem) clamp(1.25rem, 4vw, 4rem);
 }
 
 .films-header {

@@ -112,6 +112,7 @@
   font-display: swap;
 }
 
+
 @theme {
   --font-sans: "Open Sans", sans-serif;
   --font-serif: "Berlingske Serif", "Georgia", serif;
@@ -123,6 +124,8 @@
   --color-sand: #e8d5bc;
   --color-rose-beige: #f0ddd0;
   --color-maize: #eedfc0;
+
+  --color-sand-50: #e8d5bc8b;
 
   --color-sandstone-100: #f5ece0;
   --color-sandstone-200: #d9c3a8;
@@ -181,5 +184,22 @@ body {
   font-family: "Open Sans", sans-serif;
   font-optical-sizing: auto;
   font-variation-settings: "wdth" 100;
+}
+
+/* ── Progressive Image Loading ── */
+.progressive-bg {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* placeholder image renders at full size — heavy blur creates a smooth color-field */
+}
+
+.progressive-load {
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.progressive-load.loaded {
+  opacity: 1;
 }
 

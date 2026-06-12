@@ -1,21 +1,19 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
-import { cloudinaryUrl } from "../../lib/cloudinary";
+import CldImage from "../ui/CldImage";
 
-const IMG_800 = (path) => cloudinaryUrl(path, { width: 800 });
-
-const IMAGES = [
-  IMG_800("TKS05269_1_yvjsbn.jpg"),
-  IMG_800("TKS05296_1_houjrv.jpg"),
-  IMG_800("TKS05280_1_otriau.jpg"),
-  IMG_800("TKS05350_1_icb4yl.jpg"),
-  IMG_800("TKS05320_1_iljauy.jpg"),
-  IMG_800("DSC06503_1_qx8pds.jpg"),
-  IMG_800("DSC06398_1_chgpws.jpg"),
-  IMG_800("DSC06360_1_yfjfkb.jpg"),
-  IMG_800("DSC06642_1_lhpqi2.jpg"),
-  IMG_800("DSC06501_1_czy9w8.jpg"),
+const IMG_800 = [
+  "TKS05269_1_yvjsbn.jpg",
+  "TKS05296_1_houjrv.jpg",
+  "TKS05280_1_otriau.jpg",
+  "TKS05350_1_icb4yl.jpg",
+  "TKS05320_1_iljauy.jpg",
+  "DSC06503_1_qx8pds.jpg",
+  "DSC06398_1_chgpws.jpg",
+  "DSC06360_1_yfjfkb.jpg",
+  "DSC06642_1_lhpqi2.jpg",
+  "DSC06501_1_czy9w8.jpg",
 ];
 
 const COLUMNS = [
@@ -31,12 +29,14 @@ function Column({ images, y, offset }) {
       className="relative h-full w-full min-w-[180px] flex-1 flex flex-col gap-[2vw]"
       style={{ y, top: offset }}
     >
-      {images.map((src) => (
-        <div key={src} className="relative flex-1 rounded-[1vw] overflow-hidden">
-          <img
-            src={src}
-            className="w-full h-full object-cover"
+      {images.map((publicId) => (
+        <div key={publicId} className="relative flex-1 rounded-[1vw] overflow-hidden">
+          <CldImage
+            publicId={publicId}
             alt=""
+            width={800}
+            wrapperClassName="w-full h-full"
+            imgClassName="w-full h-full object-cover"
             loading="lazy"
             decoding="async"
           />
@@ -79,7 +79,7 @@ export default function Projects() {
         {COLUMNS.map((col, i) => (
           <Column
             key={i}
-            images={col.indices.map((idx) => IMAGES[idx])}
+            images={col.indices.map((idx) => IMG_800[idx])}
             y={yVals[i]}
             offset={col.offset}
           />

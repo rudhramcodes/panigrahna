@@ -2,6 +2,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/swiper-bundle.css';
 import './MobileCarousel.css';
+import CldImage from '../ui/CldImage';
 
 export default function MobileCarousel({ items, interval = 3500 }) {
   return (
@@ -15,6 +16,7 @@ export default function MobileCarousel({ items, interval = 3500 }) {
         autoplay={{
           delay: interval,
           disableOnInteraction: false,
+          pauseOnMouseEnter: true,
         }}
         speed={450}
         grabCursor={true}
@@ -23,9 +25,15 @@ export default function MobileCarousel({ items, interval = 3500 }) {
         {items.map((item, i) => (
           <SwiperSlide key={i} className="mc-slide">
             <div className="mc-card">
-              <div className="mc-img-wrap">
-                <img src={item.image} alt={item.text} draggable={false} />
-              </div>
+              <CldImage
+                publicId={item.publicId}
+                alt={item.text}
+                width={400}
+                options={item.options || {}}
+                wrapperClassName="mc-img-wrap"
+                imgClassName="mc-img"
+                decoding="async"
+              />
               <p className="mc-name">{item.text}</p>
             </div>
           </SwiperSlide>

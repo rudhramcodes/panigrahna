@@ -188,6 +188,7 @@ class Media {
     geometry,
     gl,
     image,
+    placeholder,
     index,
     length,
     renderer,
@@ -204,6 +205,7 @@ class Media {
     this.geometry = geometry;
     this.gl = gl;
     this.image = image;
+    this.placeholder = placeholder;
     this.index = index;
     this.length = length;
     this.renderer = renderer;
@@ -278,13 +280,28 @@ class Media {
       },
       transparent: true
     });
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.src = this.image;
-    img.onload = () => {
+    let fullLoaded = false;
+    const setTexture = (img) => {
       texture.image = img;
       this.program.uniforms.uImageSizes.value = [img.naturalWidth, img.naturalHeight];
     };
+
+    if (this.placeholder) {
+      const placeholderImg = new Image();
+      placeholderImg.crossOrigin = 'anonymous';
+      placeholderImg.onload = () => {
+        if (!fullLoaded) setTexture(placeholderImg);
+      };
+      placeholderImg.src = this.placeholder;
+    }
+
+    const fullImg = new Image();
+    fullImg.crossOrigin = 'anonymous';
+    fullImg.onload = () => {
+      setTexture(fullImg);
+      fullLoaded = true;
+    };
+    fullImg.src = this.image;
   }
   createMesh() {
     this.plane = new Mesh(this.gl, {
@@ -434,6 +451,7 @@ class App {
         geometry: this.planeGeometry,
         gl: this.gl,
         image: data.image,
+        placeholder: data.placeholder,
         index,
         length: this.mediasImages.length,
         renderer: this.renderer,
