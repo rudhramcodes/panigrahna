@@ -1,6 +1,7 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import ImageViewer from "../components/ui/ImageViewer";
 
 const COUPLES = [
   "Harsh & Sayonee",
@@ -42,13 +43,14 @@ const counterSlide = {
 
 const PLACEHOLDER = "https://i.pinimg.com/1200x/6f/c9/2a/6fc92ad248d396f529919db397310370.jpg";
 
-function ShimmerBox({ num }) {
+function ShimmerBox({ num, onClick }) {
   return (
     <motion.div
       variants={gridItem}
       className="aspect-[3/4] rounded-sm overflow-hidden relative group cursor-pointer"
       whileHover={{ y: -3, scale: 1.015 }}
       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+      onClick={onClick}
     >
       <img
         src={PLACEHOLDER}
@@ -151,10 +153,10 @@ function NavButton({ dir, onClick, label }) {
 export default function Projects() {
   const [[index, dir], setPage] = useState([0, 0]);
   const [pageLoaded, setPageLoaded] = useState(false);
-  const keyRef = useRef(0);
-
-  // Track couple changes for grid re-keying
+  const [viewerOpen, setViewerOpen] = useState(false);
+  const [viewerIndex, setViewerIndex] = useState(0);
   const coupleKey = useRef(0);
+
   useEffect(() => {
     coupleKey.current++;
   }, [index]);
@@ -185,6 +187,20 @@ export default function Projects() {
   }, [goNext, goPrev]);
 
   const couple = COUPLES[index];
+
+  const viewerImages = useMemo(
+    () =>
+      Array.from({ length: TOTAL_IMAGES }, (_, i) => ({
+        id: `${couple}-${i}`,
+        img: PLACEHOLDER,
+      })),
+    [couple]
+  );
+
+  const handleItemClick = useCallback((i) => {
+    setViewerIndex(i);
+    setViewerOpen(true);
+  }, []);
 
   return (
     <main className="relative min-h-screen bg-ivory overflow-x-hidden">
@@ -222,20 +238,20 @@ export default function Projects() {
       {/* ── Gallery Grid ── */}
       <section className="px-5 sm:px-8 md:px-12 lg:px-16 pb-24 sm:pb-28">
         <div className="mx-auto max-w-[1480px]">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={`grid-${index}-${coupleKey.current}`}
-              variants={staggerGrid}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3 md:gap-4"
-            >
-              {Array.from({ length: TOTAL_IMAGES }, (_, i) => (
-                <ShimmerBox key={i} num={i + 1} />
-              ))}
-            </motion.div>
-          </AnimatePresence>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={`grid-${index}-${coupleKey.current}`}
+                  variants={staggerGrid}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3 md:gap-4"
+                >
+                  {Array.from({ length: TOTAL_IMAGES }, (_, i) => (
+                    <ShimmerBox key={i} num={i + 1} onClick={() => handleItemClick(i)} />
+                  ))}
+                </motion.div>
+              </AnimatePresence>
         </div>
       </section>
 
@@ -256,6 +272,17 @@ export default function Projects() {
           </div>
         </div>
       </div>
+
+      {/* ── Image Viewer ── */}
+      <AnimatePresence>
+        {viewerOpen && (
+          <ImageViewer
+            images={viewerImages}
+            initialIndex={viewerIndex}
+            onClose={() => setViewerOpen(false)}
+          />
+        )}
+      </AnimatePresence>
     </main>
   );
 }
