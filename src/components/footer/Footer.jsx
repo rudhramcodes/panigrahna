@@ -41,24 +41,20 @@ const Magnetic = ({ children, strength = 0.25 }) => {
    ───────────────────────────────────────────── */
 
 const Instagram = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-    <circle cx="12" cy="12" r="5" />
-    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+  <svg width="18" height="18" viewBox="0 0 256 256" fill="currentColor">
+    <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z" />
   </svg>
 );
 
 const Facebook = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+  <svg width="18" height="18" viewBox="0 0 256 256" fill="currentColor">
+    <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm8,191.63V152h24a8,8,0,0,0,0-16H136V112a16,16,0,0,1,16-16h16a8,8,0,0,0,0-16H152a32,32,0,0,0-32,32v24H96a8,8,0,0,0,0,16h24v63.63a88,88,0,1,1,16,0Z" />
   </svg>
 );
 
 const Pinterest = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M8 12a4 4 0 0 1 8 0c0 4-4 6-4 10" />
-    <path d="M12 22a10 10 0 1 0-10-10 10 10 0 0 0 10 10z" />
-    <line x1="12" y1="8" x2="12" y2="22" />
+  <svg width="18" height="18" viewBox="0 0 256 256" fill="currentColor">
+    <path d="M224,112c0,22.57-7.9,43.2-22.23,58.11C188.39,184,170.25,192,152,192c-17.88,0-29.82-5.86-37.43-12l-10.78,45.82A8,8,0,0,1,96,232a8.24,8.24,0,0,1-1.84-.21,8,8,0,0,1-6-9.62l32-136a8,8,0,0,1,15.58,3.66l-16.9,71.8C122,166,131.3,176,152,176c27.53,0,56-23.94,56-64A72,72,0,1,0,73.63,148a8,8,0,0,1-13.85,8A88,88,0,1,1,224,112Z" />
   </svg>
 );
 
@@ -99,7 +95,7 @@ export default function Footer() {
       >
         <div className="mx-auto max-w-[1000px] px-6 text-center">
           <motion.h2
-            className="font-serif text-[clamp(2.5rem,5.5vw,5rem)] font-light leading-[1] tracking-tighter text-walnut mb-12"
+            className="font-serif text-[clamp(2.3rem,5.5vw,5rem)] font-light leading-[1] tracking-tighter text-walnut mb-12"
             variants={fadeUp}
             custom={0}
           >
@@ -121,7 +117,7 @@ export default function Footer() {
             <Magnetic strength={0.2}>
               <a
                 href="#contact"
-                className="group relative flex h-[clamp(140px,12vw,180px)] w-[clamp(140px,12vw,180px)] items-center justify-center rounded-full bg-walnut text-sand no-underline transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.05] shadow-2xl shadow-black/40 ring-2 ring-cinnamon-200/20"
+                className="group relative flex h-[clamp(100px,18vw,180px)] w-[clamp(100px,18vw,180px)] items-center justify-center rounded-full bg-walnut text-sand no-underline transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.05] shadow-2xl shadow-black/40 ring-2 ring-cinnamon-200/20"
               >
                 {/* Rolling Text Animation */}
                 <div className="relative z-10 overflow-hidden h-[44px] flex items-start justify-center">
@@ -162,7 +158,7 @@ export default function Footer() {
                 <motion.div variants={fadeUp} className="mb-10">
                   <img src="/images/logo.svg" alt="Logo" className="h-12 w-auto brightness-0 invert" />
                 </motion.div>
-                <motion.h3 variants={fadeUp} className="font-serif text-[clamp(2.5rem,4vw,3.5rem)] leading-[1.1] text-sand/90 font-thin tracking-tighter mb-12">
+                <motion.h3 variants={fadeUp} className="font-serif text-[clamp(2.5rem,4vw,3.5rem)] leading-none text-sand/90 font-thin tracking-tighter mb-12">
                   Capturing the <span className="italic text-cinnamon-200">extraordinary</span> in every shared glance.
                 </motion.h3>
                 <motion.div variants={fadeUp} className="flex gap-4">
