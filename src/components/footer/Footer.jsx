@@ -189,7 +189,7 @@ export default function Footer() {
                 {[
                   { label: "Home", to: "/" },
                   { label: "About", to: "/about" },
-                  { label: "Works", to: "/#projects" },
+                  { label: "Works", to: "/projects" },
                   { label: "Films", to: "/#films" },
                   { label: "Contact", to: "/#contact" },
                 ].map((item, i) => (

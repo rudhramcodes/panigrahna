@@ -4,6 +4,7 @@ import SmoothScroll from "./components/smooth-scroll/SmoothScroll";
 import Navbar from "./components/navbar/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
+import Projects from "./pages/Projects";
 
 function ScrollManager() {
   const { pathname, hash } = useLocation();
@@ -44,6 +45,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/projects" element={<Projects />} />
         </Routes>
       </SmoothScroll>
     </>
