@@ -27,7 +27,7 @@ const NAV_ITEMS = [
   { title: "About Us", href: "/about" },
   { title: "Projects", href: "/projects" },
   { title: "Films", href: "/#films" },
-  { title: "Contact", href: "/#contact" },
+  { title: "Contact", href: "/contact" },
 ];
 
 export default function Nav({ onClose }) {

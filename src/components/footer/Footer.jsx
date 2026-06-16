@@ -81,14 +81,15 @@ const stagger = {
    COMPONENT
    ───────────────────────────────────────────── */
 
-export default function Footer() {
+export default function Footer({ hideCTA = false }) {
   const { scrollYProgress } = useScroll();
   const bgY = useTransform(scrollYProgress, [0.85, 1], [0, -60]);
 
   return (
     <footer className="relative z-10 bg-walnut overflow-hidden">
       {/* ══════ PRE-FOOTER CTA (Awwwards Level) ══════ */}
-      <motion.section
+      {!hideCTA && (
+        <motion.section
         className="relative z-20 bg-[#f5ede4] pt-[clamp(5rem,8vw,8rem)] pb-[clamp(3rem,5vw,8rem)]"
         initial="hidden"
         whileInView="visible"
@@ -117,7 +118,7 @@ export default function Footer() {
           <motion.div className="flex justify-center" variants={fadeUp} custom={2}>
             <Magnetic strength={0.2}>
               <Link
-                to="/#contact"
+                to="/contact"
                 className="group relative flex h-[clamp(100px,18vw,180px)] w-[clamp(100px,18vw,180px)] items-center justify-center rounded-full bg-walnut text-sand no-underline transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.05] shadow-2xl shadow-black/40 ring-2 ring-cinnamon-200/20"
               >
                 {/* Rolling Text Animation */}
@@ -140,6 +141,7 @@ export default function Footer() {
           </motion.div>
         </div>
       </motion.section>
+      )}
 
       {/* ══════ MAIN FOOTER: CLEAN AWWWARDS STYLE ══════ */}
       <div className="relative pt-[clamp(4rem,8vw,8rem)] pb-12 px-6 sm:px-10 md:px-16">
@@ -191,7 +193,7 @@ export default function Footer() {
                   { label: "About", to: "/about" },
                   { label: "Works", to: "/projects" },
                   { label: "Films", to: "/#films" },
-                  { label: "Contact", to: "/#contact" },
+                  { label: "Contact", to: "/contact" },
                 ].map((item, i) => (
                   <motion.li key={item.label} variants={fadeUp} custom={i}>
                     <Link to={item.to} className="group relative overflow-hidden inline-block font-serif italic font-light text-2xl text-white/50 hover:text-sand transition-colors">
