@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useScroll, useTransform, motion, AnimatePresence } from "framer-motion";
 import { Mail, Phone, ArrowUpRight } from "lucide-react";
 import "./Footer.css";
@@ -115,8 +116,8 @@ export default function Footer() {
 
           <motion.div className="flex justify-center" variants={fadeUp} custom={2}>
             <Magnetic strength={0.2}>
-              <a
-                href="#contact"
+              <Link
+                to="/#contact"
                 className="group relative flex h-[clamp(100px,18vw,180px)] w-[clamp(100px,18vw,180px)] items-center justify-center rounded-full bg-walnut text-sand no-underline transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.05] shadow-2xl shadow-black/40 ring-2 ring-cinnamon-200/20"
               >
                 {/* Rolling Text Animation */}
@@ -134,7 +135,7 @@ export default function Footer() {
 
                 {/* Liquid Background Fill Effect */}
                 <div className="absolute inset-0 scale-0 rounded-full bg-cinnamon-400/15 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100" />
-              </a>
+              </Link>
             </Magnetic>
           </motion.div>
         </div>
@@ -185,12 +186,18 @@ export default function Footer() {
             >
               <motion.h4 variants={fadeUp} className="font-sans text-[10px] font-bold uppercase tracking-[4px] text-cinnamon-200/50 mb-10">Menu</motion.h4>
               <ul className="flex flex-col gap-5">
-                {["Home", "About", "Works", "Films", "Contact"].map((item, i) => (
-                  <motion.li key={item} variants={fadeUp} custom={i}>
-                    <a href={`#${item.toLowerCase()}`} className="group relative overflow-hidden inline-block font-serif text-2xl text-white/50 hover:text-sand transition-colors">
-                      <span className="block transition-transform duration-500 group-hover:-translate-y-full">{item}</span>
-                      <span className="absolute top-full left-0 block transition-transform duration-500 group-hover:-translate-y-full italic font-light text-cinnamon-200">{item}</span>
-                    </a>
+                {[
+                  { label: "Home", to: "/" },
+                  { label: "About", to: "/about" },
+                  { label: "Works", to: "/#projects" },
+                  { label: "Films", to: "/#films" },
+                  { label: "Contact", to: "/#contact" },
+                ].map((item, i) => (
+                  <motion.li key={item.label} variants={fadeUp} custom={i}>
+                    <Link to={item.to} className="group relative overflow-hidden inline-block font-serif italic font-light text-2xl text-white/50 hover:text-sand transition-colors">
+                      <span className="block transition-transform duration-500 group-hover:-translate-y-full">{item.label}</span>
+                      <span className="absolute top-full left-0 block transition-transform duration-500 group-hover:-translate-y-full italic font-light text-cinnamon-200">{item.label}</span>
+                    </Link>
                   </motion.li>
                 ))}
               </ul>

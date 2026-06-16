@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link, useLocation } from "react-router-dom";
 
 const slide = {
   initial: { x: 80 },
@@ -17,8 +18,23 @@ const scale = {
   closed: { scale: 0, transition: { duration: 0.4 } },
 };
 
-export default function NavLink({ data, isActive, setSelectedIndicator }) {
+export default function NavLink({ data, isActive, setSelectedIndicator, onClose }) {
   const { title, href, index } = data;
+  const location = useLocation();
+
+  const handleClick = (e) => {
+    if (href.startsWith("/#")) {
+      const sectionId = href.slice(2);
+      if (location.pathname !== "/") {
+        onClose?.();
+        return;
+      }
+      e.preventDefault();
+      const el = document.getElementById(sectionId);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }
+    onClose?.();
+  };
 
   return (
     <motion.div
@@ -35,12 +51,13 @@ export default function NavLink({ data, isActive, setSelectedIndicator }) {
         animate={isActive ? "open" : "closed"}
         className="absolute left-[-30px] h-2.5 w-2.5 rounded-full bg-white"
       />
-      <a
-        href={href}
+      <Link
+        to={href}
+        onClick={handleClick}
         className="font-serif text-4xl font-light text-white no-underline transition-colors duration-300 hover:text-neutral-400 sm:text-5xl md:text-6xl"
       >
         {title}
-      </a>
+      </Link>
     </motion.div>
   );
 }

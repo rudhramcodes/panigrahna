@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import Nav from "./Nav";
 import { useSmoothScroll } from "../smooth-scroll/SmoothScroll";
@@ -6,23 +7,37 @@ import { useSmoothScroll } from "../smooth-scroll/SmoothScroll";
 export default function Navbar() {
   const [isActive, setIsActive] = useState(false);
   const lenisRef = useSmoothScroll();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const scrollToTop = useCallback(() => {
+  const closeNav = useCallback(() => {
+    if (isActive) setIsActive(false);
+  }, [isActive]);
+
+  const handleLogoClick = useCallback((e) => {
+    e.preventDefault();
     const lenis = lenisRef?.current;
+
+    if (location.pathname !== "/") {
+      navigate("/");
+      setIsActive(false);
+      return;
+    }
+
     if (lenis) {
       lenis.scrollTo(0, { duration: 1.5 });
     } else {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
-    if (isActive) setIsActive(false);
-  }, [lenisRef, isActive]);
+    setIsActive(false);
+  }, [lenisRef, navigate, location.pathname]);
 
   return (
     <>
       <header className="fixed left-0 top-0 z-[60] flex w-full items-center justify-between px-5 sm:px-8 md:px-12 lg:px-16 py-5">
         <a
-          href="#"
-          onClick={scrollToTop}
+          href="/"
+          onClick={handleLogoClick}
           className="relative z-10 transition-opacity duration-300 hover:opacity-70"
           aria-label="Panigrahna — Home"
         >
@@ -56,7 +71,7 @@ export default function Navbar() {
       </header>
 
       <AnimatePresence mode="wait">
-        {isActive && <Nav />}
+        {isActive && <Nav onClose={closeNav} />}
       </AnimatePresence>
     </>
   );
