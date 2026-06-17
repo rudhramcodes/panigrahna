@@ -146,9 +146,9 @@ function AboutHero() {
   return (
     <Section className="sticky top-0 h-screen z-0 bg-[#FBFBFB]">
       <div className="absolute inset-0">
-        <div className="absolute inset-y-0 right-[-7%] w-[60%] sm:w-[55%] md:w-[70%] pointer-events-none select-none flex items-end">
+        <div className="absolute inset-y-0 right-[-6%] w-[60%] sm:w-[55%] md:w-[70%] pointer-events-none select-none flex items-end">
           <video
-            src="/images/animated-cam.mp4"
+            src="/images/sequence.mp4"
             autoPlay
             loop
             muted

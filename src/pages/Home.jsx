@@ -5,7 +5,7 @@ import AboutSection from "../components/about/About";
 import Projects from "../components/projects/Projects";
 import Project2 from "../components/projects/project2";
 import Films from "../components/films/Films";
-import InstagramSectionEmbed from "../components/instagram/InstagramSectionEmbed";
+import BridesGrooms from "../components/brides-grooms/BridesGrooms";
 import Testimonial from "../components/testimonial/Testimonial";
 import Footer from "../components/footer/Footer";
 
@@ -41,15 +41,19 @@ export default function Home() {
         <section id="about">
           <AboutSection />
         </section>
-          <Projects />
+        <Projects />
         <section id="projects">
           <Project2 />
         </section>
         <section id="films">
           <Films />
         </section>
-        <InstagramSectionEmbed />
-        <Testimonial />
+        <section id="brides-grooms">
+          <BridesGrooms />
+        </section>
+        <section id="testimonial">
+          <Testimonial />
+        </section>
         <Footer />
       </div>
     </>
