@@ -165,13 +165,13 @@ export default function Footer({ hideCTA = false }) {
                   Capturing the <span className="italic text-cinnamon-200">extraordinary</span> in every shared glance.
                 </motion.h3>
                 <motion.div variants={fadeUp} className="flex gap-4">
-                  <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white/40 hover:border-cinnamon-200 hover:text-cinnamon-200 transition-all duration-500">
+                  <a href="https://instagram.com/panigrahna.rudhram" target="_blank" rel="noopener noreferrer" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white/40 hover:border-cinnamon-200 hover:text-cinnamon-200 transition-all duration-500">
                     <Instagram />
                   </a>
-                  <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white/40 hover:border-cinnamon-200 hover:text-cinnamon-200 transition-all duration-500">
+                  <a href="https://facebook.com/panigrahna.rudhram" target="_blank" rel="noopener noreferrer" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white/40 hover:border-cinnamon-200 hover:text-cinnamon-200 transition-all duration-500">
                     <Facebook />
                   </a>
-                  <a href="https://pinterest.com" target="_blank" rel="noopener noreferrer" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white/40 hover:border-cinnamon-200 hover:text-cinnamon-200 transition-all duration-500">
+                  <a href="https://pinterest.com/panigrahna_rudhram" target="_blank" rel="noopener noreferrer" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white/40 hover:border-cinnamon-200 hover:text-cinnamon-200 transition-all duration-500">
                     <Pinterest />
                   </a>
                 </motion.div>
