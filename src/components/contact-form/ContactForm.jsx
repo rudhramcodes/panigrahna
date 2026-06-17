@@ -205,27 +205,21 @@ export default function ContactForm() {
 
       <div className="relative z-10 mx-auto max-w-[1600px]">
         {/* Section heading */}
-        <motion.div
-          className="text-center mb-16 sm:mb-20 lg:mb-24"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
-          variants={stagger}
-        >
+        <div className="text-center mb-16 sm:mb-20 lg:mb-24">
           <motion.span
-            variants={fadeUp}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="font-sans text-[11px] uppercase tracking-[0.5em] text-cinnamon-400 block mb-6"
           >
             Inquiry & Bookings
           </motion.span>
-          <motion.h2
-            variants={fadeUp}
-            className="font-serif text-[clamp(2.8rem,6vw,5rem)] leading-[0.9] tracking-tighter text-walnut font-thin"
-          >
+          <h2 className="font-serif text-[clamp(2.8rem,6vw,5rem)] leading-[0.9] tracking-tighter text-walnut font-thin">
             Let&rsquo;s create something{" "}
             <span className="italic text-cinnamon-300">beautiful</span>.
-          </motion.h2>
-        </motion.div>
+          </h2>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 lg:gap-32">
           {/* ── LEFT SIDEBAR ── */}

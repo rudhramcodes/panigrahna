@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import VideoPlayer from "./VideoPlayer";
+import MaskText from "../mask-text/MaskText";
 import "./Films.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -40,9 +41,16 @@ export default function Films() {
       <div className="films-inner">
         <div className="films-header">
           <div className="films-label">Selected Works</div>
-          <h2 className="films-heading">
-            <em>Films</em> that preserve<br />the moments that matter
-          </h2>
+          <MaskText
+            outerTag="h2"
+            tag="span"
+            amount={0.5}
+            className="films-heading"
+            lines={[
+              <span key="line1"><em>Films</em> that preserve</span>,
+              <span key="line2">the moments that matter</span>,
+            ]}
+          />
           <p className="films-subtext">
             Each film is crafted to honor the intimacy and grandeur of your celebration —
             a timeless narrative woven through light, movement, and emotion.

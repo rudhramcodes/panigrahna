@@ -43,38 +43,21 @@ export default function Hero() {
       />
       <div className="absolute inset-0 bg-gradient-to-t from-walnut/30 via-transparent to-transparent" />
 
-      <div className="absolute inset-x-0 bottom-0 px-5 sm:px-8 md:px-12 pb-6 sm:pb-10 lg:hidden pointer-events-none select-none">
+      <div className="absolute inset-x-0 bottom-0 px-5 sm:px-8 md:px-12 lg:px-16 pb-6 sm:pb-10 lg:pb-4 pointer-events-none select-none">
         <h1 className="font-serif text-sand font-thin leading-none tracking-tight">
           <span
-            className="block font-serif text-sand font-thin leading-none tracking-tighter self-start"
-            style={{ fontSize: "clamp(2.8rem, 10vw, 4rem)" }}
+            className="block font-serif text-sand font-thin leading-none tracking-tighter"
+            style={{ fontSize: "clamp(2.8rem, 10vw, 8rem)" }}
           >
             To,
           </span>
           <span
-            className="block font-serif text-sand font-thin leading-none tracking-tighter self-start"
-            style={{ fontSize: "clamp(4rem, 14vw, 6rem)", marginTop: "-0.15em" }}
+            className="block font-serif text-sand font-thin leading-none tracking-tighter"
+            style={{ fontSize: "clamp(4rem, 14vw, 8rem)" }}
           >
             Eternity.
           </span>
         </h1>
-      </div>
-
-      <div className="hidden lg:flex absolute inset-0 px-16 pointer-events-none select-none">
-        <div className="flex flex-col justify-end w-full h-full pb-4">
-          <span
-            className="block font-serif text-sand font-thin leading-none tracking-tighter self-start"
-            style={{ fontSize: "clamp(6rem, 18vw, 8rem)" }}
-          >
-            To,
-          </span>
-          <span
-            className="block font-serif text-sand font-thin leading-none tracking-tighter self-start"
-            style={{ fontSize: "clamp(6rem, 18vw, 8rem)", marginTop: "-0.18em" }}
-          >
-            Eternity.
-          </span>
-        </div>
       </div>
     </section>
   );

@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useScroll, useTransform, motion, AnimatePresence } from "framer-motion";
 import { Mail, Phone, ArrowUpRight } from "lucide-react";
+import MaskText from "../mask-text/MaskText";
 import "./Footer.css";
 
 /* ─────────────────────────────────────────────
@@ -96,16 +97,16 @@ export default function Footer({ hideCTA = false }) {
         viewport={{ once: true, margin: "-100px" }}
       >
         <div className="mx-auto max-w-[1000px] px-6 text-center">
-          <motion.h2
+          <MaskText
+            outerTag="h2"
+            tag="span"
+            amount={0.5}
             className="font-serif text-[clamp(2.3rem,5.5vw,5rem)] font-light leading-[1] tracking-tighter text-walnut mb-12"
-            variants={fadeUp}
-            custom={0}
-          >
-            Let&rsquo;s Create Something
-            <br />
-            <span className="italic font-light text-cinnamon-300">Meaningful </span>
-            Together.
-          </motion.h2>
+            lines={[
+              <span key="line1">Let&rsquo;s Create Something</span>,
+              <span key="line2"><span className="italic font-light text-cinnamon-300">Meaningful </span>Together.</span>,
+            ]}
+          />
 
           {/* <motion.p
             className="font-sans text-[clamp(0.9rem,1.1vw,1.1rem)] font-light leading-[1.6] text-taupe mb-16 mx-auto max-w-[540px]"

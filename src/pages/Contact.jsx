@@ -4,6 +4,7 @@ import { Send, Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
 import DatePicker from "../components/ui/DatePicker";
 import PhoneInput from "../components/ui/PhoneInput";
 import LocationSelect from "../components/ui/LocationSelect";
+import MaskText from "../components/mask-text/MaskText";
 import Footer from "../components/footer/Footer";
 import { cloudinaryUrl } from "../lib/cloudinary";
 
@@ -220,14 +221,16 @@ export default function Contact() {
                 >
                   Inquiry & Bookings
                 </motion.span>
-                <motion.h1
-                  variants={fadeUp}
+                <MaskText
+                  outerTag="h1"
+                  tag="span"
+                  amount={0.5}
                   className="font-serif text-[clamp(3.5rem,8vw,9rem)] leading-[0.85] tracking-tighter text-walnut font-thin mb-12"
-                >
-                  Tell us your <br />
-                  <span className="italic text-cinnamon-300 pr-4">visual</span>
-                  story.
-                </motion.h1>
+                  lines={[
+                    <span key="line1">Tell us your</span>,
+                    <span key="line2"><span className="italic text-cinnamon-300 pr-4">visual</span> story.</span>,
+                  ]}
+                />
               </motion.div>
             </div>
             <div className="lg:col-span-4 flex items-end">

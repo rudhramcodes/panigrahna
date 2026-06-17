@@ -2,6 +2,7 @@ import { useState, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import CldImage from "../ui/CldImage";
 import ImageViewer from "../ui/ImageViewer";
+import MaskText from "../mask-text/MaskText";
 import { cloudinaryUrl } from "../../lib/cloudinary";
 
 const BRIDES = [
@@ -45,17 +46,18 @@ const ITEM_VARIANTS = {
 function GalleryGrid({ title, images, onImageClick }) {
   return (
     <div>
-      <motion.h2
-        className="font-serif text-walnut font-light leading-none tracking-tight mb-8 sm:mb-10 md:mb-12"
-        style={{ fontSize: "clamp(1.4rem, 3.5vw, 2.4rem)" }}
-        initial={{ opacity: 0, y: 28 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.8, ease: EASE }}
-      >
-        <em className="italic">{title.split(" ")[0]}</em>{" "}
-        {title.split(" ").slice(1).join(" ")}
-      </motion.h2>
+      <div className="mb-8 sm:mb-10 md:mb-12">
+        <MaskText
+          outerTag="h2"
+          tag="span"
+            amount={0.3}
+          className="font-serif text-walnut font-light leading-none tracking-tight"
+          outerStyle={{ fontSize: "clamp(1.4rem, 3.5vw, 2.4rem)" }}
+          lines={[
+            <span key="line"><em className="italic">{title.split(" ")[0]}</em>{" "}{title.split(" ").slice(1).join(" ")}</span>,
+          ]}
+        />
+      </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3 md:gap-4">
         {images.map((publicId, i) => (

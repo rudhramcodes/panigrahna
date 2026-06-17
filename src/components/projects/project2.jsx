@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { cloudinaryUrl, blurPlaceholder } from '../../lib/cloudinary';
 import CircularGallery from "./CircularGallery";
 import MobileCarousel from "./MobileCarousel";
+import MaskText from "../mask-text/MaskText";
 
 const COUPLES = [
   { name: "Harsh & Sayonee", publicId: "TKS05225_1_jyeotg.jpg" },
@@ -51,17 +52,19 @@ export default function Project2() {
       className="relative flex flex-col w-full bg-sand/50 overflow-hidden select-none"
       style={{ height: "100dvh", minHeight: "620px" }}
     >
-      <div className="shrink-0 px-5 sm:px-8 md:px-12 lg:px-16 pt-8 sm:pt-12 md:pt-24 pb-1 sm:pb-3 md:pb-4">
+      <div className="shrink-0 px-5 sm:px-8 md:px-12 lg:px-16 pt-8 sm:pt-12 md:pt-24 pb-1 sm:pb-3 md:pb-4 lg:text-center text-left">
         <span className="block font-serif text-taupe text-[11px] sm:text-xs uppercase tracking-[0.2em] mb-2 sm:mb-3">
           Our Couples
         </span>
-        <h2
+        <MaskText
+          outerTag="h2"
+          tag="span"
+          amount={0.5}
           className="font-serif text-walnut font-thin leading-none tracking-tight"
-          style={{ fontSize: "clamp(1.6rem, 5vw, 4rem)" }}
-        >
-          Stories of Love
-        </h2>
-        <p className="font-sans text-taupe/80 text-sm sm:text-base max-w-xl mt-2 sm:mt-3 leading-relaxed font-light">
+          outerStyle={{ fontSize: "clamp(1.6rem, 5vw, 4rem)" }}
+          lines={[<span key="stories">Stories of Love</span>]}
+        />
+        <p className="font-sans text-taupe/80 text-sm sm:text-base max-w-xl mt-2 sm:mt-3 leading-relaxed font-light lg:mx-auto">
           Every couple has a story worth telling. Through our lens, we capture
           the quiet glances, the laughter, and the love that makes each journey
           unique.
