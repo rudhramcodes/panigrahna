@@ -34,30 +34,18 @@ export default function MobileCarousel({ items, interval = 5000 }) {
   }, [resetTimer]);
 
   const item = items[activeIndex];
-  const prevIndex = (activeIndex - 1 + items.length) % items.length;
 
   return (
     <div className="relative w-full h-full overflow-hidden bg-[#2c241a] select-none">
-      {/* Blurred background from previous image */}
-      <div
-        className="absolute inset-0 opacity-20 scale-110"
-        style={{
-          backgroundImage: `url(https://res.cloudinary.com/diuy4l9kv/image/upload/f_auto,q_auto,w_50/${items[prevIndex].publicId.replace(".jpg", "")})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          filter: "blur(20px)",
-        }}
-      />
-
-      {/* Full-screen image */}
-      <AnimatePresence mode="popLayout">
+      {/* Image */}
+      <AnimatePresence mode="wait">
         <motion.div
           key={activeIndex}
           className="absolute inset-0"
-          initial={{ opacity: 0, x: 80, scale: 0.94 }}
-          animate={{ opacity: 1, x: 0, scale: 1 }}
-          exit={{ opacity: 0, x: -80, scale: 0.94 }}
-          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
         >
           <CldImage
             publicId={item.publicId}
@@ -65,13 +53,14 @@ export default function MobileCarousel({ items, interval = 5000 }) {
             width={600}
             options={item.options || {}}
             wrapperClassName="w-full h-full"
-            imgClassName="w-full h-full object-cover"
+            imgClassName="w-full h-full object-cover pointer-events-none"
             imgProps={{
               decoding: "async",
+              draggable: false,
             }}
           />
 
-          {/* Gradient overlay at bottom */}
+          {/* Gradient overlay */}
           <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 via-black/20 to-transparent pointer-events-none" />
 
           {/* Couple name */}
@@ -84,22 +73,20 @@ export default function MobileCarousel({ items, interval = 5000 }) {
       </AnimatePresence>
 
       {/* Progress indicators */}
-      <div className="absolute bottom-6 left-0 right-0 flex items-center justify-center gap-2 z-10">
+      <div className="absolute bottom-6 left-0 right-0 flex items-center justify-center gap-2 z-10 pointer-events-none">
         {items.map((_, i) => (
-          <button
+          <span
             key={i}
-            onClick={() => goTo(i)}
-            className={`rounded-full transition-all duration-500 cursor-pointer ${
+            className={`rounded-full transition-all duration-300 ${
               i === activeIndex
                 ? "w-6 h-[3px] bg-[#c97c2e]"
-                : "w-[3px] h-[3px] bg-white/20 hover:bg-white/40"
+                : "w-[3px] h-[3px] bg-white/20"
             }`}
-            aria-label={`Go to couple ${i + 1}`}
           />
         ))}
       </div>
 
-      {/* Tap left/right to navigate */}
+      {/* Tap zones */}
       <button
         onClick={goPrev}
         className="absolute left-0 top-0 bottom-0 w-1/3 z-10 cursor-pointer"

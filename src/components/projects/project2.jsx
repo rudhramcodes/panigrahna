@@ -52,7 +52,7 @@ export default function Project2() {
       className="relative flex flex-col w-full bg-sand/50 overflow-hidden select-none"
       style={{ height: "100dvh", minHeight: "620px" }}
     >
-      <div className="shrink-0 px-5 sm:px-8 md:px-12 lg:px-16 pt-6 sm:pt-12 md:pt-24 pb-1 sm:pb-3 md:pb-4 lg:text-center text-left">
+      <div className="shrink-0 px-5 sm:px-8 md:px-12 lg:px-16 pt-6 sm:pt-12 md:pt-24 pb-4 sm:pb-3 md:pb-4 lg:text-center text-left">
         <span className="block font-serif text-taupe text-[10px] sm:text-xs uppercase tracking-[0.2em] mb-1.5 sm:mb-3">
           Our Couples
         </span>
