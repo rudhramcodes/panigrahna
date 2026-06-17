@@ -7,6 +7,7 @@ import Project2 from "../components/projects/project2";
 import Films from "../components/films/Films";
 import BridesGrooms from "../components/brides-grooms/BridesGrooms";
 import Testimonial from "../components/testimonial/Testimonial";
+import ContactForm from "../components/contact-form/ContactForm";
 import Footer from "../components/footer/Footer";
 
 let loaderPlayed = false;
@@ -51,8 +52,11 @@ export default function Home() {
         <section id="brides-grooms">
           <BridesGrooms />
         </section>
-        <section id="testimonial">
+        {/* <section id="testimonial">
           <Testimonial />
+        </section> */}
+        <section id="contact">
+          <ContactForm />
         </section>
         <Footer />
       </div>
