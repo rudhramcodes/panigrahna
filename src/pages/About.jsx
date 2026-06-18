@@ -1,29 +1,31 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Play, Camera, Heart, Sparkles } from "lucide-react";
+import { ArrowUpRight, Heart, Eye, Feather, BookOpen, Target } from "lucide-react";
 import CldImage from "../components/ui/CldImage";
 import Footer from "../components/footer/Footer";
 
 /* ─────────────────────────────────────────
-   Animation Variants
+   Shared Animation Variants
    ───────────────────────────────────────── */
 
+const ease = [0.16, 1, 0.3, 1];
+
 const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 0, y: 50 },
   visible: (i = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: i * 0.12 },
+    transition: { duration: 0.8, ease, delay: i * 0.12 },
   }),
 };
 
 const scaleIn = {
-  hidden: { opacity: 0, scale: 0.92 },
+  hidden: { opacity: 0, scale: 0.93 },
   visible: {
     opacity: 1,
     scale: 1,
-    transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] },
+    transition: { duration: 0.9, ease },
   },
 };
 
@@ -31,25 +33,12 @@ const stagger = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.15 },
+    transition: { staggerChildren: 0.18 },
   },
 };
 
-const letterReveal = {
-  hidden: { y: "100%", rotate: 3 },
-  visible: (i) => ({
-    y: 0,
-    rotate: 0,
-    transition: {
-      duration: 0.7,
-      ease: [0.16, 1, 0.3, 1],
-      delay: i * 0.04,
-    },
-  }),
-};
-
 /* ─────────────────────────────────────────
-   Reusable Section Wrapper
+   Section Wrapper
    ───────────────────────────────────────── */
 
 function Section({ className = "", children, ...props }) {
@@ -61,199 +50,105 @@ function Section({ className = "", children, ...props }) {
 }
 
 /* ─────────────────────────────────────────
-   Animated Counter
-   ───────────────────────────────────────── */
-
-function AnimatedCounter({ end, suffix = "", label, duration = 2 }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.5 });
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (!isInView) return;
-    let startTime = null;
-    let raf;
-
-    const animate = (timestamp) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.floor(eased * end));
-      if (progress < 1) raf = requestAnimationFrame(animate);
-    };
-
-    raf = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(raf);
-  }, [isInView, end, duration]);
-
-  return (
-    <div ref={ref} className="text-center">
-      <span className="font-serif font-light text-taupe block leading-none tracking-tighter"
-        style={{ fontSize: "clamp(3rem, 8vw, 5.5rem)" }}
-      >
-        {count}{suffix}
-      </span>
-      {label && (
-        <span className="block font-sans text-taupe/80 text-sm sm:text-base font-light mt-2">
-          {label}
-        </span>
-      )}
-    </div>
-  );
-}
-
-/* ─────────────────────────────────────────
-   Split Reveal Text
-   ───────────────────────────────────────── */
-
-function SplitReveal({ text, as: Tag = "h2", className = "", delay = 0 }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.6 });
-
-  const words = text.split(" ");
-
-  return (
-    <Tag ref={ref} className={className}>
-      <span className="sr-only">{text}</span>
-      <span className="inline-flex flex-wrap" aria-hidden>
-        {words.map((word, i) => (
-          <span key={i} className="inline-block overflow-hidden py-1 px-0.5 -mx-0.5 mr-[0.25em]">
-            <motion.span
-              custom={i}
-              variants={letterReveal}
-              initial="hidden"
-              animate={isInView ? "visible" : "hidden"}
-              className="inline-block"
-              style={{ originY: 0.5 }}
-            >
-              {word}
-            </motion.span>
-          </span>
-        ))}
-      </span>
-    </Tag>
-  );
-}
-
-/* ─────────────────────────────────────────
    Section 1: Hero
    ───────────────────────────────────────── */
 
 function AboutHero() {
-  const titleRef = useRef(null);
-  const isTitleInView = useInView(titleRef, { once: true });
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true });
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const imgY = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  const textY = useTransform(scrollYProgress, [0, 1], [0, 60]);
+  const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
   return (
-    <Section className="sticky top-0 h-screen z-0 bg-[#FBFBFB]">
-      <div className="absolute inset-0">
-        <div className="absolute inset-y-0 right-[-6%] w-[60%] sm:w-[55%] md:w-[70%] pointer-events-none select-none flex items-end">
-          <video
-            src="/images/sequence.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-full h-full object-contain object-center"
-          />
-        </div>
-      </div>
+    <Section ref={ref} className="h-screen">
+      {/* Parallax Background Image */}
+      <motion.div className="absolute inset-0" style={{ y: imgY }}>
+        <CldImage
+          publicId="TKS05225_1_jyeotg"
+          alt="Panigrahna Studio"
+          width={1920}
+          wrapperClassName="w-full h-full"
+          imgClassName="w-full h-full object-cover object-[center_30%]"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </motion.div>
 
-      <div className="relative z-10 h-screen flex flex-col justify-center px-5 sm:px-8 md:px-12 lg:px-16">
+      {/* Overlays */}
+      <div className="absolute inset-0 bg-gradient-to-t from-walnut/50 via-walnut/20 to-walnut/10" />
+      <div className="absolute inset-0 bg-gradient-to-r from-walnut/30 via-transparent to-transparent" />
+
+      {/* Content */}
+      <motion.div
+        className="relative z-10 h-full flex flex-col justify-end px-5 sm:px-8 md:px-12 lg:px-16 pb-16 sm:pb-20 lg:pb-24"
+        style={{ y: textY, opacity }}
+      >
         <div className="max-w-[1200px] mx-auto w-full">
-          <div ref={titleRef} className="max-w-[700px]">
-            <motion.span
-              className="block font-sans text-cinnamon-300 text-xs sm:text-sm uppercase tracking-[0.25em] mb-4 sm:mb-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={isTitleInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            >
-              About the Studio
-            </motion.span>
-
-            <h1 className="font-serif text-walnut font-light leading-[.9] tracking-tighter"
-              style={{ fontSize: "clamp(3.2rem, 10vw, 7rem)" }}
-            >
-              <SplitReveal text="Crafting" as="span" delay={0.1} />
-              <br />
-              <SplitReveal text="Timeless" as="span" delay={0.2} />
-              <br />
-              <span className="italic font-light text-cinnamon-300">
-                <SplitReveal text="Love Stories" as="span" delay={0.3} />
-              </span>
-            </h1>
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={isTitleInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="max-w-[520px] mt-6 sm:mt-8 lg:mt-10"
+          <motion.span
+            className="block font-sans text-sand/70 text-xs sm:text-sm uppercase tracking-[0.3em] mb-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, ease, delay: 0.2 }}
           >
-            <p className="font-sans text-taupe leading-relaxed font-light"
-              style={{ fontSize: "clamp(0.9rem, 1.1vw, 1.1rem)" }}
-            >
-              We are Panigrahna — a wedding film studio built on the belief that
-              every love story deserves to be told with intention, artistry, and
-              soul. Based in Mumbai and Surat, we craft cinematic narratives that
-              transcend time.
-            </p>
+            About the Studio
+          </motion.span>
 
-            <div className="flex flex-wrap gap-4 mt-8">
-              <Link
-                to="/"
-                className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-walnut text-sand text-sm font-sans no-underline transition-all duration-500 hover:bg-walnut/90 hover:scale-[1.02]"
-              >
-                View Our Work
-                <ArrowUpRight size={16} className="transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </Link>
+          <motion.h1
+            className="font-serif text-sand font-light leading-[.9] tracking-tighter"
+            style={{ fontSize: "clamp(3.5rem, 12vw, 8rem)" }}
+            initial={{ opacity: 0, y: 40 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, ease, delay: 0.3 }}
+          >
+            Our
+            <br />
+            <span className="italic font-light">Story</span>
+          </motion.h1>
 
-              <a
-                href="#story"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-taupe/30 text-taupe text-sm font-sans no-underline transition-all duration-500 hover:border-taupe/60 hover:text-walnut"
-              >
-                <Play size={14} />
-                Our Story
-              </a>
-            </div>
-          </motion.div>
+          <motion.p
+            className="font-sans text-sand/60 font-light max-w-[500px] mt-4 sm:mt-6 leading-relaxed"
+            style={{ fontSize: "clamp(0.85rem, 1.1vw, 1.05rem)" }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, ease, delay: 0.5 }}
+          >
+            A wedding film studio rooted in tradition, driven by artistry — 
+            capturing love stories across India with cinematic soul.
+          </motion.p>
         </div>
-      </div>
+      </motion.div>
     </Section>
   );
 }
 
 /* ─────────────────────────────────────────
-   Section 2: Our Story
+   Section 2: The Studio
    ───────────────────────────────────────── */
 
-function OurStory() {
+function TheStudio() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const imgY = useTransform(scrollYProgress, [0, 1], [60, -60]);
 
   return (
-    <Section id="story" ref={ref} className="relative z-10 bg-[#e8d5bc] py-[clamp(4rem,10vw,10rem)]">
+    <Section ref={ref} className="bg-ivory py-[clamp(4rem,10vw,10rem)]">
       <div className="mx-auto max-w-[1480px] px-5 sm:px-8 md:px-12 lg:px-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
           {/* Image */}
-          <motion.div
-            className="lg:col-span-6 relative"
-            style={{ y: imgY }}
-          >
+          <motion.div className="lg:col-span-6 relative" style={{ y: imgY }}>
             <motion.div
               variants={scaleIn}
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
-              className="relative overflow-hidden rounded-sm"
+              className="relative overflow-hidden"
               style={{ aspectRatio: "4/5" }}
             >
               <CldImage
                 publicId="DSC04563_1_foxptm"
-                alt="Our Studio"
+                alt="The Studio"
                 width={800}
                 wrapperClassName="w-full h-full"
                 imgClassName="w-full h-full object-cover"
@@ -261,23 +156,24 @@ function OurStory() {
                 loading="lazy"
                 decoding="async"
               />
-              {/* Decorative overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-walnut/20 via-transparent to-transparent" />
             </motion.div>
 
-            {/* Floating badge */}
+            {/* Floating stat badge */}
             <motion.div
-              className="absolute -bottom-4 -right-4 sm:-bottom-6 sm:-right-6 bg-ivory rounded-full shadow-xl flex items-center justify-center"
-              style={{ width: "clamp(80px, 10vw, 120px)", height: "clamp(80px, 10vw, 120px)" }}
+              className="absolute -bottom-3 -right-3 sm:-bottom-5 sm:-right-5 bg-walnut rounded-full flex flex-col items-center justify-center text-sand shadow-2xl"
+              style={{ width: "clamp(90px, 10vw, 130px)", height: "clamp(90px, 10vw, 130px)" }}
               initial={{ opacity: 0, scale: 0 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ delay: 0.6, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ delay: 0.6, duration: 0.6, ease }}
             >
-              <Heart size={28} className="text-cinnamon-300" strokeWidth={1.5} />
+              <span className="font-serif text-xl sm:text-2xl font-light leading-none tracking-tighter">8+</span>
+              <span className="font-sans text-[9px] sm:text-[10px] uppercase tracking-[0.15em] text-sand/60 mt-1 text-center leading-tight px-2">
+                Years
+              </span>
             </motion.div>
           </motion.div>
 
-          {/* Text */}
+          {/* Content */}
           <motion.div
             className="lg:col-span-6"
             variants={stagger}
@@ -288,7 +184,7 @@ function OurStory() {
               variants={fadeUp}
               className="block font-sans text-cinnamon-300 text-xs uppercase tracking-[0.25em] mb-4"
             >
-              Our Story
+              The Studio
             </motion.span>
 
             <motion.h2
@@ -296,8 +192,9 @@ function OurStory() {
               className="font-serif text-walnut font-light leading-[1.05] tracking-tight mb-6"
               style={{ fontSize: "clamp(2rem, 4.5vw, 4rem)" }}
             >
-              Where Tradition Meets
-              <span className="italic text-cinnamon-300"> Cinematic Artistry</span>
+              Crafting Cinema
+              <br />
+              <span className="italic text-cinnamon-300">from the Heart</span>
             </motion.h2>
 
             <motion.p
@@ -305,9 +202,10 @@ function OurStory() {
               className="font-sans text-taupe leading-relaxed font-light mb-4"
               style={{ fontSize: "clamp(0.85rem, 1vw, 1rem)" }}
             >
-              At Panigrahna, we believe that a wedding film is more than a
-              documentation — it is a legacy. Every glance, every laugh, every
-              quiet tear holds a story waiting to be told.
+              Panigrahna was born from a simple belief — that every wedding is a 
+              symphony of moments waiting to be preserved. We are storytellers first, 
+              filmmakers second. Our work is guided not by trends, but by the quiet 
+              truth of each couple's journey.
             </motion.p>
 
             <motion.p
@@ -315,18 +213,18 @@ function OurStory() {
               className="font-sans text-taupe/70 leading-relaxed font-light"
               style={{ fontSize: "clamp(0.8rem, 0.9vw, 0.95rem)" }}
             >
-              Founded with a passion for storytelling and a reverence for tradition,
-              our team brings together years of cinematic expertise and a deep
-              understanding of Indian wedding rituals. We don't just film weddings —
-              we immerse ourselves in them, becoming silent storytellers who capture
-              the essence of your journey.
+              Rooted in Mumbai and Surat, our team brings together a deep reverence 
+              for Indian wedding traditions and a cinematic eye honed across hundreds 
+              of celebrations. We don't document weddings — we immerse ourselves in 
+              them, becoming trusted witnesses to the laughter, the tears, and the 
+              moments in between.
             </motion.p>
 
             <motion.div variants={fadeUp} className="mt-8 flex flex-wrap gap-6">
               {[
-                { label: "Years of Experience", value: "8+" },
                 { label: "Couples Served", value: "150+" },
                 { label: "Cities Covered", value: "25+" },
+                { label: "Films Delivered", value: "500+" },
               ].map((stat) => (
                 <div key={stat.label} className="text-left">
                   <span className="block font-serif text-xl sm:text-2xl font-light text-walnut leading-none tracking-tighter">
@@ -346,62 +244,65 @@ function OurStory() {
 }
 
 /* ─────────────────────────────────────────
-   Section 3: Philosophy — Full-width Quote
+   Section 3: Philosophy
    ───────────────────────────────────────── */
 
 function Philosophy() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.4 });
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-  const bgY = useTransform(scrollYProgress, [0, 1], [0, 40]);
+  const isInView = useInView(ref, { once: true, amount: 0.35 });
 
   return (
-    <Section ref={ref} className="relative z-10 bg-ivory py-[clamp(5rem,12vw,12rem)]">
-      <motion.div style={{ y: bgY }} className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--color-sand)_0%,_transparent_70%)] opacity-30" />
-      </motion.div>
-
-      <div className="relative z-10 mx-auto max-w-[1000px] px-5 sm:px-8 text-center">
+    <Section ref={ref} className="bg-walnut py-[clamp(5rem,12vw,12rem)]">
+      <div className="mx-auto max-w-[1000px] px-5 sm:px-8 text-center">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.8, ease }}
         >
-          <motion.span
-            className="block font-sans text-cinnamon-300 text-xs uppercase tracking-[0.25em] mb-6"
+          {/* Decorative */}
+          <motion.div
+            className="flex items-center justify-center gap-4 mb-8"
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ delay: 0.2, duration: 0.6 }}
+          >
+            <span className="block w-8 h-[1px] bg-cinnamon-300/40" />
+            <Heart size={14} className="text-cinnamon-300/60" strokeWidth={1.5} />
+            <span className="block w-8 h-[1px] bg-cinnamon-300/40" />
+          </motion.div>
+
+          <motion.span
+            className="block font-sans text-cinnamon-300/70 text-xs uppercase tracking-[0.25em] mb-6"
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ delay: 0.3, duration: 0.6 }}
           >
             Our Philosophy
           </motion.span>
 
           <blockquote>
             <p
-              className="font-serif text-walnut font-light leading-[1.15] tracking-tight"
-              style={{ fontSize: "clamp(1.8rem, 4vw, 3.8rem) " }}
+              className="font-serif text-sand font-light leading-[1.15] tracking-tight"
+              style={{ fontSize: "clamp(1.6rem, 3.8vw, 3.5rem)" }}
             >
-              <span className="italic text-cinnamon-200 font-normal text-[1.2em] leading-none align-middle">"</span>
-              We don't just capture moments.
+              <span className="italic text-cinnamon-200/50 font-normal text-[1.2em] leading-none align-middle">"</span>
+              Every frame is a love letter.
               <br />
-              <span className="italic text-cinnamon-300">We preserve legacies.</span>
-              <span className="italic text-cinnamon-200 font-normal text-[1.2em] leading-none align-middle">"</span>
+              <span className="italic text-cinnamon-200">Every film, an heirloom.</span>
+              <span className="italic text-cinnamon-200/50 font-normal text-[1.2em] leading-none align-middle">"</span>
             </p>
           </blockquote>
 
           <motion.p
-            className="font-sans text-taupe/70 font-light max-w-[600px] mx-auto mt-6 sm:mt-8"
+            className="font-sans text-sand/50 font-light max-w-[600px] mx-auto mt-6 sm:mt-8 leading-relaxed"
             style={{ fontSize: "clamp(0.85rem, 1vw, 1rem)" }}
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.4, duration: 0.6 }}
+            transition={{ delay: 0.5, duration: 0.6 }}
           >
-            Every frame is crafted with intention — blending documentary honesty
-            with cinematic poetry to create films that feel as timeless as the
-            love they celebrate.
+            We believe the best wedding films don't just show you what happened — 
+            they make you feel it. Our approach blends the honesty of documentary 
+            with the poetry of cinema, creating narratives that resonate across generations.
           </motion.p>
         </motion.div>
       </div>
@@ -410,42 +311,46 @@ function Philosophy() {
 }
 
 /* ─────────────────────────────────────────
-   Section 4: Our Approach
+   Section 4: Core Values
    ───────────────────────────────────────── */
 
-const APPROACH_STEPS = [
+const VALUES = [
   {
-    number: "01",
-    title: "Discover",
+    icon: Eye,
+    title: "Authentic Eye",
     description:
-      "We begin by understanding your story, your traditions, and what makes your bond unique. This foundation shapes every frame.",
-    icon: Sparkles,
+      "We capture real moments as they unfold — unscripted, unfiltered, and deeply human. No forced poses, just honest emotion.",
     color: "text-cinnamon-300",
   },
   {
-    number: "02",
-    title: "Immerse",
+    icon: Heart,
+    title: "Heartfelt Approach",
     description:
-      "On the day, we become part of your celebration — blending into the background to capture authentic, unscripted emotions.",
-    icon: Camera,
-    color: "text-cinnamon-400",
+      "Every couple we work with becomes family. We invest ourselves fully in your story, earning the trust to document your most intimate moments.",
+    color: "text-ember-300",
   },
   {
-    number: "03",
-    title: "Craft",
+    icon: Feather,
+    title: "Gentle Presence",
     description:
-      "In post-production, we weave your moments into a cinematic narrative — every cut, color, and sound designed to move.",
-    icon: Heart,
+      "We move through your celebration like quiet observers — unseen yet ever-present, ensuring nothing is staged and everything is felt.",
+    color: "text-cinnamon-300",
+  },
+  {
+    icon: Target,
+    title: "Uncompromising Craft",
+    description:
+      "From cinematic composition to nuanced colour grading, every frame is refined until it carries the emotional weight it deserves.",
     color: "text-ember-300",
   },
 ];
 
-function Approach() {
+function CoreValues() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.15 });
 
   return (
-    <Section ref={ref} className="relative z-10 bg-[#e8d5bc] py-[clamp(4rem,8vw,8rem)]">
+    <Section ref={ref} className="bg-sand/40 py-[clamp(4rem,8vw,8rem)]">
       <div className="mx-auto max-w-[1480px] px-5 sm:px-8 md:px-12 lg:px-16">
         <motion.div
           className="text-center mb-12 sm:mb-16"
@@ -457,58 +362,44 @@ function Approach() {
             variants={fadeUp}
             className="block font-sans text-cinnamon-300 text-xs uppercase tracking-[0.25em] mb-4"
           >
-            Our Approach
+            What We Stand For
           </motion.span>
           <motion.h2
             variants={fadeUp}
             className="font-serif text-walnut font-light tracking-tight"
             style={{ fontSize: "clamp(2rem, 4.5vw, 4rem)" }}
           >
-            How We <span className="italic text-cinnamon-300">Work</span>
+            Our <span className="italic text-cinnamon-300">Values</span>
           </motion.h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
-          {APPROACH_STEPS.map((step, i) => {
-            const Icon = step.icon;
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
+          {VALUES.map((val, i) => {
+            const Icon = val.icon;
             const cardRef = useRef(null);
             const cardInView = useInView(cardRef, { once: true, amount: 0.3 });
 
             return (
               <motion.div
-                key={step.number}
+                key={val.title}
                 ref={cardRef}
-                className="group relative bg-ivory rounded-sm p-6 sm:p-8 lg:p-10 transition-all duration-500 hover:shadow-xl hover:shadow-walnut/5"
+                className="group bg-ivory p-8 sm:p-10 lg:p-12 transition-all duration-500 hover:shadow-2xl hover:shadow-walnut/5"
                 initial={{ opacity: 0, y: 40 }}
                 animate={cardInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: i * 0.15, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ delay: i * 0.1, duration: 0.7, ease }}
               >
-                {/* Number */}
-                <span
-                  className="block font-serif text-sand font-bold leading-none tracking-tighter select-none"
-                  style={{ fontSize: "clamp(3rem, 6vw, 5rem)" }}
-                >
-                  {step.number}
-                </span>
-
-                {/* Icon */}
-                <div className="mt-4 mb-4">
-                  <Icon size={28} className={step.color} strokeWidth={1.2} />
-                </div>
+                <Icon size={24} className={`${val.color} mb-5`} strokeWidth={1.2} />
 
                 <h3
                   className="font-serif text-walnut font-light mb-3"
-                  style={{ fontSize: "clamp(1.3rem, 2vw, 1.8rem)" }}
+                  style={{ fontSize: "clamp(1.2rem, 1.8vw, 1.6rem)" }}
                 >
-                  {step.title}
+                  {val.title}
                 </h3>
 
-                <p className="font-sans text-taupe/70 font-light leading-relaxed text-sm sm:text-base">
-                  {step.description}
+                <p className="font-sans text-taupe/70 font-light leading-relaxed text-sm sm:text-base max-w-[420px]">
+                  {val.description}
                 </p>
-
-                {/* Hover accent line */}
-                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-cinnamon-200 scale-x-0 group-hover:scale-x-100 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] origin-left" />
               </motion.div>
             );
           })}
@@ -519,51 +410,122 @@ function Approach() {
 }
 
 /* ─────────────────────────────────────────
-   Section 5: By the Numbers
+   Section 5: Our Journey (Timeline)
    ───────────────────────────────────────── */
 
-const STATS = [
-  { end: 8, suffix: "+", label: "Years of Experience" },
-  { end: 150, suffix: "+", label: "Couples Served" },
-  { end: 25, suffix: "+", label: "Cities Covered" },
-  { end: 500, suffix: "+", label: "Films Delivered" },
+const MILESTONES = [
+  { year: "2016", title: "The Beginning", description: "Panigrahna was founded with a single camera and an unwavering belief in the power of story." },
+  { year: "2018", title: "First Milestone", description: "We documented our 50th wedding — a moment that affirmed our path and deepened our craft." },
+  { year: "2020", title: "Finding New Language", description: "Amid global stillness, we reimagined intimacy in storytelling, emerging with a refined cinematic voice." },
+  { year: "2022", title: "Across India", description: "Our team grew, spanning Mumbai to Surat and beyond — covering 25+ cities and counting." },
+  { year: "2024", title: "500 Films Strong", description: "Five hundred love stories. Five hundred distinct narratives. And the same devotion that started it all." },
+  { year: "2025", title: "The Next Chapter", description: "New horizons, new stories. Every wedding remains a privilege — a story we are honoured to tell." },
 ];
 
-function Stats() {
+function Journey() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
+  const isInView = useInView(ref, { once: true, amount: 0.1 });
 
   return (
-    <Section ref={ref} className="relative z-10 bg-walnut py-[clamp(4rem,8vw,8rem)]">
-      <div className="mx-auto max-w-[1480px] px-5 sm:px-8 md:px-12 lg:px-16">
+    <Section ref={ref} className="bg-ivory py-[clamp(4rem,8vw,8rem)]">
+      <div className="mx-auto max-w-[1200px] px-5 sm:px-8 md:px-12 lg:px-16">
         <motion.div
-          className="text-center mb-12 sm:mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center mb-16 sm:mb-20"
+          variants={stagger}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
         >
-          <span className="block font-sans text-cinnamon-200/60 text-xs uppercase tracking-[0.25em] mb-4">
-            By the Numbers
-          </span>
-          <h2
-            className="font-serif text-sand font-light tracking-tight"
-            style={{ fontSize: "clamp(1.8rem, 3.5vw, 3rem)" }}
+          <motion.span
+            variants={fadeUp}
+            className="block font-sans text-cinnamon-300 text-xs uppercase tracking-[0.25em] mb-4"
           >
-            Our Journey in <span className="italic text-cinnamon-200">Numbers</span>
-          </h2>
+            Our Journey
+          </motion.span>
+          <motion.h2
+            variants={fadeUp}
+            className="font-serif text-walnut font-light tracking-tight"
+            style={{ fontSize: "clamp(2rem, 4.5vw, 4rem)" }}
+          >
+            The Road <span className="italic text-cinnamon-300">We've Walked</span>
+          </motion.h2>
         </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12">
-          {STATS.map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: i * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <AnimatedCounter end={stat.end} suffix={stat.suffix} label={stat.label} />
-            </motion.div>
-          ))}
+        <div className="relative">
+          {/* Vertical line */}
+          <div className="absolute left-[30px] sm:left-1/2 top-0 bottom-0 w-[1px] bg-sand/80 -translate-x-1/2" />
+
+          {MILESTONES.map((milestone, i) => {
+            const itemRef = useRef(null);
+            const itemInView = useInView(itemRef, { once: true, amount: 0.3 });
+            const isLeft = i % 2 === 0;
+
+            return (
+              <div
+                key={milestone.year}
+                ref={itemRef}
+                className="relative flex items-start mb-12 sm:mb-16 last:mb-0"
+              >
+                {/* Desktop layout */}
+                <div className="hidden sm:grid sm:grid-cols-2 w-full items-start">
+                  {/* Content alternating left/right */}
+                  <div className={`${isLeft ? "pr-12 text-right" : "pl-12 col-start-2"}`}>
+                    <motion.div
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={itemInView ? { opacity: 1, y: 0 } : {}}
+                      transition={{ duration: 0.7, ease, delay: 0.1 }}
+                    >
+                      <span className="font-serif text-cinnamon-300 text-sm tracking-[0.2em] uppercase">
+                        {milestone.year}
+                      </span>
+                      <h3
+                        className="font-serif text-walnut font-light mt-1 mb-2"
+                        style={{ fontSize: "clamp(1.2rem, 1.8vw, 1.6rem)" }}
+                      >
+                        {milestone.title}
+                      </h3>
+                      <p className="font-sans text-taupe/70 font-light leading-relaxed text-sm">
+                        {milestone.description}
+                      </p>
+                    </motion.div>
+                  </div>
+
+                  {/* Dot on the line */}
+                  <div className="absolute left-1/2 top-0 -translate-x-1/2">
+                    <motion.div
+                      className="w-3 h-3 rounded-full bg-ivory border-2 border-cinnamon-300"
+                      initial={{ scale: 0 }}
+                      animate={itemInView ? { scale: 1 } : {}}
+                      transition={{ duration: 0.4, ease, delay: 0.2 }}
+                    />
+                  </div>
+                </div>
+
+                {/* Mobile layout */}
+                <div className="sm:hidden w-full pl-14">
+                  <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={itemInView ? { opacity: 1, x: 0 } : {}}
+                    transition={{ duration: 0.7, ease, delay: 0.1 }}
+                  >
+                    <div className="flex items-center gap-3 mb-1">
+                      <span className="font-serif text-cinnamon-300 text-xs tracking-[0.2em] uppercase">
+                        {milestone.year}
+                      </span>
+                    </div>
+                    <h3
+                      className="font-serif text-walnut font-light mb-1"
+                      style={{ fontSize: "clamp(1.1rem, 4vw, 1.4rem)" }}
+                    >
+                      {milestone.title}
+                    </h3>
+                    <p className="font-sans text-taupe/70 font-light leading-relaxed text-sm">
+                      {milestone.description}
+                    </p>
+                  </motion.div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </Section>
@@ -579,12 +541,12 @@ function AboutCTA() {
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   return (
-    <Section ref={ref} className="relative z-10 bg-[#f5ede4] py-[clamp(5rem,10vw,10rem)]">
+    <Section ref={ref} className="bg-sand/50 py-[clamp(5rem,10vw,10rem)]">
       <div className="mx-auto max-w-[800px] px-5 sm:px-8 text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.8, ease }}
         >
           <span className="block font-sans text-cinnamon-300 text-xs uppercase tracking-[0.25em] mb-4">
             Let's Create
@@ -594,24 +556,24 @@ function AboutCTA() {
             className="font-serif text-walnut font-light leading-[1.05] tracking-tight mb-6"
             style={{ fontSize: "clamp(2rem, 4.5vw, 4rem)" }}
           >
-            Ready to Tell
+            Your Story
             <br />
-            <span className="italic text-cinnamon-300">Your Story?</span>
+            <span className="italic text-cinnamon-300">Awaits</span>
           </h2>
 
           <p
             className="font-sans text-taupe/70 font-light max-w-[500px] mx-auto leading-relaxed mb-8 sm:mb-10"
             style={{ fontSize: "clamp(0.85rem, 1vw, 1rem)" }}
           >
-            Every love story is unique. Let us craft a film that captures yours
-            with the artistry and emotion it deserves.
+            Every love story is unique. Let's craft a film that captures yours 
+            with the artistry, intimacy, and timelessness it deserves.
           </p>
 
           <Link
-            to="/"
+            to="/contact"
             className="group inline-flex items-center gap-2 px-8 py-4 rounded-full bg-walnut text-sand text-sm font-sans no-underline transition-all duration-500 hover:bg-walnut/90 hover:scale-[1.02]"
           >
-            View Our Work
+            Get in Touch
             <ArrowUpRight size={18} className="transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </Link>
         </motion.div>
@@ -625,17 +587,13 @@ function AboutCTA() {
    ───────────────────────────────────────── */
 
 export default function About() {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   return (
     <>
       <AboutHero />
-      <OurStory />
+      <TheStudio />
       <Philosophy />
-      <Approach />
-      <Stats />
+      <CoreValues />
+      <Journey />
       <AboutCTA />
       <Footer />
     </>
