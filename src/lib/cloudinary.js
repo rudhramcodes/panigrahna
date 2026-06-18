@@ -83,6 +83,7 @@ export function blurPlaceholder(publicId) {
   });
 }
 
-export function rawCloudinaryUrl(publicId) {
-  return `${CLOUDINARY_BASE}/${RAW_CLOUDINARY_VERSION}/${publicId}`;
+export function rawCloudinaryUrl(publicId, version) {
+  const v = version || RAW_CLOUDINARY_VERSION;
+  return `${CLOUDINARY_BASE}/${v}/${publicId}`;
 }

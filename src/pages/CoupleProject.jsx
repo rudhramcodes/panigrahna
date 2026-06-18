@@ -73,10 +73,11 @@ export default function CoupleProject() {
 
   const gridItems = useMemo(
     () =>
-      coupleImages.map((publicId, i) => ({
-        src: rawCloudinaryUrl(publicId),
-        num: i + 1,
-      })),
+      coupleImages.map((entry, i) => {
+        const publicId = typeof entry === "string" ? entry : entry.id;
+        const version = typeof entry === "string" ? undefined : entry.version;
+        return { src: rawCloudinaryUrl(publicId, version), num: i + 1 };
+      }),
     [coupleImages]
   );
 

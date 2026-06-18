@@ -188,10 +188,11 @@ export default function Projects() {
 
   const gridImages = useMemo(
     () =>
-      couple.images.map((publicId, i) => ({
-        src: rawCloudinaryUrl(publicId),
-        num: i + 1,
-      })),
+      couple.images.map((entry, i) => {
+        const publicId = typeof entry === "string" ? entry : entry.id;
+        const version = typeof entry === "string" ? undefined : entry.version;
+        return { src: rawCloudinaryUrl(publicId, version), num: i + 1 };
+      }),
     [index]
   );
 
