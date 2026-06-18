@@ -186,12 +186,17 @@ body {
   font-variation-settings: "wdth" 100;
 }
 
+/* ── Skeleton Shimmer ── */
+@keyframes shimmer-slide {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
 /* ── Progressive Image Loading ── */
 .progressive-bg {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  /* placeholder image renders at full size — heavy blur creates a smooth color-field */
 }
 
 .progressive-load {

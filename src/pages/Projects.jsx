@@ -26,15 +26,15 @@ const headingSlide = {
 };
 
 const staggerGrid = {
-  initial: { opacity: 0 },
-  animate: { opacity: 1, transition: { staggerChildren: 0.035, delayChildren: 0.08 } },
-  exit: { opacity: 0, transition: { staggerChildren: 0.015, staggerDirection: -1 } },
+  initial: {},
+  animate: { transition: { staggerChildren: 0.04, delayChildren: 0.1 } },
+  exit: {},
 };
 
 const gridItem = {
-  initial: { opacity: 0, y: 30, scale: 0.95 },
-  animate: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
-  exit: { opacity: 0, y: -15, scale: 0.95, transition: { duration: 0.25, ease: [0.16, 1, 0.3, 1] } },
+  initial: { y: 30, scale: 0.96, opacity: 0 },
+  animate: { y: 0, scale: 1, opacity: 1, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
+  exit: { y: -15, scale: 0.96, opacity: 0, transition: { duration: 0.25, ease: [0.16, 1, 0.3, 1] } },
 };
 
 const counterSlide = {
@@ -44,24 +44,46 @@ const counterSlide = {
 };
 
 function ShimmerBox({ src, num, onClick }) {
+  const [loaded, setLoaded] = useState(false);
+  const shimmerRef = useRef(null);
+
+  const handleLoad = useCallback(() => {
+    setLoaded(true);
+  }, []);
+
   return (
     <motion.div
       variants={gridItem}
-      className="aspect-[3/4] rounded-sm overflow-hidden relative group cursor-pointer"
+      className="aspect-[3/4] rounded-sm overflow-hidden relative group cursor-pointer bg-taupe/8 will-change-transform"
       whileHover={{ y: -3, scale: 1.015 }}
       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
       onClick={onClick}
     >
+      <div
+        ref={shimmerRef}
+        className={`absolute inset-0 overflow-hidden transition-opacity duration-300 ${
+          loaded ? "opacity-0 pointer-events-none" : "opacity-100"
+        }`}
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-taupe/6 via-taupe/14 to-taupe/6 shimmer-slide" />
+      </div>
+
       <img
         src={src}
         alt=""
-        className="absolute inset-0 w-full h-full object-cover"
+        className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ${
+          loaded ? "opacity-100 scale-100" : "opacity-0 scale-[1.03]"
+        }`}
         loading="lazy"
+        onLoad={handleLoad}
       />
+
       <div aria-hidden className="absolute inset-0 overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-100 ease-smooth">
         <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-white/25 to-white/0 skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-500 delay-75 ease-smooth" />
       </div>
+
       <div className="absolute inset-0 border border-white/0 group-hover:border-white/30 rounded-sm transition-all duration-300 ease-smooth" />
+
       <span className="absolute bottom-2.5 left-3 font-sans text-white/40 text-xs sm:text-sm font-medium select-none tracking-wider drop-shadow-sm">
         {String(num).padStart(2, "0")}
       </span>
@@ -209,6 +231,20 @@ export default function Projects() {
     setViewerIndex(i);
     setViewerOpen(true);
   }, []);
+
+  /* Preload first images of adjacent couples for instant navigation */
+  useEffect(() => {
+    const next = COUPLES[(index + 1) % COUPLES.length];
+    const prev = COUPLES[(index - 1 + COUPLES.length) % COUPLES.length];
+    [next, prev].forEach((couple) => {
+      couple.images.slice(0, 2).forEach((entry) => {
+        const publicId = typeof entry === "string" ? entry : entry.id;
+        const version = typeof entry === "string" ? undefined : entry.version;
+        const img = new Image();
+        img.src = rawCloudinaryUrl(publicId, version);
+      });
+    });
+  }, [index]);
 
   return (
     <main className="relative min-h-screen bg-ivory overflow-x-hidden">
