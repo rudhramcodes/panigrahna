@@ -486,10 +486,17 @@ class App {
 
     if (this.onItemClick && this.start != null) {
       const x = e && e.changedTouches ? e.changedTouches[0].clientX : e ? e.clientX : this.start;
+      const y = e && e.changedTouches ? e.changedTouches[0].clientY : e ? e.clientY : 0;
       const dist = Math.abs(this.start - x);
       if (dist < 10 && this.medias && this.medias.length) {
         const canvasRect = this.gl.canvas.getBoundingClientRect();
         const clickX = x - canvasRect.left;
+        const clickY = y - canvasRect.top;
+        // Ignore clicks outside the canvas (e.g. navbar/menu buttons)
+        if (clickX < 0 || clickX > canvasRect.width || clickY < 0 || clickY > canvasRect.height) {
+          this.start = null;
+          return;
+        }
         const screenW = this.screen.width;
 
         let closest = null;
