@@ -1,4 +1,5 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { cloudinaryUrl, blurPlaceholder } from '../../lib/cloudinary';
 import CircularGallery from "./CircularGallery";
 import MobileGallery from "./MobileGallery";
@@ -13,7 +14,15 @@ const COUPLES = [
 ];
 
 export default function Project2() {
+  const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false);
+
+  const handleCoupleClick = useCallback(
+    (coupleIndex) => {
+      navigate("/projects", { state: { coupleIndex } });
+    },
+    [navigate]
+  );
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -76,7 +85,7 @@ export default function Project2() {
 
       <div className="flex-1 relative min-h-0">
         {isMobile ? (
-          <MobileGallery items={mobileItems} />
+          <MobileGallery items={mobileItems} onCoupleClick={handleCoupleClick} />
         ) : (
           <CircularGallery
             items={galleryItems}
@@ -86,6 +95,7 @@ export default function Project2() {
             textColor="#3d2b1a"
             scrollSpeed={1.5}
             scrollEase={0.04}
+            onItemClick={handleCoupleClick}
           />
         )}
       </div>

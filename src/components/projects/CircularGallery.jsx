@@ -387,7 +387,8 @@ class App {
       font = 'bold 30px Figtree',
       scrollSpeed = 2,
       scrollEase = 0.05,
-      onDragStart = null
+      onDragStart = null,
+      onItemClick = null
     } = {}
   ) {
     document.documentElement.classList.remove('no-js');
@@ -396,6 +397,7 @@ class App {
     this.scroll = { ease: scrollEase, current: 0, target: 0, last: 0 };
     this.onCheckDebounce = debounce(this.onCheck, 200);
     this.onDragStart = onDragStart;
+    this.onItemClick = onItemClick;
     this.createRenderer();
     this.createCamera();
     this.createScene();
@@ -478,9 +480,38 @@ class App {
     const distance = (this.start - x) * (this.scrollSpeed * 0.025);
     this.scroll.target = this.scroll.position + distance;
   }
-  onTouchUp() {
+  onTouchUp(e) {
     this.isDown = false;
     this.onCheck();
+
+    if (this.onItemClick && this.start != null) {
+      const x = e && e.changedTouches ? e.changedTouches[0].clientX : e ? e.clientX : this.start;
+      const dist = Math.abs(this.start - x);
+      if (dist < 10 && this.medias && this.medias.length) {
+        const canvasRect = this.gl.canvas.getBoundingClientRect();
+        const clickX = x - canvasRect.left;
+        const screenW = this.screen.width;
+
+        let closest = null;
+        let closestDist = Infinity;
+
+        for (let i = 0; i < this.medias.length; i++) {
+          const worldX = this.medias[i].plane.position.x;
+          const screenX = (worldX / this.viewport.width + 0.5) * screenW;
+          const d = Math.abs(screenX - clickX);
+          if (d < closestDist) {
+            closestDist = d;
+            closest = i;
+          }
+        }
+
+        if (closest !== null) {
+          const itemIndex = closest % (this.mediasImages.length / 2);
+          this.onItemClick(itemIndex);
+        }
+      }
+    }
+    this.start = null;
   }
   onWheel(e) {
     const delta = e.deltaY || e.wheelDelta || e.detail;
@@ -563,7 +594,8 @@ export default function CircularGallery({
   font = 'light 30px Berlingske Serif',
   fontUrl,
   scrollSpeed = 2,
-  scrollEase = 0.05
+  scrollEase = 0.05,
+  onItemClick
 }) {
   const containerRef = useRef(null);
   const [showHint, setShowHint] = useState(true);
@@ -602,14 +634,15 @@ export default function CircularGallery({
         font: resolvedFont,
         scrollSpeed,
         scrollEase,
-        onDragStart: handleDragStart
+        onDragStart: handleDragStart,
+        onItemClick
       });
     });
     return () => {
       isMounted = false;
       if (app) app.destroy();
     };
-  }, [items, bend, textColor, borderRadius, font, fontUrl, scrollSpeed, scrollEase, handleDragStart]);
+  }, [items, bend, textColor, borderRadius, font, fontUrl, scrollSpeed, scrollEase, handleDragStart, onItemClick]);
 
   return (
     <div className="circular-gallery-wrapper">

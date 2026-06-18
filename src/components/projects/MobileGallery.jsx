@@ -1,5 +1,4 @@
 import { useState, useCallback, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import CldImage from "../ui/CldImage";
 
@@ -11,8 +10,7 @@ const cardVariants = {
   exit: (dir) => ({ x: dir > 0 ? -180 : 180, opacity: 0, scale: 0.94 }),
 };
 
-export default function MobileGallery({ items, interval = 5000 }) {
-  const navigate = useNavigate();
+export default function MobileGallery({ items, interval = 5000, onCoupleClick }) {
   const [[activeIndex, direction], setPage] = useState([0, 0]);
   const timerRef = useRef(null);
   const pauseTimerRef = useRef(null);
@@ -119,7 +117,7 @@ export default function MobileGallery({ items, interval = 5000 }) {
             onDragEnd={handleDragEnd}
             onClick={() => {
               if (!dragOccurred.current) {
-                navigate("/projects", { state: { coupleIndex: activeIndex } });
+                onCoupleClick?.(activeIndex);
               }
               dragOccurred.current = false;
             }}
