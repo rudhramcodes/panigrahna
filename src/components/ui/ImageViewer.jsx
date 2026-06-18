@@ -127,6 +127,7 @@ export default function ImageViewer({ images, initialIndex = 0, onClose }) {
   const dragRef = useRef({ startX: 0, startY: 0, lastX: 0, lastY: 0, dragging: false, moved: false });
 
   const handlePointerDown = useCallback((e) => {
+    if (e.pointerType === "touch") return; // handled by touch events
     dragRef.current = {
       startX: e.clientX,
       startY: e.clientY,
@@ -140,7 +141,7 @@ export default function ImageViewer({ images, initialIndex = 0, onClose }) {
 
   const handlePointerMove = useCallback((e) => {
     const d = dragRef.current;
-    if (!d.dragging) return;
+    if (!d.dragging || e.pointerType === "touch") return;
     const dx = e.clientX - d.lastX;
     const dy = e.clientY - d.lastY;
     d.lastX = e.clientX;
@@ -156,7 +157,7 @@ export default function ImageViewer({ images, initialIndex = 0, onClose }) {
 
   const handlePointerUp = useCallback((e) => {
     const d = dragRef.current;
-    if (!d.dragging) return;
+    if (!d.dragging || e.pointerType === "touch") return;
     d.dragging = false;
 
     const s = stateRef.current;
@@ -167,12 +168,18 @@ export default function ImageViewer({ images, initialIndex = 0, onClose }) {
     }
   }, [goNext, goPrev]);
 
-  const touchRef = useRef({ touches: [], lastDist: 0, pinching: false });
+  const touchRef = useRef({ startX: 0, startY: 0, startZoom: 1, startPan: { x: 0, y: 0 }, moved: false, touches: [], lastDist: 0, pinching: false });
 
   const handleTouchStart = useCallback((e) => {
     const t = touchRef.current;
-    t.touches = Array.from(e.touches);
-    if (e.touches.length === 2) {
+    if (e.touches.length === 1) {
+      t.startX = e.touches[0].clientX;
+      t.startY = e.touches[0].clientY;
+      t.startZoom = stateRef.current.zoom;
+      t.startPan = { ...stateRef.current.pan };
+      t.moved = false;
+      t.pinching = false;
+    } else if (e.touches.length === 2) {
       t.pinching = true;
       t.lastDist = Math.hypot(
         e.touches[0].clientX - e.touches[1].clientX,
@@ -183,6 +190,28 @@ export default function ImageViewer({ images, initialIndex = 0, onClose }) {
 
   const handleTouchMove = useCallback((e) => {
     const t = touchRef.current;
+
+    // Single-finger drag/swipe
+    if (e.touches.length === 1 && !t.pinching && t.startX !== undefined) {
+      const dx = e.touches[0].clientX - t.startX;
+      const dy = e.touches[0].clientY - t.startY;
+      if (!t.moved && (Math.abs(dx) > 5 || Math.abs(dy) > 5)) t.moved = true;
+      if (!t.moved) return;
+
+      if (t.startZoom > 1) {
+        // Pan when zoomed
+        setPan({ x: t.startPan.x + dx, y: t.startPan.y + dy });
+      } else {
+        // Swipe finger-follow via direct DOM (60fps)
+        const el = imageWrapRef.current;
+        if (el) {
+          el.style.transition = "none";
+          el.style.transform = `translateX(${dx}px) scale(1)`;
+        }
+      }
+    }
+
+    // Two-finger pinch
     if (e.touches.length === 2 && t.pinching) {
       e.preventDefault();
       const dist = Math.hypot(
@@ -213,9 +242,44 @@ export default function ImageViewer({ images, initialIndex = 0, onClose }) {
     }
   }, []);
 
-  const handleTouchEnd = useCallback(() => {
-    touchRef.current.pinching = false;
-  }, []);
+  const handleTouchEnd = useCallback((e) => {
+    const t = touchRef.current;
+
+    // Single-finger swipe/pan end
+    if (t.moved && !t.pinching) {
+      const dx = e.changedTouches[0].clientX - t.startX;
+      if (t.startZoom === 1) {
+        // Swipe gesture — check threshold
+        const el = imageWrapRef.current;
+        if (Math.abs(dx) > 50) {
+          if (el) { el.style.transition = "none"; el.style.transform = ""; }
+          dx > 0 ? goPrev() : goNext();
+        } else {
+          if (el) {
+            el.style.transition = "transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)";
+            el.style.transform = "";
+          }
+        }
+      } else if (t.moved) {
+        // Pan at zoom > 1 — finalize
+        setPan({ x: t.startPan.x + dx, y: t.startPan.y + (e.changedTouches[0].clientY - t.startY) });
+      }
+    }
+
+    // Pinch end — snap zoom to nearest 0.5 step
+    if (t.pinching) {
+      const z = stateRef.current.zoom;
+      let finalZoom = Math.round(z * 2) / 2;
+      finalZoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, finalZoom));
+      if (finalZoom !== z) {
+        setZoom(finalZoom);
+        if (finalZoom === 1) setPan({ x: 0, y: 0 });
+      }
+    }
+
+    // Reset touch state
+    touchRef.current = { startX: 0, startY: 0, startZoom: 1, startPan: { x: 0, y: 0 }, moved: false, touches: [], lastDist: 0, pinching: false };
+  }, [goNext, goPrev]);
 
   return (
     <motion.div
@@ -280,7 +344,7 @@ export default function ImageViewer({ images, initialIndex = 0, onClose }) {
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
-        style={{ touchAction: zoom > 1 ? "none" : "pan-x" }}
+        style={{ touchAction: "none" }}
       >
         <div
           ref={imageWrapRef}
