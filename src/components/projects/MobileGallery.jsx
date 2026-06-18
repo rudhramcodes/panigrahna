@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import CldImage from "../ui/CldImage";
 
@@ -10,10 +11,15 @@ const cardVariants = {
   exit: (dir) => ({ x: dir > 0 ? -180 : 180, opacity: 0, scale: 0.94 }),
 };
 
+const toSlug = (name) =>
+  name.toLowerCase().replace(/ & /g, "-and-").replace(/\s+/g, "-");
+
 export default function MobileGallery({ items, interval = 5000 }) {
+  const navigate = useNavigate();
   const [[activeIndex, direction], setPage] = useState([0, 0]);
   const timerRef = useRef(null);
   const pauseTimerRef = useRef(null);
+  const dragOccurred = useRef(false);
   const [isPaused, setIsPaused] = useState(false);
   const [exposedIndex, setExposedIndex] = useState(activeIndex);
 
@@ -50,8 +56,10 @@ export default function MobileGallery({ items, interval = 5000 }) {
   const handleDragEnd = useCallback(
     (_, info) => {
       pause();
+      dragOccurred.current = true;
       if (info.offset.x < -60) goNext();
       else if (info.offset.x > 60) goPrev();
+      setTimeout(() => { dragOccurred.current = false; }, 400);
     },
     [goNext, goPrev, pause]
   );
@@ -110,7 +118,14 @@ export default function MobileGallery({ items, interval = 5000 }) {
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={0.4}
+            onDragStart={() => { dragOccurred.current = true; }}
             onDragEnd={handleDragEnd}
+            onClick={() => {
+              if (!dragOccurred.current) {
+                navigate(`/projects/${toSlug(item.text)}`);
+              }
+              dragOccurred.current = false;
+            }}
             className="absolute inset-0 cursor-grab active:cursor-grabbing"
           >
             <div className="absolute inset-0">
@@ -124,16 +139,15 @@ export default function MobileGallery({ items, interval = 5000 }) {
               />
             </div>
 
-            <div className="absolute inset-0 bg-gradient-to-b from-[#1a1510]/40 via-transparent to-[#1a1510]/90" />
-            <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-[#1a1510] to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
 
             <div className="absolute bottom-0 left-0 right-0 px-6 pb-9">
-              {/* <motion.div
+              <motion.div
                 className="w-8 h-[2px] bg-cinnamon-300 mb-3"
                 initial={{ width: 0 }}
                 animate={{ width: 32 }}
                 transition={{ delay: 0.25, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              /> */}
+              />
 
               <h3 className="font-serif text-white text-[clamp(1.4rem,5.5vw,1.8rem)] font-light leading-none tracking-tight">
                 {item.text}

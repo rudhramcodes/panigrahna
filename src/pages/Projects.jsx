@@ -1,7 +1,9 @@
 import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import CldImage from "../components/ui/CldImage";
 import ImageViewer from "../components/ui/ImageViewer";
+import { cloudinaryUrl } from "../lib/cloudinary";
 
 const COUPLES = [
   "Harsh & Sayonee",
@@ -13,7 +15,22 @@ const COUPLES = [
 
 const TOTAL_IMAGES = 25;
 
-/* ── Variants ── */
+const ALL_IMAGES = [
+  "TKS05225_1_jyeotg.jpg",
+  "DSC04563_1_foxptm.jpg",
+  "DSC06642_1_lhpqi2.jpg",
+  "DSC06503_1_qx8pds.jpg",
+  "TKS05269_1_yvjsbn.jpg",
+  "DSC06398_1_chgpws.jpg",
+  "TKS05350_1_icb4yl.jpg",
+  "DSC06501_1_czy9w8.jpg",
+  "DSC06360_1_yfjfkb.jpg",
+  "TKS05320_1_iljauy.jpg",
+  "TKS05296_1_houjrv.jpg",
+  "TKS04526_dxtewa.jpg",
+  "TKS05280_1_otriau.jpg",
+  "HRS_6891_1_rpow6s.jpg",
+];
 
 const headingSlide = {
   enter: (dir) => ({ x: dir > 0 ? 200 : -200, opacity: 0, filter: "blur(8px)" }),
@@ -39,11 +56,7 @@ const counterSlide = {
   exit: { y: -20, opacity: 0 },
 };
 
-/* ── Shimmer placeholder ── */
-
-const PLACEHOLDER = "https://i.pinimg.com/1200x/6f/c9/2a/6fc92ad248d396f529919db397310370.jpg";
-
-function ShimmerBox({ num, onClick }) {
+function ShimmerBox({ publicId, num, onClick }) {
   return (
     <motion.div
       variants={gridItem}
@@ -52,11 +65,15 @@ function ShimmerBox({ num, onClick }) {
       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
       onClick={onClick}
     >
-      <img
-        src={PLACEHOLDER}
+      <CldImage
+        publicId={publicId}
         alt=""
-        className="absolute inset-0 w-full h-full object-cover"
+        width={500}
+        options={{ crop: "fill", gravity: "auto" }}
+        wrapperClassName="absolute inset-0 w-full h-full"
+        imgClassName="w-full h-full object-cover"
         loading="lazy"
+        decoding="async"
       />
       <div aria-hidden className="absolute inset-0 overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-100 ease-smooth">
         <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-white/25 to-white/0 skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-500 delay-75 ease-smooth" />
@@ -68,8 +85,6 @@ function ShimmerBox({ num, onClick }) {
     </motion.div>
   );
 }
-
-/* ── Counter ── */
 
 function AnimatedCounter({ value, total }) {
   return (
@@ -94,8 +109,6 @@ function AnimatedCounter({ value, total }) {
     </span>
   );
 }
-
-/* ── Dots ── */
 
 function DotNav({ total, active, onChange }) {
   return (
@@ -123,8 +136,6 @@ function DotNav({ total, active, onChange }) {
   );
 }
 
-/* ── Nav Button ── */
-
 function NavButton({ dir, onClick, label }) {
   const Icon = dir === "prev" ? ChevronLeft : ChevronRight;
   return (
@@ -147,8 +158,6 @@ function NavButton({ dir, onClick, label }) {
     </motion.button>
   );
 }
-
-/* ── Main Component ── */
 
 export default function Projects() {
   const [[index, dir], setPage] = useState([0, 0]);
@@ -188,13 +197,22 @@ export default function Projects() {
 
   const couple = COUPLES[index];
 
-  const viewerImages = useMemo(
+  const gridPublicIds = useMemo(
     () =>
       Array.from({ length: TOTAL_IMAGES }, (_, i) => ({
-        id: `${couple}-${i}`,
-        img: PLACEHOLDER,
+        publicId: ALL_IMAGES[i % ALL_IMAGES.length],
+        num: i + 1,
       })),
-    [couple]
+    []
+  );
+
+  const viewerImages = useMemo(
+    () =>
+      gridPublicIds.map((item) => ({
+        id: `${couple}-${item.num}`,
+        img: cloudinaryUrl(item.publicId, { width: 1200 }),
+      })),
+    [couple, gridPublicIds]
   );
 
   const handleItemClick = useCallback((i) => {
@@ -204,7 +222,6 @@ export default function Projects() {
 
   return (
     <main className="relative min-h-screen bg-ivory overflow-x-hidden">
-      {/* ── Header ── */}
       <header className="pt-28 sm:pt-32 md:pt-36 pb-6 sm:pb-8 px-5 sm:px-8 md:px-12 lg:px-16">
         <div className="mx-auto max-w-[1480px]">
           <motion.span
@@ -235,29 +252,31 @@ export default function Projects() {
         </div>
       </header>
 
-      {/* ── Gallery Grid ── */}
       <section className="px-5 sm:px-8 md:px-12 lg:px-16 pb-24 sm:pb-28">
         <div className="mx-auto max-w-[1480px]">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={`grid-${index}-${coupleKey.current}`}
-                  variants={staggerGrid}
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3 md:gap-4"
-                >
-                  {Array.from({ length: TOTAL_IMAGES }, (_, i) => (
-                    <ShimmerBox key={i} num={i + 1} onClick={() => handleItemClick(i)} />
-                  ))}
-                </motion.div>
-              </AnimatePresence>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={`grid-${index}-${coupleKey.current}`}
+              variants={staggerGrid}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3 md:gap-4"
+            >
+              {gridPublicIds.map((item, i) => (
+                <ShimmerBox
+                  key={i}
+                  publicId={item.publicId}
+                  num={item.num}
+                  onClick={() => handleItemClick(i)}
+                />
+              ))}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </section>
 
-      {/* ── Bottom Navigation ── */}
       <div className="fixed bottom-0 left-0 right-0 z-20">
-        {/* Subtle top border with blur */}
         <div className="absolute inset-0 border-t border-taupe/8 bg-ivory/80 backdrop-blur-xl" />
         <div className="relative mx-auto max-w-[1480px] px-5 sm:px-8 md:px-12 lg:px-16 py-4 sm:py-5">
           <div className="flex items-center justify-between">
@@ -273,7 +292,6 @@ export default function Projects() {
         </div>
       </div>
 
-      {/* ── Image Viewer ── */}
       <AnimatePresence>
         {viewerOpen && (
           <ImageViewer
