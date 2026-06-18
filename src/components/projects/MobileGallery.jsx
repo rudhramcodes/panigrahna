@@ -11,9 +11,6 @@ const cardVariants = {
   exit: (dir) => ({ x: dir > 0 ? -180 : 180, opacity: 0, scale: 0.94 }),
 };
 
-const toSlug = (name) =>
-  name.toLowerCase().replace(/ & /g, "-and-").replace(/\s+/g, "-");
-
 export default function MobileGallery({ items, interval = 5000 }) {
   const navigate = useNavigate();
   const [[activeIndex, direction], setPage] = useState([0, 0]);
@@ -122,7 +119,7 @@ export default function MobileGallery({ items, interval = 5000 }) {
             onDragEnd={handleDragEnd}
             onClick={() => {
               if (!dragOccurred.current) {
-                navigate(`/projects/${toSlug(item.text)}`);
+                navigate("/projects", { state: { coupleIndex: activeIndex } });
               }
               dragOccurred.current = false;
             }}

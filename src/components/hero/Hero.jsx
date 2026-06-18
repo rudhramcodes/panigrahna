@@ -32,9 +32,9 @@ export default function Hero() {
   return (
     <section ref={sectionRef} className="relative h-screen w-full overflow-hidden">
       <CldImage
-        publicId="TKS05225_1_jyeotg"
+        publicId="MILN1258_v94ytv"
         alt="Panigrahna"
-        width={1920}
+        // width={1920}
         imgRef={imgRef}
         wrapperClassName="absolute inset-0 h-full w-full"
         imgClassName="h-full w-full object-cover object-[center_30%] md:object-[center_30%] will-change-transform"

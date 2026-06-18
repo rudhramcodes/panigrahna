@@ -1,35 +1,22 @@
 import { useState, useCallback, useEffect, useMemo, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import CldImage from "../components/ui/CldImage";
 import ImageViewer from "../components/ui/ImageViewer";
-import { cloudinaryUrl } from "../lib/cloudinary";
+import { rawCloudinaryUrl } from "../lib/cloudinary";
+
+import harshSayoneeImages from "../data/couples/harsh-and-sayonee.json";
+import rahulJeevaniImages from "../data/couples/rahul-and-jeevani.json";
+import prachiPreetImages from "../data/couples/prachi-and-preet.json";
+import ronakJessicaImages from "../data/couples/ronak-and-jessica.json";
+import rutvikAishwaryaImages from "../data/couples/rutvik-and-aishwarya.json";
 
 const COUPLES = [
-  "Harsh & Sayonee",
-  "Rahul & Jeevani",
-  "Prachi & Preet",
-  "Ronak & Jessica",
-  "Rutvik & Aishwarya",
-];
-
-const TOTAL_IMAGES = 25;
-
-const ALL_IMAGES = [
-  "TKS05225_1_jyeotg.jpg",
-  "DSC04563_1_foxptm.jpg",
-  "DSC06642_1_lhpqi2.jpg",
-  "DSC06503_1_qx8pds.jpg",
-  "TKS05269_1_yvjsbn.jpg",
-  "DSC06398_1_chgpws.jpg",
-  "TKS05350_1_icb4yl.jpg",
-  "DSC06501_1_czy9w8.jpg",
-  "DSC06360_1_yfjfkb.jpg",
-  "TKS05320_1_iljauy.jpg",
-  "TKS05296_1_houjrv.jpg",
-  "TKS04526_dxtewa.jpg",
-  "TKS05280_1_otriau.jpg",
-  "HRS_6891_1_rpow6s.jpg",
+  { name: "Harsh & Sayonee", images: harshSayoneeImages },
+  { name: "Rahul & Jeevani", images: rahulJeevaniImages },
+  { name: "Prachi & Preet", images: prachiPreetImages },
+  { name: "Ronak & Jessica", images: ronakJessicaImages },
+  { name: "Rutvik & Aishwarya", images: rutvikAishwaryaImages },
 ];
 
 const headingSlide = {
@@ -56,7 +43,7 @@ const counterSlide = {
   exit: { y: -20, opacity: 0 },
 };
 
-function ShimmerBox({ publicId, num, onClick }) {
+function ShimmerBox({ src, num, onClick }) {
   return (
     <motion.div
       variants={gridItem}
@@ -65,15 +52,11 @@ function ShimmerBox({ publicId, num, onClick }) {
       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
       onClick={onClick}
     >
-      <CldImage
-        publicId={publicId}
+      <img
+        src={src}
         alt=""
-        width={500}
-        options={{ crop: "fill", gravity: "auto" }}
-        wrapperClassName="absolute inset-0 w-full h-full"
-        imgClassName="w-full h-full object-cover"
+        className="absolute inset-0 w-full h-full object-cover"
         loading="lazy"
-        decoding="async"
       />
       <div aria-hidden className="absolute inset-0 overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-100 ease-smooth">
         <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-white/25 to-white/0 skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-500 delay-75 ease-smooth" />
@@ -160,7 +143,9 @@ function NavButton({ dir, onClick, label }) {
 }
 
 export default function Projects() {
-  const [[index, dir], setPage] = useState([0, 0]);
+  const location = useLocation();
+  const initialIndex = location.state?.coupleIndex ?? 0;
+  const [[index, dir], setPage] = useState([initialIndex, 0]);
   const [pageLoaded, setPageLoaded] = useState(false);
   const [viewerOpen, setViewerOpen] = useState(false);
   const [viewerIndex, setViewerIndex] = useState(0);
@@ -186,8 +171,12 @@ export default function Projects() {
     setPage(([current]) => [i, i > current ? 1 : -1]);
   }, []);
 
+  const viewerOpenRef = useRef(false);
+  useEffect(() => { viewerOpenRef.current = viewerOpen; }, [viewerOpen]);
+
   useEffect(() => {
     const onKey = (e) => {
+      if (viewerOpenRef.current) return;
       if (e.key === "ArrowRight") goNext();
       if (e.key === "ArrowLeft") goPrev();
     };
@@ -197,22 +186,22 @@ export default function Projects() {
 
   const couple = COUPLES[index];
 
-  const gridPublicIds = useMemo(
+  const gridImages = useMemo(
     () =>
-      Array.from({ length: TOTAL_IMAGES }, (_, i) => ({
-        publicId: ALL_IMAGES[i % ALL_IMAGES.length],
+      couple.images.map((publicId, i) => ({
+        src: rawCloudinaryUrl(publicId),
         num: i + 1,
       })),
-    []
+    [index]
   );
 
   const viewerImages = useMemo(
     () =>
-      gridPublicIds.map((item) => ({
-        id: `${couple}-${item.num}`,
-        img: cloudinaryUrl(item.publicId, { width: 1200 }),
+      gridImages.map((item) => ({
+        id: `${couple.name}-${item.num}`,
+        img: item.src,
       })),
-    [couple, gridPublicIds]
+    [index, gridImages]
   );
 
   const handleItemClick = useCallback((i) => {
@@ -235,7 +224,7 @@ export default function Projects() {
           <div className="overflow-hidden">
             <AnimatePresence mode="wait" custom={dir}>
               <motion.h1
-                key={couple}
+                key={couple.name}
                 custom={dir}
                 variants={headingSlide}
                 initial="enter"
@@ -245,7 +234,7 @@ export default function Projects() {
                 className="font-serif text-walnut font-light leading-[1.1] tracking-tighter"
                 style={{ fontSize: "clamp(2rem, 6vw, 4.5rem)" }}
               >
-                {couple}
+                {couple.name}
               </motion.h1>
             </AnimatePresence>
           </div>
@@ -263,10 +252,10 @@ export default function Projects() {
               exit="exit"
               className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3 md:gap-4"
             >
-              {gridPublicIds.map((item, i) => (
+              {gridImages.map((item, i) => (
                 <ShimmerBox
                   key={i}
-                  publicId={item.publicId}
+                  src={item.src}
                   num={item.num}
                   onClick={() => handleItemClick(i)}
                 />

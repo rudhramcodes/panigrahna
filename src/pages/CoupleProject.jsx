@@ -4,6 +4,21 @@ import { motion } from "framer-motion";
 
 import CldImage from "../components/ui/CldImage";
 import Footer from "../components/footer/Footer";
+import { rawCloudinaryUrl } from "../lib/cloudinary";
+
+import harshSayoneeImages from "../data/couples/harsh-and-sayonee.json";
+import rahulJeevaniImages from "../data/couples/rahul-and-jeevani.json";
+import prachiPreetImages from "../data/couples/prachi-and-preet.json";
+import ronakJessicaImages from "../data/couples/ronak-and-jessica.json";
+import rutvikAishwaryaImages from "../data/couples/rutvik-and-aishwarya.json";
+
+const COUPLE_IMAGES = {
+  "harsh-and-sayonee": harshSayoneeImages,
+  "rahul-and-jeevani": rahulJeevaniImages,
+  "prachi-and-preet": prachiPreetImages,
+  "ronak-and-jessica": ronakJessicaImages,
+  "rutvik-and-aishwarya": rutvikAishwaryaImages,
+};
 
 const ALL_COUPLES = [
   { slug: "harsh-and-sayonee", name: "Harsh & Sayonee", publicId: "TKS05225_1_jyeotg.jpg", quote: "A love story written in the stars", location: "Mumbai", date: "Dec 2024" },
@@ -11,25 +26,6 @@ const ALL_COUPLES = [
   { slug: "prachi-and-preet", name: "Prachi & Preet", publicId: "DSC06503_1_qx8pds.jpg", quote: "Where tradition meets forever", location: "Surat", date: "Oct 2024" },
   { slug: "ronak-and-jessica", name: "Ronak & Jessica", publicId: "TKS04526_dxtewa.jpg", quote: "Dancing into eternity", location: "Goa", date: "Feb 2025" },
   { slug: "rutvik-and-aishwarya", name: "Rutvik & Aishwarya", publicId: "HRS_6891_1_rpow6s.jpg", angle: -90, quote: "A promise made in heaven", location: "Jaipur", date: "Jan 2025" },
-];
-
-const TOTAL_IMAGES = 20;
-
-const ALL_IMAGES = [
-  "TKS05225_1_jyeotg.jpg",
-  "DSC04563_1_foxptm.jpg",
-  "DSC06642_1_lhpqi2.jpg",
-  "DSC06503_1_qx8pds.jpg",
-  "TKS05269_1_yvjsbn.jpg",
-  "DSC06398_1_chgpws.jpg",
-  "TKS05350_1_icb4yl.jpg",
-  "DSC06501_1_czy9w8.jpg",
-  "DSC06360_1_yfjfkb.jpg",
-  "TKS05320_1_iljauy.jpg",
-  "TKS05296_1_houjrv.jpg",
-  "TKS04526_dxtewa.jpg",
-  "TKS05280_1_otriau.jpg",
-  "HRS_6891_1_rpow6s.jpg",
 ];
 
 const staggerGrid = {
@@ -44,21 +40,17 @@ const gridItem = {
   exit: { opacity: 0, y: -10, scale: 0.95, transition: { duration: 0.25, ease: [0.16, 1, 0.3, 1] } },
 };
 
-function ShimmerBox({ publicId, num }) {
+function ShimmerBox({ src, num }) {
   return (
     <motion.div
       variants={gridItem}
       className="aspect-[3/4] rounded-sm overflow-hidden relative group"
     >
-      <CldImage
-        publicId={publicId}
+      <img
+        src={src}
         alt=""
-        width={500}
-        options={{ crop: "fill", gravity: "auto" }}
-        wrapperClassName="absolute inset-0 w-full h-full"
-        imgClassName="w-full h-full object-cover"
+        className="absolute inset-0 w-full h-full object-cover"
         loading="lazy"
-        decoding="async"
       />
       <span className="absolute bottom-2.5 left-3 font-sans text-white/40 text-xs sm:text-sm font-medium select-none tracking-wider drop-shadow-sm">
         {String(num).padStart(2, "0")}
@@ -77,13 +69,15 @@ export default function CoupleProject() {
     return null;
   }
 
-  const gridPublicIds = useMemo(
+  const coupleImages = COUPLE_IMAGES[slug] || [];
+
+  const gridItems = useMemo(
     () =>
-      Array.from({ length: TOTAL_IMAGES }, (_, i) => ({
-        publicId: ALL_IMAGES[i % ALL_IMAGES.length],
+      coupleImages.map((publicId, i) => ({
+        src: rawCloudinaryUrl(publicId),
         num: i + 1,
       })),
-    []
+    [coupleImages]
   );
 
   return (
@@ -101,7 +95,6 @@ export default function CoupleProject() {
         />
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-black/30" />
-        {/* <div className="absolute inset-0 bg-gradient-to-r from-black/10 to-transparent" /> */}
 
         <div className="absolute bottom-0 left-0 right-0 px-5 sm:px-8 md:px-12 lg:px-16 pb-8 sm:pb-12 md:pb-16">
           <div className="mx-auto max-w-[1480px]">
@@ -164,8 +157,8 @@ export default function CoupleProject() {
             viewport={{ once: true, margin: "-40px" }}
             className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4"
           >
-            {gridPublicIds.map((item) => (
-              <ShimmerBox key={item.num} publicId={item.publicId} num={item.num} />
+            {gridItems.map((item) => (
+              <ShimmerBox key={item.num} src={item.src} num={item.num} />
             ))}
           </motion.div>
         </div>

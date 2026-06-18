@@ -1,5 +1,6 @@
 const CLOUDINARY_BASE = "https://res.cloudinary.com/dvsrgdyi7/image/upload";
 const CLOUDINARY_VERSION = "v1780916141";
+const RAW_CLOUDINARY_VERSION = "v1781762717";
 
 /**
  * Generate a Cloudinary URL with transformations.
@@ -80,4 +81,8 @@ export function blurPlaceholder(publicId) {
     quality: "auto:low",
     effect: "blur:1000",
   });
+}
+
+export function rawCloudinaryUrl(publicId) {
+  return `${CLOUDINARY_BASE}/${RAW_CLOUDINARY_VERSION}/${publicId}`;
 }
