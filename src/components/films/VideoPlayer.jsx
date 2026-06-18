@@ -1,13 +1,18 @@
 import { useState, useRef, useCallback } from "react";
 import "./VideoPlayer.css";
 
-export default function VideoPlayer({ videoId, title, thumbnailUrl }) {
+export default function VideoPlayer({ videoId, title, thumbnailUrl, type = "youtube" }) {
   const [playerActive, setPlayerActive] = useState(false);
   const containerRef = useRef(null);
 
   const handleThumbnailClick = useCallback(() => {
     setPlayerActive(true);
   }, []);
+
+  const embedSrc =
+    type === "google-drive"
+      ? `https://drive.google.com/file/d/${videoId}/preview`
+      : `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
 
   return (
     <div ref={containerRef} className="vp-container">
@@ -37,8 +42,8 @@ export default function VideoPlayer({ videoId, title, thumbnailUrl }) {
       ) : (
         <iframe
           className="vp-iframe"
-          src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+          src={embedSrc}
+          allow="autoplay; encrypted-media; fullscreen"
           allowFullScreen
           title={title || "Video player"}
         />

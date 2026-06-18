@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import ImageViewer from "../components/ui/ImageViewer";
 import { rawCloudinaryUrl } from "../lib/cloudinary";
@@ -19,16 +19,86 @@ const COUPLES = [
   { name: "Rutvik & Aishwarya", images: rutvikAishwaryaImages },
 ];
 
+function buildEditorialRows(images) {
+  const rows = [];
+  let idx = 0;
+  let lastType = null;
+  const typeHistory = [];
+
+  while (idx < images.length) {
+    const remaining = images.length - idx;
+    const rowIdx = rows.length;
+
+    let type;
+    if (remaining === 1) {
+      type = "full";
+    } else if (remaining === 2) {
+      type = "duo";
+    } else {
+      const r = ((rowIdx + 1) * 17 + remaining * 7) % 100;
+      if (r < 15) type = "full";
+      else if (r < 33) type = "single";
+      else if (r < 62) type = "duo";
+      else type = "trio";
+
+      if (lastType && (lastType === "full" || lastType === "single") && (type === "full" || type === "single")) {
+        type = remaining >= 3 ? "trio" : "duo";
+      }
+
+      const consecSame = typeHistory.filter((t) => t === type).length;
+      if (consecSame >= 2) {
+        const alt = ["full", "single", "duo", "trio"].filter(
+          (t) => t !== type && (remaining >= { full: 1, single: 1, duo: 2, trio: 3 }[t])
+        );
+        if (alt.length) type = alt[(rowIdx * 13) % alt.length];
+      }
+
+      const needed = { full: 1, duo: 2, trio: 3, single: 1 }[type];
+      if (needed > remaining) {
+        if (remaining === 1) type = "full";
+        else if (remaining === 2) type = "duo";
+        else type = "trio";
+      }
+    }
+
+    const count = { full: 1, duo: 2, trio: 3, single: 1 }[type];
+    const align = ["center", "left", "right"][((rowIdx + 1) * 11 + remaining * 3) % 3];
+
+    let gap;
+    if (type === "duo" || type === "trio") {
+      const g = ((rowIdx + 1) * 13 + remaining * 5) % 12;
+      if (g === 0) gap = "xl";
+      else if (g <= 2) gap = "lg";
+    }
+
+    let maxW;
+    if (type === "full" || type === "single") {
+      const m = ((rowIdx + 1) * 19 + remaining * 7) % 18;
+      if (m === 0) maxW = "wide";
+      else if (m <= 2) maxW = "narrow";
+    }
+
+    rows.push({
+      type,
+      align,
+      gap,
+      maxW,
+      items: images.slice(idx, idx + count).map((img, j) => ({ ...img, originalIndex: idx + j })),
+    });
+
+    typeHistory.push(type);
+    if (typeHistory.length > 4) typeHistory.shift();
+    lastType = type;
+    idx += count;
+  }
+
+  return rows;
+}
+
 const headingSlide = {
   enter: (dir) => ({ x: dir > 0 ? 200 : -200, opacity: 0, filter: "blur(8px)" }),
   center: { x: 0, opacity: 1, filter: "blur(0px)" },
   exit: (dir) => ({ x: dir > 0 ? -200 : 200, opacity: 0, filter: "blur(8px)" }),
-};
-
-const staggerGrid = {
-  initial: {},
-  animate: { transition: { staggerChildren: 0.04, delayChildren: 0.1 } },
-  exit: {},
 };
 
 const gridItem = {
@@ -43,9 +113,26 @@ const counterSlide = {
   exit: { y: -20, opacity: 0 },
 };
 
-function ShimmerBox({ src, num, onClick }) {
+function ParallaxWrapper({ children, speed = 0.15 }) {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
+
+  return (
+    <div ref={ref} className="overflow-hidden">
+      <motion.div style={{ y, willChange: "transform" }}>
+        {children}
+      </motion.div>
+    </div>
+  );
+}
+
+function ShimmerBox({ src, num, onClick, featured }) {
   const [loaded, setLoaded] = useState(false);
-  const shimmerRef = useRef(null);
 
   const handleLoad = useCallback(() => {
     setLoaded(true);
@@ -54,15 +141,14 @@ function ShimmerBox({ src, num, onClick }) {
   return (
     <motion.div
       variants={gridItem}
-      className="aspect-[3/4] rounded-sm overflow-hidden relative group cursor-pointer bg-taupe/8 will-change-transform"
+      className="rounded-sm overflow-hidden relative group cursor-pointer bg-taupe/8 will-change-transform w-full"
       whileHover={{ y: -3, scale: 1.015 }}
       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
       onClick={onClick}
     >
       <div
-        ref={shimmerRef}
-        className={`absolute inset-0 overflow-hidden transition-opacity duration-300 ${
-          loaded ? "opacity-0 pointer-events-none" : "opacity-100"
+        className={`absolute inset-0 overflow-hidden transition-opacity duration-300 pointer-events-none ${
+          loaded ? "opacity-0" : "opacity-100"
         }`}
       >
         <div className="absolute inset-0 bg-gradient-to-r from-taupe/6 via-taupe/14 to-taupe/6 shimmer-slide" />
@@ -71,20 +157,29 @@ function ShimmerBox({ src, num, onClick }) {
       <img
         src={src}
         alt=""
-        className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ${
-          loaded ? "opacity-100 scale-100" : "opacity-0 scale-[1.03]"
+        className={`relative z-10 w-full h-auto block min-w-[120px] min-h-[120px] transition-opacity duration-700 ${
+          loaded ? "opacity-100" : "opacity-0"
         }`}
         loading="lazy"
         onLoad={handleLoad}
       />
 
-      <div aria-hidden className="absolute inset-0 overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-100 ease-smooth">
+      <div aria-hidden className="absolute inset-0 overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-100 ease-smooth pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-white/25 to-white/0 skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-500 delay-75 ease-smooth" />
       </div>
 
-      <div className="absolute inset-0 border border-white/0 group-hover:border-white/30 rounded-sm transition-all duration-300 ease-smooth" />
+      <div className="absolute inset-0 border border-white/0 group-hover:border-white/30 rounded-sm transition-all duration-300 ease-smooth pointer-events-none" />
 
-      <span className="absolute bottom-2.5 left-3 font-sans text-white/40 text-xs sm:text-sm font-medium select-none tracking-wider drop-shadow-sm">
+      <span
+        className={`absolute bottom-3 left-3 font-sans select-none tracking-wider drop-shadow-sm ${
+          featured
+            ? "text-white/80 text-sm sm:text-base font-semibold"
+            : "text-white/50 text-xs sm:text-sm font-medium"
+        }`}
+      >
+        {featured && (
+          <span className="inline-block w-1.5 h-1.5 rounded-full bg-white/70 mr-2 align-middle" />
+        )}
         {String(num).padStart(2, "0")}
       </span>
     </motion.div>
@@ -227,6 +322,8 @@ export default function Projects() {
     [index, gridImages]
   );
 
+  const galleryRows = useMemo(() => buildEditorialRows(gridImages), [gridImages]);
+
   const handleItemClick = useCallback((i) => {
     setViewerIndex(i);
     setViewerOpen(true);
@@ -278,24 +375,99 @@ export default function Projects() {
         </div>
       </header>
 
-      <section className="px-5 sm:px-8 md:px-12 lg:px-16 pb-24 sm:pb-28">
+      <section className="px-5 sm:px-8 md:px-12 lg:px-16 py-16 sm:py-20 md:py-24 lg:py-28">
         <div className="mx-auto max-w-[1480px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={`grid-${index}-${coupleKey.current}`}
-              variants={staggerGrid}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3 md:gap-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { duration: 0.3 } }}
+              exit={{ opacity: 0, transition: { duration: 0.2 } }}
+              className="space-y-20 sm:space-y-28 md:space-y-36 lg:space-y-48"
             >
-              {gridImages.map((item, i) => (
-                <ShimmerBox
-                  key={i}
-                  src={item.src}
-                  num={item.num}
-                  onClick={() => handleItemClick(i)}
-                />
+              {galleryRows.map((row, rowIdx) => (
+                <motion.div
+                  key={rowIdx}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: rowIdx * 0.06, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  {row.type === "full" && (
+                    <div className="flex justify-center">
+                      <div className={`w-full ${
+                        row.maxW === "wide" ? "max-w-[1400px]" :
+                        row.maxW === "narrow" ? "max-w-[900px]" :
+                        "max-w-[1200px]"
+                      }`}>
+                        <ParallaxWrapper>
+                        <ShimmerBox
+                          src={row.items[0].src}
+                          num={row.items[0].num}
+                          onClick={() => handleItemClick(row.items[0].originalIndex)}
+                          featured
+                        />
+                      </ParallaxWrapper>
+                      </div>
+                    </div>
+                  )}
+
+                  {row.type === "single" && (
+                    <div
+                      className={`flex ${
+                        row.align === "right"
+                          ? "justify-end"
+                          : row.align === "left"
+                            ? "justify-start"
+                            : "justify-center"
+                      }`}
+                    >
+                      <div className={`w-full ${
+                        row.maxW === "wide" ? "max-w-[700px]" :
+                        row.maxW === "narrow" ? "max-w-[420px]" :
+                        "max-w-[560px]"
+                      }`}>
+                        <ParallaxWrapper>
+                          <ShimmerBox
+                            src={row.items[0].src}
+                            num={row.items[0].num}
+                            onClick={() => handleItemClick(row.items[0].originalIndex)}
+                          />
+                        </ParallaxWrapper>
+                      </div>
+                    </div>
+                  )}
+
+                  {(row.type === "duo" || row.type === "trio") && (
+                    <div
+                      className={`flex flex-wrap items-start ${
+                        row.gap === "xl" ? "gap-12 sm:gap-16 md:gap-24 lg:gap-32" :
+                        row.gap === "lg" ? "gap-10 sm:gap-14 md:gap-20 lg:gap-26" :
+                        "gap-8 sm:gap-12 md:gap-16 lg:gap-20"
+                      } ${
+                        row.align === "right"
+                          ? "justify-end"
+                          : row.align === "left"
+                            ? "justify-start"
+                            : "justify-center"
+                      }`}
+                    >
+                      {row.items.map((item) => (
+                        <div
+                          key={item.num}
+                          className="min-w-[200px] sm:min-w-[240px] md:min-w-[280px] flex-1 max-w-[600px]"
+                        >
+                          <ParallaxWrapper>
+                          <ShimmerBox
+                            src={item.src}
+                            num={item.num}
+                            onClick={() => handleItemClick(item.originalIndex)}
+                          />
+                        </ParallaxWrapper>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </motion.div>
               ))}
             </motion.div>
           </AnimatePresence>

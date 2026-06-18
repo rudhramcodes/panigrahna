@@ -10,11 +10,14 @@ gsap.registerPlugin(ScrollTrigger);
 const THUMBNAIL = "https://i.pinimg.com/1200x/98/f7/5f/98f75f38c94d26db2dbbf203b4a89c3b.jpg";
 const VIDEO_ID = "MzLEO98OMQg";
 
+const DRIVE_FILE_ID = "1fJOeEqzOpnUa9ru8KG9hVQvmvoUonyY8";
+const DRIVE_THUMBNAIL = "https://i.pinimg.com/1200x/98/f7/5f/98f75f38c94d26db2dbbf203b4a89c3b.jpg";
+
 const VIDEOS = [
   { id: VIDEO_ID, label: "Film I", title: "A Heritage Celebration", thumbnailUrl: THUMBNAIL },
   { id: VIDEO_ID, label: "Film II", title: "Rustic Intimacy", thumbnailUrl: THUMBNAIL },
   { id: VIDEO_ID, label: "Film III", title: "Palace of Devotion", thumbnailUrl: THUMBNAIL },
-  { id: VIDEO_ID, label: "Film IV", title: "Whispers of Tradition", thumbnailUrl: THUMBNAIL },
+  { id: DRIVE_FILE_ID, label: "Film IV", title: "An Eternal Union", thumbnailUrl: DRIVE_THUMBNAIL, type: "google-drive" },
 ];
 
 export default function Films() {
@@ -61,7 +64,7 @@ export default function Films() {
           {VIDEOS.map((v) => (
             <div key={v.id} className="films-grid-item">
               <div className="films-grid-label">{v.label}</div>
-              <VideoPlayer videoId={v.id} title={v.title} thumbnailUrl={v.thumbnailUrl} />
+              <VideoPlayer videoId={v.id} title={v.title} thumbnailUrl={v.thumbnailUrl} type={v.type} />
             </div>
           ))}
         </div>
