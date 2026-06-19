@@ -113,14 +113,15 @@ const counterSlide = {
   exit: { y: -20, opacity: 0 },
 };
 
-function ParallaxWrapper({ children, speed = 0.15, fullHeight }) {
+function ParallaxWrapper({ children, speed = 0.28, fullHeight }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
+  const pct = Math.round(speed * 80);
+  const y = useTransform(scrollYProgress, [0, 1], [`-${pct}%`, `${pct}%`]);
 
   return (
     <div ref={ref} className={`overflow-hidden ${fullHeight ? "h-full" : ""}`}>
@@ -142,8 +143,8 @@ function ShimmerBox({ src, num, onClick, featured, fill }) {
     <motion.div
       variants={gridItem}
       className={`rounded-sm overflow-hidden relative group cursor-pointer bg-taupe/8 will-change-transform w-full ${fill ? "h-full" : ""}`}
-      whileHover={{ y: -3, scale: 1.015 }}
-      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+      whileHover={{ y: -8, scale: 1.025 }}
+      transition={{ duration: 0.5, ease: [0.7, 0, 0.3, 1] }}
       onClick={onClick}
     >
       <div
@@ -154,27 +155,33 @@ function ShimmerBox({ src, num, onClick, featured, fill }) {
         <div className="absolute inset-0 bg-gradient-to-r from-taupe/6 via-taupe/14 to-taupe/6 shimmer-slide" />
       </div>
 
-      {fill ? (
-        <img
-          src={src}
-          alt=""
-          className={`relative z-10 w-full h-full object-cover block transition-opacity duration-700 ${
-            loaded ? "opacity-100" : "opacity-0"
-          }`}
-          loading="lazy"
-          onLoad={handleLoad}
-        />
-      ) : (
-        <img
-          src={src}
-          alt=""
-          className={`relative z-10 w-full h-auto block min-w-[120px] min-h-[120px] transition-opacity duration-700 ${
-            loaded ? "opacity-100" : "opacity-0"
-          }`}
-          loading="lazy"
-          onLoad={handleLoad}
-        />
-      )}
+      <motion.div
+        className={`relative z-10 overflow-hidden ${fill ? "h-full" : ""}`}
+        whileHover={{ scale: 1.01 }}
+        transition={{ duration: 0.7, ease: [0.7, 0, 0.3, 1] }}
+      >
+        {fill ? (
+          <img
+            src={src}
+            alt=""
+            className={`relative w-full h-full object-cover block transition-opacity duration-700 ${
+              loaded ? "opacity-100" : "opacity-0"
+            }`}
+            loading="lazy"
+            onLoad={handleLoad}
+          />
+        ) : (
+          <img
+            src={src}
+            alt=""
+            className={`relative w-full h-auto block min-w-[120px] min-h-[120px] transition-opacity duration-700 ${
+              loaded ? "opacity-100" : "opacity-0"
+            }`}
+            loading="lazy"
+            onLoad={handleLoad}
+          />
+        )}
+      </motion.div>
 
       <div aria-hidden className="absolute inset-0 overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-100 ease-smooth pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-white/25 to-white/0 skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-500 delay-75 ease-smooth" />
