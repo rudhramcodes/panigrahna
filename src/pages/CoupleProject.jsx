@@ -110,7 +110,7 @@ const gridItem = {
   exit: { opacity: 0, y: -10, scale: 0.95, transition: { duration: 0.25, ease: [0.16, 1, 0.3, 1] } },
 };
 
-function ParallaxWrapper({ children, speed = 0.15 }) {
+function ParallaxWrapper({ children, speed = 0.15, fullHeight }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -120,26 +120,35 @@ function ParallaxWrapper({ children, speed = 0.15 }) {
   const y = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
 
   return (
-    <div ref={ref} className="overflow-hidden">
-      <motion.div style={{ y, willChange: "transform" }}>
+    <div ref={ref} className={`overflow-hidden ${fullHeight ? "h-full" : ""}`}>
+      <motion.div style={{ y, willChange: "transform" }} className={fullHeight ? "h-full" : ""}>
         {children}
       </motion.div>
     </div>
   );
 }
 
-function ShimmerBox({ src, num, featured }) {
+function ShimmerBox({ src, num, featured, fill }) {
   return (
     <motion.div
       variants={gridItem}
-      className="rounded-sm overflow-hidden relative group bg-taupe/8 w-full"
+      className={`rounded-sm overflow-hidden relative group bg-taupe/8 w-full ${fill ? "h-full" : ""}`}
     >
-      <img
-        src={src}
-        alt=""
-        className="relative z-10 w-full h-auto block min-w-[120px] min-h-[120px]"
-        loading="lazy"
-      />
+      {fill ? (
+        <img
+          src={src}
+          alt=""
+          className="relative z-10 w-full h-full object-cover block pointer-events-none"
+          loading="lazy"
+        />
+      ) : (
+        <img
+          src={src}
+          alt=""
+          className="relative z-10 w-full h-auto block min-w-[120px] min-h-[120px]"
+          loading="lazy"
+        />
+      )}
       <span
         className={`absolute bottom-3 left-3 font-sans select-none tracking-wider drop-shadow-sm ${
           featured
@@ -310,7 +319,7 @@ export default function CoupleProject() {
 
                 {(row.type === "duo" || row.type === "trio") && (
                   <div
-                    className={`flex flex-wrap items-start ${
+                    className={`flex flex-wrap items-stretch ${
                       row.gap === "xl" ? "gap-12 sm:gap-16 md:gap-24 lg:gap-32" :
                       row.gap === "lg" ? "gap-10 sm:gap-14 md:gap-20 lg:gap-26" :
                       "gap-8 sm:gap-12 md:gap-16 lg:gap-20"
@@ -325,12 +334,13 @@ export default function CoupleProject() {
                     {row.items.map((item) => (
                       <div
                         key={item.num}
-                        className="min-w-[200px] sm:min-w-[240px] md:min-w-[280px] flex-1 max-w-[600px]"
+                        className="min-w-[200px] sm:min-w-[240px] md:min-w-[280px] flex-1 max-w-[600px] aspect-[4/5]"
                       >
-                        <ParallaxWrapper>
+                        <ParallaxWrapper fullHeight>
                           <ShimmerBox
                             src={item.src}
                             num={item.num}
+                            fill
                           />
                         </ParallaxWrapper>
                       </div>

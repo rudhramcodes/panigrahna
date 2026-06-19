@@ -113,7 +113,7 @@ const counterSlide = {
   exit: { y: -20, opacity: 0 },
 };
 
-function ParallaxWrapper({ children, speed = 0.15 }) {
+function ParallaxWrapper({ children, speed = 0.15, fullHeight }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -123,15 +123,15 @@ function ParallaxWrapper({ children, speed = 0.15 }) {
   const y = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
 
   return (
-    <div ref={ref} className="overflow-hidden">
-      <motion.div style={{ y, willChange: "transform" }}>
+    <div ref={ref} className={`overflow-hidden ${fullHeight ? "h-full" : ""}`}>
+      <motion.div style={{ y, willChange: "transform" }} className={fullHeight ? "h-full" : ""}>
         {children}
       </motion.div>
     </div>
   );
 }
 
-function ShimmerBox({ src, num, onClick, featured }) {
+function ShimmerBox({ src, num, onClick, featured, fill }) {
   const [loaded, setLoaded] = useState(false);
 
   const handleLoad = useCallback(() => {
@@ -141,7 +141,7 @@ function ShimmerBox({ src, num, onClick, featured }) {
   return (
     <motion.div
       variants={gridItem}
-      className="rounded-sm overflow-hidden relative group cursor-pointer bg-taupe/8 will-change-transform w-full"
+      className={`rounded-sm overflow-hidden relative group cursor-pointer bg-taupe/8 will-change-transform w-full ${fill ? "h-full" : ""}`}
       whileHover={{ y: -3, scale: 1.015 }}
       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
       onClick={onClick}
@@ -154,15 +154,27 @@ function ShimmerBox({ src, num, onClick, featured }) {
         <div className="absolute inset-0 bg-gradient-to-r from-taupe/6 via-taupe/14 to-taupe/6 shimmer-slide" />
       </div>
 
-      <img
-        src={src}
-        alt=""
-        className={`relative z-10 w-full h-auto block min-w-[120px] min-h-[120px] transition-opacity duration-700 ${
-          loaded ? "opacity-100" : "opacity-0"
-        }`}
-        loading="lazy"
-        onLoad={handleLoad}
-      />
+      {fill ? (
+        <img
+          src={src}
+          alt=""
+          className={`relative z-10 w-full h-full object-cover block transition-opacity duration-700 ${
+            loaded ? "opacity-100" : "opacity-0"
+          }`}
+          loading="lazy"
+          onLoad={handleLoad}
+        />
+      ) : (
+        <img
+          src={src}
+          alt=""
+          className={`relative z-10 w-full h-auto block min-w-[120px] min-h-[120px] transition-opacity duration-700 ${
+            loaded ? "opacity-100" : "opacity-0"
+          }`}
+          loading="lazy"
+          onLoad={handleLoad}
+        />
+      )}
 
       <div aria-hidden className="absolute inset-0 overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-100 ease-smooth pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-white/25 to-white/0 skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-500 delay-75 ease-smooth" />
@@ -439,7 +451,7 @@ export default function Projects() {
 
                   {(row.type === "duo" || row.type === "trio") && (
                     <div
-                      className={`flex flex-wrap items-start ${
+                      className={`flex flex-wrap items-stretch ${
                         row.gap === "xl" ? "gap-12 sm:gap-16 md:gap-24 lg:gap-32" :
                         row.gap === "lg" ? "gap-10 sm:gap-14 md:gap-20 lg:gap-26" :
                         "gap-8 sm:gap-12 md:gap-16 lg:gap-20"
@@ -454,13 +466,14 @@ export default function Projects() {
                       {row.items.map((item) => (
                         <div
                           key={item.num}
-                          className="min-w-[200px] sm:min-w-[240px] md:min-w-[280px] flex-1 max-w-[600px]"
+                          className="min-w-[200px] sm:min-w-[240px] md:min-w-[280px] flex-1 max-w-[600px] aspect-[4/5]"
                         >
-                          <ParallaxWrapper>
+                          <ParallaxWrapper fullHeight>
                           <ShimmerBox
                             src={item.src}
                             num={item.num}
                             onClick={() => handleItemClick(item.originalIndex)}
+                            fill
                           />
                         </ParallaxWrapper>
                         </div>
