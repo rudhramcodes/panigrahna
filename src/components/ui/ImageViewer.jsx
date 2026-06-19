@@ -111,12 +111,6 @@ export default function ImageViewer({ images, initialIndex = 0, onClose }) {
     };
   }, []);
 
-  useEffect(() => {
-    suppressTransition.current = true;
-    setZoom(1);
-    setPan({ x: 0, y: 0 });
-  }, [index]);
-
   const applyZoom = useCallback(
     (factor, cx = 0, cy = 0) => {
       const prev = stateRef.current.zoom;
@@ -336,9 +330,10 @@ export default function ImageViewer({ images, initialIndex = 0, onClose }) {
         const factor = dist / t.lastDist;
         if (Math.abs(factor - 1) > 0.02) {
           const g = gestureTransform.current;
+          const prevZoom = g.zoom;
           const next = Math.min(
             ZOOM_MAX,
-            Math.max(ZOOM_MIN, +(g.zoom * factor).toFixed(2)),
+            Math.max(ZOOM_MIN, +(prevZoom * factor).toFixed(2)),
           );
           const rect = containerRef.current?.getBoundingClientRect();
           if (rect) {
@@ -350,8 +345,8 @@ export default function ImageViewer({ images, initialIndex = 0, onClose }) {
             const oy = my - rect.height / 2;
             g.zoom = next;
             g.pan = {
-              x: ox - (ox - g.pan.x) * (next / (g.zoom / factor)),
-              y: oy - (oy - g.pan.y) * (next / (g.zoom / factor)),
+              x: ox - (ox - g.pan.x) * (next / prevZoom),
+              y: oy - (oy - g.pan.y) * (next / prevZoom),
             };
             syncTransform(g.zoom, g.pan.x, g.pan.y, false);
           }
@@ -498,7 +493,7 @@ export default function ImageViewer({ images, initialIndex = 0, onClose }) {
               exit={zoom === 1 ? "exit" : undefined}
               transition={
                 zoom === 1
-                  ? { type: "spring", stiffness: 350, damping: 28, mass: 0.85 }
+                  ? { duration: 0.3, ease: [0.16, 1, 0.3, 1] }
                   : undefined
               }
               src={current?.img || current}
