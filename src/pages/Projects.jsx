@@ -13,16 +13,18 @@ import rutvikAishwaryaImages from "../data/couples/rutvik-and-aishwarya.json";
 
 const COUPLES = [
   { name: "Harsh & Sayonee", images: harshSayoneeImages },
-  { name: "Rahul & Jeevani", images: rahulJeevaniImages },
+  { name: "Rahul & Jeevani", images: rahulJeevaniImages,
+    premise: "Some weddings are remembered for how they looked. This one stayed with us because of how it felt. Over four days of traditions, laughter, family, and quiet moments, Rahul and Jeevni\u2019s celebration unfolded with a warmth that was impossible to miss. This is a glimpse into a wedding that felt honest, personal, and deeply their own.",
+    description: "Rahul, a well-known Kannada actor, and Jeevni\u2019s wedding was one of those celebrations that felt effortless, personal, and true to the people at its heart. Held in the presence of their families and closest loved ones, the wedding embraced authentic Kannada traditions and rituals, with blessings from Lord Venkateswara of Tirupati woven into the celebrations.\n\nWhat stood out to us throughout the day was not any single ritual or grand moment, but the way Rahul and Jeevni\u2019s eyes naturally found each other in every meaningful moment. Whether they were surrounded by hundreds of guests or quietly participating in a ceremony, there was always a glance, a smile, or a moment of eye contact that reflected their comfort and connection with one another. Many of our favourite photographs from the wedding came from these simple, unscripted interactions.\n\nTheir celebration was also a reflection of the people and things they love. Family played a central role, and even their beloved dogs, who are very much a part of their lives, found a place in the story. From traditional rituals and emotional blessings to candid moments shared with loved ones, every part of the wedding felt genuine and meaningful. It was a joy to document a celebration that stayed rooted in tradition while remaining completely true to Rahul and Jeevni\u2019s journey together." },
   { name: "Prachi & Preet", images: prachiPreetImages },
   { name: "Ronak & Jessica", images: ronakJessicaImages },
   { name: "Rutvik & Aishwarya", images: rutvikAishwaryaImages },
 ];
 
 const headingSlide = {
-  enter: (dir) => ({ x: dir > 0 ? 200 : -200, opacity: 0, filter: "blur(8px)" }),
-  center: { x: 0, opacity: 1, filter: "blur(0px)" },
-  exit: (dir) => ({ x: dir > 0 ? -200 : 200, opacity: 0, filter: "blur(8px)" }),
+  enter: (dir) => ({ y: 60, opacity: 0, scale: 0.97, filter: "blur(6px)" }),
+  center: { y: 0, opacity: 1, scale: 1, filter: "blur(0px)" },
+  exit: (dir) => ({ y: -60, opacity: 0, scale: 0.97, filter: "blur(6px)" }),
 };
 
 const counterSlide = {
@@ -147,10 +149,12 @@ export default function Projects() {
   const [pageLoaded, setPageLoaded] = useState(false);
   const [viewerOpen, setViewerOpen] = useState(false);
   const [viewerIndex, setViewerIndex] = useState(0);
+  const [storyOpen, setStoryOpen] = useState(false);
   const coupleKey = useRef(0);
 
   useEffect(() => {
     coupleKey.current++;
+    setStoryOpen(false);
   }, [index]);
 
   useEffect(() => {
@@ -226,45 +230,133 @@ export default function Projects() {
 
   return (
     <main className="relative min-h-screen bg-ivory overflow-x-hidden">
-      <header className="pt-28 sm:pt-32 md:pt-36 pb-6 sm:pb-8 px-5 sm:px-8 md:px-12 lg:px-16">
+      {/* ── HEADER: Centered couple name ── */}
+      <header className="pt-20 sm:pt-24 md:pt-28 pb-4 px-5 sm:px-8 md:px-12 lg:px-16 text-center">
         <div className="mx-auto max-w-[1480px]">
-          <motion.span
-            className="block font-sans text-taupe/40 text-[10px] sm:text-xs uppercase tracking-[0.25em] mb-2"
-            initial={{ opacity: 0, y: 12 }}
-            animate={pageLoaded ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-          >
-            Featured Couples
-          </motion.span>
-          <div className="overflow-hidden">
-            <AnimatePresence mode="wait" custom={dir}>
-              <motion.h1
-                key={couple.name}
-                custom={dir}
-                variants={headingSlide}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-                className="font-serif text-walnut font-light leading-[1.1] tracking-tighter"
-                style={{ fontSize: "clamp(2rem, 6vw, 4.5rem)" }}
+          <AnimatePresence mode="wait" custom={dir}>
+            <motion.div
+              key={couple.name}
+              custom={dir}
+              variants={headingSlide}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <h1
+                className="font-serif text-walnut font-light leading-[1.05] tracking-tight"
+                style={{ fontSize: "clamp(2.2rem, 6.5vw, 5rem)" }}
               >
                 {couple.name}
-              </motion.h1>
-            </AnimatePresence>
-          </div>
+              </h1>
+
+              {/* Decorative divider */}
+              <motion.div
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.25 }}
+                className="flex items-center justify-center gap-4 mt-8 mb-5"
+              >
+                <span className="h-px w-12 bg-taupe/15" />
+                <span className="text-taupe/25 text-[10px] tracking-[0.5em] font-sans uppercase">✦</span>
+                <span className="h-px w-12 bg-taupe/15" />
+              </motion.div>
+
+              {couple.quote && (
+                <motion.p
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  className="font-serif text-taupe/50 text-base sm:text-lg italic font-light"
+                >
+                  &ldquo;{couple.quote}&rdquo;
+                </motion.p>
+              )}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </header>
 
-      <section className="px-5 sm:px-8 md:px-12 lg:px-16 py-16 sm:py-20 md:py-24 lg:py-28">
+      {/* ── STORY: Premise + Read More ── */}
+      {couple.premise && (
+        <section className="px-5 sm:px-8 md:px-12 lg:px-16 py-14 sm:py-18 md:py-22">
+          <div className="mx-auto max-w-[740px] text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              key={`story-${index}`}
+            >
+              <p
+                className="font-serif text-walnut/75 leading-[1.95]"
+                style={{ fontSize: "clamp(0.95rem, 1.05vw, 1.1rem)" }}
+              >
+                {couple.premise}
+              </p>
+
+              {!storyOpen && (
+                <motion.button
+                  onClick={() => setStoryOpen(true)}
+                  className="group mt-8 inline-flex items-center gap-2 font-sans text-[10px] uppercase tracking-[0.35em] text-cinnamon-400 hover:text-walnut transition-colors duration-500 cursor-pointer"
+                  whileHover={{ gap: "14px" }}
+                  transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <span>Read the full story</span>
+                  <span className="inline-block text-sm leading-none transition-transform duration-500 group-hover:translate-x-1">&rarr;</span>
+                </motion.button>
+              )}
+
+              <AnimatePresence initial={false}>
+                {storyOpen && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <div className="mt-6 space-y-5">
+                      {couple.description.split("\n\n").map((paragraph, i) => (
+                        <motion.p
+                          key={i}
+                          initial={{ opacity: 0, y: 12 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.5, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                          className="font-serif text-walnut/70 leading-[1.95] text-center"
+                          style={{ fontSize: "clamp(0.9rem, 1vw, 1.05rem)" }}
+                        >
+                          {paragraph}
+                        </motion.p>
+                      ))}
+                    </div>
+                    <motion.button
+                      onClick={() => setStoryOpen(false)}
+                      className="group mt-8 inline-flex items-center gap-2 font-sans text-[10px] uppercase tracking-[0.35em] text-cinnamon-400 hover:text-walnut transition-colors duration-500 cursor-pointer"
+                      whileHover={{ gap: "14px" }}
+                      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                      <span className="inline-block text-sm leading-none transition-transform duration-500 group-hover:-translate-x-1">&larr;</span>
+                      <span>Read less</span>
+                    </motion.button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          </div>
+        </section>
+      )}
+
+      {/* ── GALLERY ── */}
+      <section className="px-5 sm:px-8 md:px-12 lg:px-16 py-14 sm:py-18 md:py-22">
         <div className="mx-auto max-w-[1480px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={`grid-${index}-${coupleKey.current}`}
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1, transition: { duration: 0.3 } }}
-              exit={{ opacity: 0, transition: { duration: 0.2 } }}
-              className="flex flex-col items-center gap-40 sm:gap-48 md:gap-56 lg:gap-64"
+              animate={{ opacity: 1, transition: { duration: 0.4 } }}
+              exit={{ opacity: 0, transition: { duration: 0.25 } }}
+              className="flex flex-col items-center gap-32 sm:gap-40 md:gap-48 lg:gap-56"
             >
               {layoutFragments.map((frag, fi) => {
                 const img0 = frag.items[0];
@@ -272,42 +364,57 @@ export default function Projects() {
 
                 if (frag.type === "pair") {
                   return (
-                    <div key={`pair-${fi}`} className="w-full flex flex-col sm:flex-row gap-3 sm:gap-4">
+                    <motion.div
+                      key={`pair-${fi}`}
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: "-80px" }}
+                      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                      className="w-full flex flex-col sm:flex-row gap-3 sm:gap-4"
+                    >
                       {[img0, img1].map((item) => (
-                        <div key={item.num} className="flex-1 min-w-0">
-                          <ParallaxWrapper>
-                            <motion.div
-                              initial={{ opacity: 0, y: 20 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                              onClick={() => handleItemClick(item.num - 1)}
-                              className="cursor-pointer"
-                              whileHover={{ scale: 1.03 }}
-                            >
-                              <img src={item.src} alt="" className="w-full h-auto select-none" loading="lazy" />
-                            </motion.div>
-                          </ParallaxWrapper>
+                        <div key={item.num} className="flex-1 min-w-0 group cursor-pointer" onClick={() => handleItemClick(item.num - 1)}>
+                          <div className="overflow-hidden rounded-sm">
+                            <ParallaxWrapper>
+                              <motion.img
+                                src={item.src}
+                                alt=""
+                                className="w-full h-auto select-none transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
+                                loading="lazy"
+                                whileHover={{ scale: 1.04 }}
+                                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                              />
+                            </ParallaxWrapper>
+                          </div>
                         </div>
                       ))}
-                    </div>
+                    </motion.div>
                   );
                 }
 
                 return (
-                  <div key={`single-${fi}`} className="w-full max-w-[1400px] mx-auto">
-                    <ParallaxWrapper>
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                        onClick={() => handleItemClick(img0.num - 1)}
-                        className="cursor-pointer"
-                        whileHover={{ scale: 1.03 }}
-                      >
-                        <img src={img0.src} alt="" className="w-full h-auto select-none" loading="lazy" />
-                      </motion.div>
-                    </ParallaxWrapper>
-                  </div>
+                  <motion.div
+                    key={`single-${fi}`}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-80px" }}
+                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                    className="w-full max-w-[1400px] mx-auto group cursor-pointer"
+                    onClick={() => handleItemClick(img0.num - 1)}
+                  >
+                    <div className="overflow-hidden rounded-sm">
+                      <ParallaxWrapper>
+                        <motion.img
+                          src={img0.src}
+                          alt=""
+                          className="w-full h-auto select-none transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
+                          loading="lazy"
+                          whileHover={{ scale: 1.04 }}
+                          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                        />
+                      </ParallaxWrapper>
+                    </div>
+                  </motion.div>
                 );
               })}
             </motion.div>
@@ -315,13 +422,14 @@ export default function Projects() {
         </div>
       </section>
 
+      {/* ── BOTTOM NAV ── */}
       <div className="fixed bottom-0 left-0 right-0 z-20">
-        <div className="absolute inset-0 border-t border-taupe/8 bg-ivory/80 backdrop-blur-xl" />
+        <div className="absolute inset-0 border-t border-taupe/8 bg-ivory/85 backdrop-blur-xl" />
         <div className="relative mx-auto max-w-[1480px] px-5 sm:px-8 md:px-12 lg:px-16 py-4 sm:py-5">
           <div className="flex items-center justify-between">
             <NavButton dir="prev" onClick={goPrev} label="Previous" />
 
-            <div className="flex items-center gap-3 sm:gap-5">
+            <div className="flex items-center gap-4 sm:gap-6">
               <AnimatedCounter value={index + 1} total={COUPLES.length} />
               <DotNav total={COUPLES.length} active={index} onChange={goTo} />
             </div>

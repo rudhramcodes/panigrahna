@@ -12,10 +12,10 @@ const HEADING_LINES = [
 ];
 
 const BODY_TEXT =
-  "Rooted in the sanctity of tradition, we document not only the rituals but also the emotions woven around them-the mother's silent prayer, the grandfather's proud smile, the nervous anticipation before the sacred vows. Because the most beautiful stories are often the ones left unspoken.";
+  "Though Panigrahna is a Hindu wedding ritual where the groom takes the bride\u2019s hand as a symbol of their union and a vow to protect her, it is a part of every culture irrespective of the religion in the world. The phrase literally means \u201cHolding Hands,\u201d and the ceremony involves the couple holding hands while prayers are chanted. It is a significant rite in the marriage ceremony, representing the beginning of their life together.";
 
 const NOTE_TEXT =
-  "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.";
+  "At Panigrahna, we go beyond documenting weddings. We preserve the emotions, connections, and fleeting moments that make each celebration unique, creating timeless memories that can be cherished for years to come.";
 
 export default function AboutSection() {
   const sectionRef = useRef(null);

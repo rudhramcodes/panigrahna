@@ -1,4 +1,4 @@
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 
@@ -22,7 +22,9 @@ const COUPLE_IMAGES = {
 
 const ALL_COUPLES = [
   { slug: "harsh-and-sayonee", name: "Harsh & Sayonee", publicId: "TKS05225_1_jyeotg.jpg", quote: "A love story written in the stars", location: "Mumbai", date: "Dec 2024" },
-  { slug: "rahul-and-jeevani", name: "Rahul & Jeevani", publicId: "DSC04563_1_foxptm.jpg", quote: "Two hearts, one journey", location: "Udaipur", date: "Nov 2024" },
+  { slug: "rahul-and-jeevani", name: "Rahul & Jeevani", publicId: "DSC04563_1_foxptm.jpg", quote: "Two hearts, one journey", location: "Udaipur", date: "Nov 2024",
+    premise: "Some weddings are remembered for how they looked. This one stayed with us because of how it felt. Over four days of traditions, laughter, family, and quiet moments, Rahul and Jeevni\u2019s celebration unfolded with a warmth that was impossible to miss. This is a glimpse into a wedding that felt honest, personal, and deeply their own.",
+    description: "Rahul, a well-known Kannada actor, and Jeevni\u2019s wedding was one of those celebrations that felt effortless, personal, and true to the people at its heart. Held in the presence of their families and closest loved ones, the wedding embraced authentic Kannada traditions and rituals, with blessings from Lord Venkateswara of Tirupati woven into the celebrations.\n\nWhat stood out to us throughout the day was not any single ritual or grand moment, but the way Rahul and Jeevni\u2019s eyes naturally found each other in every meaningful moment. Whether they were surrounded by hundreds of guests or quietly participating in a ceremony, there was always a glance, a smile, or a moment of eye contact that reflected their comfort and connection with one another. Many of our favourite photographs from the wedding came from these simple, unscripted interactions.\n\nTheir celebration was also a reflection of the people and things they love. Family played a central role, and even their beloved dogs, who are very much a part of their lives, found a place in the story. From traditional rituals and emotional blessings to candid moments shared with loved ones, every part of the wedding felt genuine and meaningful. It was a joy to document a celebration that stayed rooted in tradition while remaining completely true to Rahul and Jeevni\u2019s journey together." },
   { slug: "prachi-and-preet", name: "Prachi & Preet", publicId: "DSC06503_1_qx8pds.jpg", quote: "Where tradition meets forever", location: "Surat", date: "Oct 2024" },
   { slug: "ronak-and-jessica", name: "Ronak & Jessica", publicId: "TKS04526_dxtewa.jpg", quote: "Dancing into eternity", location: "Goa", date: "Feb 2025" },
   { slug: "rutvik-and-aishwarya", name: "Rutvik & Aishwarya", publicId: "HRS_6891_1_rpow6s.jpg", angle: -90, quote: "A promise made in heaven", location: "Jaipur", date: "Jan 2025" },
@@ -87,6 +89,8 @@ export default function CoupleProject() {
 
   const layoutFragments = useMemo(() => buildLayoutFragments(gridItems), [gridItems]);
 
+  const [storyOpen, setStoryOpen] = useState(false);
+
   return (
     <main className="min-h-screen bg-ivory">
       <section className="relative h-[70dvh] sm:h-screen w-full overflow-hidden">
@@ -142,6 +146,72 @@ export default function CoupleProject() {
           </div>
         </div>
       </section>
+
+      {couple.premise && (
+        <section className="px-5 sm:px-8 md:px-12 lg:px-16 py-16 sm:py-20 md:py-24">
+          <div className="mx-auto max-w-[900px]">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <span className="block font-sans text-cinnamon-300 text-xs uppercase tracking-[0.25em] mb-6">
+                The Story
+              </span>
+              <p
+                className="font-serif text-walnut/80 leading-[1.9] mb-6"
+                style={{ fontSize: "clamp(1rem, 1.1vw, 1.15rem)" }}
+              >
+                {couple.premise}
+              </p>
+
+              {!storyOpen && couple.description && (
+                <motion.button
+                  onClick={() => setStoryOpen(true)}
+                  className="group inline-flex items-center gap-2 font-sans text-[11px] uppercase tracking-[0.3em] text-cinnamon-400 hover:text-walnut transition-colors duration-500 cursor-pointer"
+                  whileHover={{ gap: "12px" }}
+                  transition={{ duration: 0.3 }}
+                >
+                  Read more
+                  <span className="inline-block transition-transform duration-500 group-hover:translate-x-1">&rarr;</span>
+                </motion.button>
+              )}
+
+              <AnimatePresence initial={false}>
+                {storyOpen && couple.description && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                    className="overflow-hidden"
+                  >
+                    {couple.description.split("\n\n").map((paragraph, i) => (
+                      <p
+                        key={i}
+                        className="font-serif text-walnut/80 leading-[1.9] mb-6 last:mb-0"
+                        style={{ fontSize: "clamp(1rem, 1.1vw, 1.15rem)" }}
+                      >
+                        {paragraph}
+                      </p>
+                    ))}
+                    <motion.button
+                      onClick={() => setStoryOpen(false)}
+                      className="mt-4 group inline-flex items-center gap-2 font-sans text-[11px] uppercase tracking-[0.3em] text-cinnamon-400 hover:text-walnut transition-colors duration-500 cursor-pointer"
+                      whileHover={{ gap: "12px" }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <span className="inline-block transition-transform duration-500 group-hover:-translate-x-1">&larr;</span>
+                      Read less
+                    </motion.button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          </div>
+        </section>
+      )}
 
       <section className="px-5 sm:px-8 md:px-12 lg:px-16 py-12 sm:py-16 md:py-20">
         <div className="mx-auto max-w-[1480px]">
