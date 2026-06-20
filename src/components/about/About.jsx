@@ -7,12 +7,12 @@ import CldImage from "../ui/CldImage";
 gsap.registerPlugin(ScrollTrigger);
 
 const HEADING_LINES = [
-  <span><em className="uppercase font-thin">Documenting</em> the <em className="text-secondary">traditions</em></span>,
-  <span>in the <span className="text-secondary italic handwritten-underline"><span style={{position: "relative", zIndex: 1}}>way</span></span> they are <span className="text-secondary italic">meant to be.</span></span>,
+  <span><em className="uppercase font-thin">Documenting</em> the <em className="text-gold-200">traditions</em></span>,
+  <span>in the <span className="text-gold-200 italic handwritten-underline"><span style={{position: "relative", zIndex: 1}}>way</span></span> they are <span className="text-gold-200 italic">meant to be.</span></span>,
 ];
 
 const BODY_TEXT =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
+  "Rooted in the sanctity of tradition, we document not only the rituals but also the emotions woven around them-the mother's silent prayer, the grandfather's proud smile, the nervous anticipation before the sacred vows. Because the most beautiful stories are often the ones left unspoken.";
 
 const NOTE_TEXT =
   "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.";
@@ -61,8 +61,8 @@ export default function AboutSection() {
           content: '';
           position: absolute;
           inset: 0.06em -0.14em 0.02em -0.06em;
-          background: #C8A882;
-          opacity: 0.22;
+          background: #e8b87a;
+          opacity: 0.3;
           border-radius: 4px 1px 6px 2px;
           z-index: 0;
           transform: rotate(-0.6deg) skewX(0.3deg);
@@ -72,11 +72,19 @@ export default function AboutSection() {
 
       <section
         ref={sectionRef}
-        className="relative w-full overflow-hidden bg-sand/50"
+        className="relative w-full overflow-hidden bg-walnut"
+        style={{
+          backgroundImage: "url(/images/about-bg.jpeg)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundAttachment: "fixed",
+        }}
       >
+        <div className="absolute inset-0 bg-black/55" />
+
         <div
-          className="mx-auto max-w-[1480px] px-5 sm:px-8 md:px-12 lg:px-16"
-          style={{ paddingTop: "clamp(3rem, 8vw, 8rem)", paddingBottom: "clamp(3rem, 8vw, 8rem)" }}
+          className="relative z-10 mx-auto max-w-[1480px] px-5 sm:px-8 md:px-12 lg:px-16"
+          style={{ paddingTop: "clamp(5rem, 10vw, 10rem)", paddingBottom: "clamp(5rem, 10vw, 10rem)" }}
         >
           <div className="flex flex-col lg:flex-row lg:items-start lg:gap-6 xl:gap-8">
 
@@ -87,7 +95,7 @@ export default function AboutSection() {
               <MaskText
                 outerTag="h2"
                 tag="span"
-                className="abt-hl leading-none tracking-tight sm:w-full sm:text-right text-primary font-normal"
+                className="abt-hl leading-none tracking-tight sm:w-full sm:text-right text-white font-normal"
                 amount={0.5}
                 staggerDelay={0.1}
                 lines={HEADING_LINES}
@@ -98,19 +106,15 @@ export default function AboutSection() {
               <div
                 className="relative overflow-hidden"
                 style={{
-                  aspectRatio: "3/4",
                   borderRadius: "2px",
                 }}
               >
                 <CldImage
-                  publicId="DSC04563_1_foxptm"
+                  publicId="about-img"
                   alt="Heritage Documentation"
-                  width={700}
                   imgRef={imgRef}
-                  wrapperClassName="w-full h-full"
-                  imgClassName="w-full h-full object-cover object-center"
-                  options={{ crop: "fill", gravity: "auto" }}
-                  style={{ height: "115%", marginTop: "-5%", display: "block", transform: "scale(1.15)" }}
+                  wrapperClassName="w-full"
+                  imgClassName="w-full h-full object-center block"
                   loading="lazy"
                   decoding="async"
                 />
@@ -130,7 +134,7 @@ export default function AboutSection() {
                   fontFamily: "'Open Sans', sans-serif",
                   fontSize: "clamp(0.8rem, 0.9vw, 0.9rem)",
                   lineHeight: 1.85,
-                  color: "#5e4a36",
+                  color: "#f5e8d8",
                   fontWeight: 300,
                   overflowWrap: "break-word",
                   wordBreak: "break-word",
@@ -147,7 +151,7 @@ export default function AboutSection() {
                   fontSize: "clamp(0.85rem, 1vw, 1rem)",
                   fontStyle: "italic",
                   fontWeight: 300,
-                  color: "#7a6a58",
+                  color: "#e8b87a",
                   lineHeight: 1.7,
                   overflowWrap: "break-word",
                   wordBreak: "break-word",
