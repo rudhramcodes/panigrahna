@@ -319,33 +319,32 @@ export default function CoupleProject() {
 
                 {(row.type === "duo" || row.type === "trio") && (
                   <div
-                    className={`flex flex-wrap items-stretch ${
-                      row.gap === "xl" ? "gap-12 sm:gap-16 md:gap-24 lg:gap-32" :
-                      row.gap === "lg" ? "gap-10 sm:gap-14 md:gap-20 lg:gap-26" :
-                      "gap-8 sm:gap-12 md:gap-16 lg:gap-20"
-                    } ${
-                      row.align === "right"
-                        ? "justify-end"
-                        : row.align === "left"
-                          ? "justify-start"
-                          : "justify-center"
-                    }`}
-                  >
-                    {row.items.map((item) => (
-                      <div
-                        key={item.num}
-                        className="min-w-[200px] sm:min-w-[240px] md:min-w-[280px] flex-1 max-w-[600px] aspect-[4/5]"
-                      >
-                        <ParallaxWrapper fullHeight>
+                      className={`flex flex-wrap items-start ${
+                        row.gap === "xl" ? "gap-12 sm:gap-16 md:gap-24 lg:gap-32" :
+                        row.gap === "lg" ? "gap-10 sm:gap-14 md:gap-20 lg:gap-26" :
+                        "gap-8 sm:gap-12 md:gap-16 lg:gap-20"
+                      } ${
+                        row.align === "right"
+                          ? "justify-end"
+                          : row.align === "left"
+                            ? "justify-start"
+                            : "justify-center"
+                      }`}
+                    >
+                      {row.items.map((item) => (
+                        <div
+                          key={item.num}
+                          className="min-w-[200px] sm:min-w-[240px] md:min-w-[280px] flex-1 max-w-[600px]"
+                        >
+                          <ParallaxWrapper>
                           <ShimmerBox
                             src={item.src}
                             num={item.num}
-                            fill
                           />
                         </ParallaxWrapper>
-                      </div>
-                    ))}
-                  </div>
+                        </div>
+                      ))}
+                    </div>
                 )}
               </motion.div>
             ))}
