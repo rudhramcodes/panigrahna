@@ -19,92 +19,10 @@ const COUPLES = [
   { name: "Rutvik & Aishwarya", images: rutvikAishwaryaImages },
 ];
 
-function buildEditorialRows(images) {
-  const rows = [];
-  let idx = 0;
-  let lastType = null;
-  const typeHistory = [];
-
-  while (idx < images.length) {
-    const remaining = images.length - idx;
-    const rowIdx = rows.length;
-
-    let type;
-    if (remaining === 1) {
-      type = "full";
-    } else if (remaining === 2) {
-      type = "duo";
-    } else {
-      const r = ((rowIdx + 1) * 17 + remaining * 7) % 100;
-      if (r < 15) type = "full";
-      else if (r < 33) type = "single";
-      else if (r < 62) type = "duo";
-      else type = "trio";
-
-      if (lastType && (lastType === "full" || lastType === "single") && (type === "full" || type === "single")) {
-        type = remaining >= 3 ? "trio" : "duo";
-      }
-
-      const consecSame = typeHistory.filter((t) => t === type).length;
-      if (consecSame >= 2) {
-        const alt = ["full", "single", "duo", "trio"].filter(
-          (t) => t !== type && (remaining >= { full: 1, single: 1, duo: 2, trio: 3 }[t])
-        );
-        if (alt.length) type = alt[(rowIdx * 13) % alt.length];
-      }
-
-      const needed = { full: 1, duo: 2, trio: 3, single: 1 }[type];
-      if (needed > remaining) {
-        if (remaining === 1) type = "full";
-        else if (remaining === 2) type = "duo";
-        else type = "trio";
-      }
-    }
-
-    const count = { full: 1, duo: 2, trio: 3, single: 1 }[type];
-    const align = ["center", "left", "right"][((rowIdx + 1) * 11 + remaining * 3) % 3];
-
-    let gap;
-    if (type === "duo" || type === "trio") {
-      const g = ((rowIdx + 1) * 13 + remaining * 5) % 12;
-      if (g === 0) gap = "xl";
-      else if (g <= 2) gap = "lg";
-    }
-
-    let maxW;
-    if (type === "full" || type === "single") {
-      const m = ((rowIdx + 1) * 19 + remaining * 7) % 18;
-      if (m === 0) maxW = "wide";
-      else if (m <= 2) maxW = "narrow";
-    }
-
-    rows.push({
-      type,
-      align,
-      gap,
-      maxW,
-      items: images.slice(idx, idx + count).map((img, j) => ({ ...img, originalIndex: idx + j })),
-    });
-
-    typeHistory.push(type);
-    if (typeHistory.length > 4) typeHistory.shift();
-    lastType = type;
-    idx += count;
-  }
-
-  return rows;
-}
-
 const headingSlide = {
   enter: (dir) => ({ x: dir > 0 ? 200 : -200, opacity: 0, filter: "blur(8px)" }),
   center: { x: 0, opacity: 1, filter: "blur(0px)" },
   exit: (dir) => ({ x: dir > 0 ? -200 : 200, opacity: 0, filter: "blur(8px)" }),
-};
-
-const gridItem = {
-  initial: { y: 30, scale: 0.96, opacity: 0 },
-  animate: { y: 0, scale: 1, opacity: 1, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
-  exit: { y: -15, scale: 0.96, opacity: 0, transition: { duration: 0.25, ease: [0.16, 1, 0.3, 1] } },
 };
 
 const counterSlide = {
@@ -112,6 +30,23 @@ const counterSlide = {
   center: { y: 0, opacity: 1 },
   exit: { y: -20, opacity: 0 },
 };
+
+function buildLayoutFragments(images) {
+  const fragments = [];
+  let i = 0;
+  while (i < images.length) {
+    const remaining = images.length - i;
+    const seed = ((i * 137 + 51) % 10);
+    if (remaining >= 2 && seed < 5) {
+      fragments.push({ type: "pair", items: [images[i], images[i + 1]] });
+      i += 2;
+    } else {
+      fragments.push({ type: "single", items: [images[i]] });
+      i++;
+    }
+  }
+  return fragments;
+}
 
 function ParallaxWrapper({ children, speed = 0.28, fullHeight }) {
   const ref = useRef(null);
@@ -129,79 +64,6 @@ function ParallaxWrapper({ children, speed = 0.28, fullHeight }) {
         {children}
       </motion.div>
     </div>
-  );
-}
-
-function ShimmerBox({ src, num, onClick, featured, fill }) {
-  const [loaded, setLoaded] = useState(false);
-
-  const handleLoad = useCallback(() => {
-    setLoaded(true);
-  }, []);
-
-  return (
-    <motion.div
-      variants={gridItem}
-      className={`rounded-sm overflow-hidden relative group cursor-pointer bg-taupe/8 will-change-transform w-full ${fill ? "h-full" : ""}`}
-      whileHover={{ y: -8, scale: 1.025 }}
-      transition={{ duration: 0.5, ease: [0.7, 0, 0.3, 1] }}
-      onClick={onClick}
-    >
-      <div
-        className={`absolute inset-0 overflow-hidden transition-opacity duration-300 pointer-events-none ${
-          loaded ? "opacity-0" : "opacity-100"
-        }`}
-      >
-        <div className="absolute inset-0 bg-gradient-to-r from-taupe/6 via-taupe/14 to-taupe/6 shimmer-slide" />
-      </div>
-
-      <motion.div
-        className={`relative z-10 overflow-hidden ${fill ? "h-full" : ""}`}
-        whileHover={{ scale: 1.01 }}
-        transition={{ duration: 0.7, ease: [0.7, 0, 0.3, 1] }}
-      >
-        {fill ? (
-          <img
-            src={src}
-            alt=""
-            className={`relative w-full h-full object-cover block transition-opacity duration-700 ${
-              loaded ? "opacity-100" : "opacity-0"
-            }`}
-            loading="lazy"
-            onLoad={handleLoad}
-          />
-        ) : (
-          <img
-            src={src}
-            alt=""
-            className={`relative w-full h-auto block min-w-[120px] min-h-[120px] transition-opacity duration-700 ${
-              loaded ? "opacity-100" : "opacity-0"
-            }`}
-            loading="lazy"
-            onLoad={handleLoad}
-          />
-        )}
-      </motion.div>
-
-      <div aria-hidden className="absolute inset-0 overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-100 ease-smooth pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-white/25 to-white/0 skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-500 delay-75 ease-smooth" />
-      </div>
-
-      <div className="absolute inset-0 border border-white/0 group-hover:border-white/30 rounded-sm transition-all duration-300 ease-smooth pointer-events-none" />
-
-      <span
-        className={`absolute bottom-3 left-3 font-sans select-none tracking-wider drop-shadow-sm ${
-          featured
-            ? "text-white/80 text-sm sm:text-base font-semibold"
-            : "text-white/50 text-xs sm:text-sm font-medium"
-        }`}
-      >
-        {featured && (
-          <span className="inline-block w-1.5 h-1.5 rounded-full bg-white/70 mr-2 align-middle" />
-        )}
-        {String(num).padStart(2, "0")}
-      </span>
-    </motion.div>
   );
 }
 
@@ -332,6 +194,8 @@ export default function Projects() {
     [index]
   );
 
+  const layoutFragments = useMemo(() => buildLayoutFragments(gridImages), [gridImages]);
+
   const viewerImages = useMemo(
     () =>
       gridImages.map((item) => ({
@@ -340,8 +204,6 @@ export default function Projects() {
       })),
     [index, gridImages]
   );
-
-  const galleryRows = useMemo(() => buildEditorialRows(gridImages), [gridImages]);
 
   const handleItemClick = useCallback((i) => {
     setViewerIndex(i);
@@ -402,93 +264,52 @@ export default function Projects() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1, transition: { duration: 0.3 } }}
               exit={{ opacity: 0, transition: { duration: 0.2 } }}
-              className="space-y-20 sm:space-y-28 md:space-y-36 lg:space-y-48"
+              className="flex flex-col items-center gap-40 sm:gap-48 md:gap-56 lg:gap-64"
             >
-              {galleryRows.map((row, rowIdx) => (
-                <motion.div
-                  key={rowIdx}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: rowIdx * 0.06, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  {row.type === "full" && (
-                    <div className="flex justify-center">
-                      <div className={`w-full ${
-                        row.maxW === "wide" ? "max-w-[1400px]" :
-                        row.maxW === "narrow" ? "max-w-[900px]" :
-                        "max-w-[1200px]"
-                      }`}>
-                        <ParallaxWrapper>
-                        <ShimmerBox
-                          src={row.items[0].src}
-                          num={row.items[0].num}
-                          onClick={() => handleItemClick(row.items[0].originalIndex)}
-                          featured
-                        />
-                      </ParallaxWrapper>
-                      </div>
-                    </div>
-                  )}
+              {layoutFragments.map((frag, fi) => {
+                const img0 = frag.items[0];
+                const img1 = frag.items[1];
 
-                  {row.type === "single" && (
-                    <div
-                      className={`flex ${
-                        row.align === "right"
-                          ? "justify-end"
-                          : row.align === "left"
-                            ? "justify-start"
-                            : "justify-center"
-                      }`}
-                    >
-                      <div className={`w-full ${
-                        row.maxW === "wide" ? "max-w-[700px]" :
-                        row.maxW === "narrow" ? "max-w-[420px]" :
-                        "max-w-[560px]"
-                      }`}>
-                        <ParallaxWrapper>
-                          <ShimmerBox
-                            src={row.items[0].src}
-                            num={row.items[0].num}
-                            onClick={() => handleItemClick(row.items[0].originalIndex)}
-                          />
-                        </ParallaxWrapper>
-                      </div>
-                    </div>
-                  )}
-
-                  {(row.type === "duo" || row.type === "trio") && (
-                    <div
-                      className={`flex flex-wrap items-stretch ${
-                        row.gap === "xl" ? "gap-12 sm:gap-16 md:gap-24 lg:gap-32" :
-                        row.gap === "lg" ? "gap-10 sm:gap-14 md:gap-20 lg:gap-26" :
-                        "gap-8 sm:gap-12 md:gap-16 lg:gap-20"
-                      } ${
-                        row.align === "right"
-                          ? "justify-end"
-                          : row.align === "left"
-                            ? "justify-start"
-                            : "justify-center"
-                      }`}
-                    >
-                      {row.items.map((item) => (
-                        <div
-                          key={item.num}
-                          className="min-w-[200px] sm:min-w-[240px] md:min-w-[280px] flex-1 max-w-[600px] aspect-[4/5]"
-                        >
-                          <ParallaxWrapper fullHeight>
-                          <ShimmerBox
-                            src={item.src}
-                            num={item.num}
-                            onClick={() => handleItemClick(item.originalIndex)}
-                            fill
-                          />
-                        </ParallaxWrapper>
+                if (frag.type === "pair") {
+                  return (
+                    <div key={`pair-${fi}`} className="w-full flex flex-col sm:flex-row gap-3 sm:gap-4">
+                      {[img0, img1].map((item) => (
+                        <div key={item.num} className="flex-1 min-w-0">
+                          <ParallaxWrapper>
+                            <motion.div
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                              onClick={() => handleItemClick(item.num - 1)}
+                              className="cursor-pointer"
+                              whileHover={{ scale: 1.03 }}
+                            >
+                              <img src={item.src} alt="" className="w-full h-auto select-none" loading="lazy" />
+                            </motion.div>
+                          </ParallaxWrapper>
                         </div>
                       ))}
                     </div>
-                  )}
-                </motion.div>
-              ))}
+                  );
+                }
+
+                return (
+                  <div key={`single-${fi}`} className="w-full max-w-[1400px] mx-auto">
+                    <ParallaxWrapper>
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                        onClick={() => handleItemClick(img0.num - 1)}
+                        className="cursor-pointer"
+                        whileHover={{ scale: 1.03 }}
+                      >
+                        <img src={img0.src} alt="" className="w-full h-auto select-none" loading="lazy" />
+                      </motion.div>
+                    </ParallaxWrapper>
+                  </div>
+                );
+              })}
             </motion.div>
           </AnimatePresence>
         </div>
