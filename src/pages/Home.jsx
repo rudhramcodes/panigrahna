@@ -10,15 +10,19 @@ import Testimonial from "../components/testimonial/Testimonial";
 import ContactForm from "../components/contact-form/ContactForm";
 import Footer from "../components/footer/Footer";
 
-let loaderPlayed = false;
+const LOADER_KEY = "p_loader_played";
 
 export default function Home() {
-  const [loaderDone, setLoaderDone] = useState(loaderPlayed);
-  const [showContent, setShowContent] = useState(loaderPlayed);
+  const [loaderDone, setLoaderDone] = useState(
+    () => sessionStorage.getItem(LOADER_KEY) === "true"
+  );
+  const [showContent, setShowContent] = useState(
+    () => sessionStorage.getItem(LOADER_KEY) === "true"
+  );
 
   useEffect(() => {
-    if (loaderDone && !loaderPlayed) {
-      loaderPlayed = true;
+    if (loaderDone && !sessionStorage.getItem(LOADER_KEY)) {
+      sessionStorage.setItem(LOADER_KEY, "true");
       const timer = setTimeout(() => setShowContent(true), 800);
       return () => clearTimeout(timer);
     }

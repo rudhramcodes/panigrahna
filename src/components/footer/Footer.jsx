@@ -220,7 +220,9 @@ export default function Footer({ hideCTA = false }) {
                   1171-1172, Solitaire Corporate Park,<br />
                   Andheri (E), Mumbai 400093
                 </address>
-                <a href="tel:+919876543210" className="inline-block mt-4 font-serif text-white/60 hover:text-cinnamon-200 transition-colors">+91 98765 43210</a>
+                <a href="tel:+917284980137" className="inline-block mt-4 font-serif text-white/60 hover:text-cinnamon-200 transition-colors">+91 72849 80137</a>
+                <br />
+                <a href="tel:+917285833101" className="inline-block mt-1 font-serif text-white/60 hover:text-cinnamon-200 transition-colors">+91 72858 33101</a>
               </motion.div>
 
               <motion.div variants={fadeUp}>

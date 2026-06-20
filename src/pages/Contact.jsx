@@ -283,14 +283,26 @@ export default function Contact() {
                       </motion.a>
                       <motion.a
                         variants={fadeUp}
-                        href="tel:+919876543210"
+                        href="tel:+917284980137"
                         className="group flex items-center gap-4 text-walnut hover:text-cinnamon-400 transition-colors duration-500"
                       >
                         <div className="w-10 h-10 rounded-full border border-taupe/20 flex items-center justify-center group-hover:border-cinnamon-400/30 transition-colors">
                           <Phone size={16} />
                         </div>
                         <span className="font-serif italic text-xl">
-                          +91 98765 43210
+                          +91 72849 80137
+                        </span>
+                      </motion.a>
+                      <motion.a
+                        variants={fadeUp}
+                        href="tel:+917285833101"
+                        className="group flex items-center gap-4 text-walnut hover:text-cinnamon-400 transition-colors duration-500"
+                      >
+                        <div className="w-10 h-10 rounded-full border border-taupe/20 flex items-center justify-center group-hover:border-cinnamon-400/30 transition-colors">
+                          <Phone size={16} />
+                        </div>
+                        <span className="font-serif italic text-xl">
+                          +91 72858 33101
                         </span>
                       </motion.a>
                     </div>
