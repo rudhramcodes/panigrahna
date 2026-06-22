@@ -93,7 +93,7 @@ export default function CoupleProject() {
 
   return (
     <main className="min-h-screen bg-ivory">
-      <section className="relative h-[70dvh] sm:h-screen w-full overflow-hidden">
+      <section className="relative h-[55dvh] sm:h-[80dvh] w-full overflow-hidden">
         <CldImage
           publicId={couple.publicId}
           alt={couple.name}
@@ -148,19 +148,19 @@ export default function CoupleProject() {
       </section>
 
       {couple.premise && (
-        <section className="px-5 sm:px-8 md:px-12 lg:px-16 py-16 sm:py-20 md:py-24">
-          <div className="mx-auto max-w-[900px]">
+        <section className="px-5 sm:px-8 md:px-12 lg:px-16 py-12 sm:py-16 md:py-18">
+          <div className="mx-auto max-w-[720px]">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             >
-              <span className="block font-sans text-cinnamon-300 text-xs uppercase tracking-[0.25em] mb-6">
+              <span className="block font-sans text-cinnamon-300 text-xs uppercase tracking-[0.25em] mb-5">
                 The Story
               </span>
               <p
-                className="font-serif text-walnut/80 leading-[1.9] mb-6"
+                className="font-serif text-walnut/80 leading-[1.85] mb-5"
                 style={{ fontSize: "clamp(1rem, 1.1vw, 1.15rem)" }}
               >
                 {couple.premise}
@@ -190,7 +190,7 @@ export default function CoupleProject() {
                     {couple.description.split("\n\n").map((paragraph, i) => (
                       <p
                         key={i}
-                        className="font-serif text-walnut/80 leading-[1.9] mb-6 last:mb-0"
+                        className="font-serif text-walnut/80 leading-[1.85] mb-5 last:mb-0"
                         style={{ fontSize: "clamp(1rem, 1.1vw, 1.15rem)" }}
                       >
                         {paragraph}
@@ -213,21 +213,21 @@ export default function CoupleProject() {
         </section>
       )}
 
-      <section className="px-5 sm:px-8 md:px-12 lg:px-16 py-12 sm:py-16 md:py-20">
+      <section className="px-5 sm:px-8 md:px-12 lg:px-16 py-10 sm:py-12 md:py-16">
         <div className="mx-auto max-w-[1480px]">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="mb-8 sm:mb-10"
+            className="mb-6 sm:mb-8"
           >
             <span className="font-sans text-cinnamon-300 text-xs uppercase tracking-[0.25em]">
               Gallery
             </span>
           </motion.div>
 
-          <div className="flex flex-col items-center gap-40 sm:gap-48 md:gap-56 lg:gap-64">
+          <div className="flex flex-col items-center gap-24 sm:gap-32 md:gap-40 lg:gap-48">
             {layoutFragments.map((frag, fi) => {
               const img0 = frag.items[0];
               const img1 = frag.items[1];

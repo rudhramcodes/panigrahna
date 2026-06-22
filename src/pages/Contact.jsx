@@ -225,7 +225,7 @@ export default function Contact() {
                   outerTag="h1"
                   tag="span"
                   amount={0.5}
-                  className="font-serif text-[clamp(3.5rem,8vw,9rem)] leading-[0.85] tracking-tighter text-walnut font-thin mb-12"
+                  className="font-serif text-[clamp(3.5rem,8vw,9rem)] leading-[1] tracking-tighter text-walnut font-thin mb-12"
                   lines={[
                     <span key="line1">Tell us your</span>,
                     <span key="line2"><span className="italic text-cinnamon-300 pr-4">visual</span> story.</span>,

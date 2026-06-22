@@ -8,7 +8,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const HEADING_LINES = [
   <span><em className="uppercase font-thin">Documenting</em> the <em className="text-gold-200">traditions</em></span>,
-  <span>in the <span className="text-gold-200 italic handwritten-underline"><span style={{position: "relative", zIndex: 1}}>way</span></span> they are <span className="text-gold-200 italic">meant to be.</span></span>,
+  <span> the <span className="text-gold-200 italic handwritten-underline"><span style={{position: "relative", zIndex: 1}}>way</span></span> they are <span className="text-gold-200 italic">meant to be.</span></span>,
 ];
 
 const BODY_TEXT =
@@ -44,8 +44,9 @@ export default function AboutSection() {
     <>
       <style>{`
         .abt-hl {
+          width: 100%;
           font-family: 'Berlingske Serif', Georgia, serif;
-          font-size: clamp(2.2rem, 4.5vw, 4.5rem);
+          font-size: clamp(2.2rem, 4vw, 4.5rem);
         }
         @media (max-width: 1024px) {
           .abt-hl { font-size: clamp(1.8rem, 4vw, 3.2rem); }

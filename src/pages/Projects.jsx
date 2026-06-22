@@ -231,7 +231,7 @@ export default function Projects() {
   return (
     <main className="relative min-h-screen bg-ivory overflow-x-hidden">
       {/* ── HEADER: Centered couple name ── */}
-      <header className="pt-20 sm:pt-24 md:pt-28 pb-4 px-5 sm:px-8 md:px-12 lg:px-16 text-center">
+      <header className="pt-24 sm:pt-32 md:pt-36 pb-2 px-5 sm:px-8 md:px-12 lg:px-16 text-center">
         <div className="mx-auto max-w-[1480px]">
           <AnimatePresence mode="wait" custom={dir}>
             <motion.div
@@ -255,11 +255,11 @@ export default function Projects() {
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.25 }}
-                className="flex items-center justify-center gap-4 mt-8 mb-5"
+                className="flex items-center justify-center gap-3 mt-5 mb-4"
               >
-                <span className="h-px w-12 bg-taupe/15" />
-                <span className="text-taupe/25 text-[10px] tracking-[0.5em] font-sans uppercase">✦</span>
-                <span className="h-px w-12 bg-taupe/15" />
+                <span className="h-px w-10 bg-taupe/15" />
+                <span className="text-taupe/25 text-[9px] tracking-[0.5em] font-sans uppercase">✦</span>
+                <span className="h-px w-10 bg-taupe/15" />
               </motion.div>
 
               {couple.quote && (
@@ -279,8 +279,8 @@ export default function Projects() {
 
       {/* ── STORY: Premise + Read More ── */}
       {couple.premise && (
-        <section className="px-5 sm:px-8 md:px-12 lg:px-16 py-14 sm:py-18 md:py-22">
-          <div className="mx-auto max-w-[740px] text-center">
+        <section className="px-5 sm:px-8 md:px-12 lg:px-16 py-10 sm:py-14 md:py-16">
+          <div className="mx-auto max-w-[680px] text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -289,7 +289,7 @@ export default function Projects() {
               key={`story-${index}`}
             >
               <p
-                className="font-serif text-walnut/75 leading-[1.95]"
+                className="font-serif text-walnut/75 leading-[1.85] -mt-16"
                 style={{ fontSize: "clamp(0.95rem, 1.05vw, 1.1rem)" }}
               >
                 {couple.premise}
@@ -298,7 +298,7 @@ export default function Projects() {
               {!storyOpen && (
                 <motion.button
                   onClick={() => setStoryOpen(true)}
-                  className="group mt-8 inline-flex items-center gap-2 font-sans text-[10px] uppercase tracking-[0.35em] text-cinnamon-400 hover:text-walnut transition-colors duration-500 cursor-pointer"
+                  className="group mt-6 inline-flex items-center gap-2 font-sans text-[10px] uppercase tracking-[0.35em] text-cinnamon-400 hover:text-walnut transition-colors duration-500 cursor-pointer"
                   whileHover={{ gap: "14px" }}
                   transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                 >
@@ -316,14 +316,14 @@ export default function Projects() {
                     transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                     className="overflow-hidden"
                   >
-                    <div className="mt-6 space-y-5">
+                    <div className="mt-6 space-y-4">
                       {couple.description.split("\n\n").map((paragraph, i) => (
                         <motion.p
                           key={i}
                           initial={{ opacity: 0, y: 12 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.5, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                          className="font-serif text-walnut/70 leading-[1.95] text-center"
+                          className="font-serif text-walnut/70 leading-[1.85] text-center"
                           style={{ fontSize: "clamp(0.9rem, 1vw, 1.05rem)" }}
                         >
                           {paragraph}
@@ -332,7 +332,7 @@ export default function Projects() {
                     </div>
                     <motion.button
                       onClick={() => setStoryOpen(false)}
-                      className="group mt-8 inline-flex items-center gap-2 font-sans text-[10px] uppercase tracking-[0.35em] text-cinnamon-400 hover:text-walnut transition-colors duration-500 cursor-pointer"
+                      className="group mt-6 inline-flex items-center gap-2 font-sans text-[10px] uppercase tracking-[0.35em] text-cinnamon-400 hover:text-walnut transition-colors duration-500 cursor-pointer"
                       whileHover={{ gap: "14px" }}
                       transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                     >
@@ -348,7 +348,7 @@ export default function Projects() {
       )}
 
       {/* ── GALLERY ── */}
-      <section className="px-5 sm:px-8 md:px-12 lg:px-16 py-14 sm:py-18 md:py-22">
+      <section className="px-5 sm:px-8 md:px-12 lg:px-16 py-8 sm:py-10 md:py-12">
         <div className="mx-auto max-w-[1480px]">
           <AnimatePresence mode="wait">
             <motion.div
@@ -356,7 +356,7 @@ export default function Projects() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1, transition: { duration: 0.4 } }}
               exit={{ opacity: 0, transition: { duration: 0.25 } }}
-              className="flex flex-col items-center gap-32 sm:gap-40 md:gap-48 lg:gap-56"
+              className="flex flex-col items-center gap-20 sm:gap-28 md:gap-36 lg:gap-44"
             >
               {layoutFragments.map((frag, fi) => {
                 const img0 = frag.items[0];
