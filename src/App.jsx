@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import SmoothScroll from "./components/smooth-scroll/SmoothScroll";
 import Navbar from "./components/navbar/Navbar";
+import BackToTop from "./components/ui/BackToTop";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Projects from "./pages/Projects";
@@ -53,6 +54,7 @@ const App = () => {
           <Route path="/brides" element={<BridesPage />} />
           <Route path="/grooms" element={<GroomsPage />} />
         </Routes>
+        <BackToTop />
       </SmoothScroll>
     </>
   );
