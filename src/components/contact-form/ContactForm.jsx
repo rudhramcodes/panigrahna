@@ -132,6 +132,8 @@ export default function ContactForm() {
   const [countryCode, setCountryCode] = useState("+91");
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [apiError, setApiError] = useState(null);
   const formRef = useRef(null);
   const isInView = useInView(formRef, { once: true, amount: 0.1 });
 
@@ -170,16 +172,47 @@ export default function ContactForm() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setApiError(null);
     const errs = validateForm(formData);
     setErrors(errs);
 
     if (Object.keys(errs).length > 0) return;
 
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
+    setIsSubmitting(true);
+
+    try {
+      const payload = {
+        coupleName: formData.coupleName,
+        email: formData.email,
+        phone: formData.phone,
+        eventDateFrom: formData.eventDateRange.from?.toISOString(),
+        eventDateTo: formData.eventDateRange.to?.toISOString() || null,
+        eventLocation: formData.eventLocation,
+        location: formData.location,
+        eventDetails: formData.eventDetails,
+        guestCount: formData.guestCount,
+        referral: formData.referral,
+        moodboard: formData.moodboard,
+      };
+
+      const res = await fetch("/api/inquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        if (data.errors) {
+          setErrors((prev) => ({ ...prev, ...data.errors }));
+        }
+        throw new Error(data.message || "Something went wrong. Please try again.");
+      }
+
+      setSubmitted(true);
       setFormData({
         coupleName: "",
         email: "",
@@ -194,7 +227,11 @@ export default function ContactForm() {
       });
       setErrors({});
       setCountryCode("+91");
-    }, 8000);
+    } catch (err) {
+      setApiError(err.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -526,23 +563,59 @@ export default function ContactForm() {
                       </motion.div>
                     </div>
 
-                    <motion.div variants={fadeUp} className="pt-10">
+                    {apiError && (
+                      <motion.p
+                        initial={{ opacity: 0, y: -4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="font-sans text-[11px] tracking-wide text-ember-400 mb-6"
+                      >
+                        {apiError}
+                      </motion.p>
+                    )}
+
+                    <motion.div variants={fadeUp} className="pt-6">
                       <button
                         type="submit"
-                        className="group relative inline-flex h-14 w-full md:w-52 items-center justify-center overflow-hidden rounded-full bg-walnut text-sand transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.02] cursor-pointer"
+                        disabled={isSubmitting}
+                        className="group relative inline-flex h-14 w-full md:w-52 items-center justify-center overflow-hidden rounded-full bg-walnut text-sand transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                       >
                         <div className="relative z-10 flex items-center gap-3">
-                          <span className="font-sans text-[11px] uppercase tracking-[4px]">
-                            Send Inquiry
-                          </span>
-                          <div className="relative w-[18px] h-[18px]">
-                            <span className="absolute inset-0 flex items-center justify-center transition-all duration-[350ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:opacity-0 group-hover:translate-x-[10px] group-hover:-translate-y-[10px] group-hover:scale-[0.3]">
-                              <ArrowUpRight size={18} />
-                            </span>
-                            <span className="absolute inset-0 flex items-center justify-center transition-all duration-[350ms] ease-[cubic-bezier(0.16,1,0.3,1)] opacity-0 -translate-x-[10px] translate-y-[10px] scale-[0.3] group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 group-hover:scale-100">
-                              <ArrowUpRight size={18} />
-                            </span>
-                          </div>
+                          {isSubmitting ? (
+                            <svg
+                              className="animate-spin h-5 w-5"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                            >
+                              <circle
+                                className="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                                strokeWidth="4"
+                              />
+                              <path
+                                className="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                              />
+                            </svg>
+                          ) : (
+                            <>
+                              <span className="font-sans text-[11px] uppercase tracking-[4px]">
+                                Send Inquiry
+                              </span>
+                              <div className="relative w-[18px] h-[18px]">
+                                <span className="absolute inset-0 flex items-center justify-center transition-all duration-[350ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:opacity-0 group-hover:translate-x-[10px] group-hover:-translate-y-[10px] group-hover:scale-[0.3]">
+                                  <ArrowUpRight size={18} />
+                                </span>
+                                <span className="absolute inset-0 flex items-center justify-center transition-all duration-[350ms] ease-[cubic-bezier(0.16,1,0.3,1)] opacity-0 -translate-x-[10px] translate-y-[10px] scale-[0.3] group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 group-hover:scale-100">
+                                  <ArrowUpRight size={18} />
+                                </span>
+                              </div>
+                            </>
+                          )}
                         </div>
                         <div className="absolute inset-0 scale-0 rounded-full bg-cinnamon-400/20 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100" />
                       </button>
