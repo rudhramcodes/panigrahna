@@ -6,7 +6,25 @@ import PhoneInput from "../components/ui/PhoneInput";
 import LocationSelect from "../components/ui/LocationSelect";
 import MaskText from "../components/mask-text/MaskText";
 import Footer from "../components/footer/Footer";
-import { cloudinaryUrl } from "../lib/cloudinary";
+import { rawCloudinaryUrl } from "../lib/cloudinary";
+
+const InstagramIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 256 256" fill="currentColor">
+    <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z" />
+  </svg>
+);
+
+const FacebookIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 256 256" fill="currentColor">
+    <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm8,191.63V152h24a8,8,0,0,0,0-16H136V112a16,16,0,0,1,16-16h16a8,8,0,0,0,0-16H152a32,32,0,0,0-32,32v24H96a8,8,0,0,0,0,16h24v63.63a88,88,0,1,1,16,0Z" />
+  </svg>
+);
+
+const PinterestIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 256 256" fill="currentColor">
+    <path d="M224,112c0,22.57-7.9,43.2-22.23,58.11C188.39,184,170.25,192,152,192c-17.88,0-29.82-5.86-37.43-12l-10.78,45.82A8,8,0,0,1,96,232a8.24,8.24,0,0,1-1.84-.21,8,8,0,0,1-6-9.62l32-136a8,8,0,0,1,15.58,3.66l-16.9,71.8C122,166,131.3,176,152,176c27.53,0,56-23.94,56-64A72,72,0,1,0,73.63,148a8,8,0,0,1-13.85,8A88,88,0,1,1,224,112Z" />
+  </svg>
+);
 
 /* ── ANIMATION VARIANTS ── */
 const fadeUp = {
@@ -208,7 +226,7 @@ export default function Contact() {
   };
 
   return (
-    <div className="bg-parchment min-h-screen">
+    <div className="bg-parchment min-h-screen overflow-x-hidden">
       {/* HERO */}
       <section className="relative pt-40 pb-20 sm:pt-48 sm:pb-32 px-6 sm:px-10">
         <div className="max-w-[1600px] mx-auto">
@@ -350,31 +368,37 @@ export default function Contact() {
                     </div>
                   </motion.div>
 
-                  <motion.div
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                    variants={stagger}
-                  >
-                    <motion.h4
-                      variants={fadeUp}
-                      className="font-sans text-[10px] font-bold uppercase tracking-[4px] text-cinnamon-300/60 mb-8"
-                    >
-                      Follow
-                    </motion.h4>
-                    <div className="flex gap-4">
-                      {["Instagram", "Facebook", "Pinterest"].map((social) => (
-                        <motion.a
-                          key={social}
-                          variants={fadeUp}
-                          href="#"
-                          className="font-serif italic text-lg text-walnut hover:text-cinnamon-400 transition-colors underline decoration-taupe/20 underline-offset-4"
+                    <div>
+                      <h4 className="font-sans text-[10px] font-bold uppercase tracking-[4px] text-cinnamon-300/60 mb-8">
+                        Follow
+                      </h4>
+                      <div className="flex gap-4">
+                        <a
+                          href="https://instagram.com/panigrahna.rudhram"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex h-10 w-10 items-center justify-center rounded-full border border-taupe/20 text-taupe/60 hover:border-cinnamon-400/30 hover:text-cinnamon-400 transition-all duration-500"
                         >
-                          {social}
-                        </motion.a>
-                      ))}
+                          <InstagramIcon />
+                        </a>
+                        <a
+                          href="https://facebook.com/panigrahna.rudhram"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex h-10 w-10 items-center justify-center rounded-full border border-taupe/20 text-taupe/60 hover:border-cinnamon-400/30 hover:text-cinnamon-400 transition-all duration-500"
+                        >
+                          <FacebookIcon />
+                        </a>
+                        <a
+                          href="https://pinterest.com/panigrahna_rudhram"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex h-10 w-10 items-center justify-center rounded-full border border-taupe/20 text-taupe/60 hover:border-cinnamon-400/30 hover:text-cinnamon-400 transition-all duration-500"
+                        >
+                          <PinterestIcon />
+                        </a>
+                      </div>
                     </div>
-                  </motion.div>
                 </div>
 
                 <motion.div
@@ -382,7 +406,7 @@ export default function Contact() {
                   whileInView={{ opacity: 1, clipPath: "inset(0% 0 0 0)" }}
                   viewport={{ once: true }}
                   transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-                  className="hidden lg:block aspect-[4/5] bg-walnut overflow-hidden rounded-sm"
+                  className="aspect-[4/5] bg-walnut overflow-hidden rounded-sm"
                 >
                   <img
                     src="https://i.pinimg.com/1200x/26/f1/51/26f15116730ed7a348f067e4ed9fb9b2.jpg"

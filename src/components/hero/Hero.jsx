@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import CldImage from "../ui/CldImage";
+import { rawCloudinaryUrl } from "../../lib/cloudinary";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -31,13 +31,11 @@ export default function Hero() {
 
   return (
     <section ref={sectionRef} className="relative h-screen w-full overflow-hidden">
-      <CldImage
-        publicId="MILN1258_v94ytv"
+      <img
+        ref={imgRef}
+        src={rawCloudinaryUrl("001.jpg")}
         alt="Panigrahna"
-        // width={1920}
-        imgRef={imgRef}
-        wrapperClassName="absolute inset-0 h-full w-full"
-        imgClassName="h-full w-full object-cover object-[center_30%] md:object-[center_30%] will-change-transform"
+        className="absolute inset-0 h-full w-full object-cover object-center will-change-transform"
         fetchpriority="high"
         decoding="async"
       />

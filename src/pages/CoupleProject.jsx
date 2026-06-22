@@ -2,9 +2,8 @@ import { useMemo, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 
-import CldImage from "../components/ui/CldImage";
-import Footer from "../components/footer/Footer";
 import { rawCloudinaryUrl } from "../lib/cloudinary";
+import Footer from "../components/footer/Footer";
 
 import harshSayoneeImages from "../data/couples/harsh-and-sayonee.json";
 import rahulJeevaniImages from "../data/couples/rahul-and-jeevani.json";
@@ -94,13 +93,10 @@ export default function CoupleProject() {
   return (
     <main className="min-h-screen bg-ivory">
       <section className="relative h-[55dvh] sm:h-[80dvh] w-full overflow-hidden">
-        <CldImage
-          publicId={couple.publicId}
+        <img
+          src={rawCloudinaryUrl(couple.publicId, "001.jpg")}
           alt={couple.name}
-          width={1200}
-          options={couple.angle ? { angle: couple.angle } : {}}
-          wrapperClassName="w-full h-full"
-          imgClassName="w-full h-full object-cover"
+          className="w-full h-full object-cover"
           fetchpriority="high"
           decoding="async"
         />

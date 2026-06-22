@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
-import CldImage from "../ui/CldImage";
+import { rawCloudinaryUrl } from "../../lib/cloudinary";
 
 const IMG_800 = [
   "TKS05269_1_yvjsbn.jpg",
@@ -31,12 +31,10 @@ function Column({ images, y, offset }) {
     >
       {images.map((publicId) => (
         <div key={publicId} className="relative flex-1 rounded-[1vw] overflow-hidden">
-          <CldImage
-            publicId={publicId}
+          <img
+            src={rawCloudinaryUrl(publicId, "001.jpg")}
             alt=""
-            width={800}
-            wrapperClassName="w-full h-full"
-            imgClassName="w-full h-full object-cover"
+            className="w-full h-full object-cover"
             loading="lazy"
             decoding="async"
           />

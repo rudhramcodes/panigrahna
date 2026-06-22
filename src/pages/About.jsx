@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowUpRight, Heart, Eye, Feather, BookOpen, Target } from "lucide-react";
-import CldImage from "../components/ui/CldImage";
+import { rawCloudinaryUrl } from "../lib/cloudinary";
 import Footer from "../components/footer/Footer";
 
 /* ─────────────────────────────────────────
@@ -65,12 +65,10 @@ function AboutHero() {
     <Section ref={ref} className="h-screen">
       {/* Parallax Background Image */}
       <motion.div className="absolute inset-0" style={{ y: imgY }}>
-        <CldImage
-          publicId="TKS05225_1_jyeotg"
+        <img
+          src={rawCloudinaryUrl("001.jpg")}
           alt="Panigrahna Studio"
-          width={1920}
-          wrapperClassName="w-full h-full"
-          imgClassName="w-full h-full object-cover object-[center_30%]"
+          className="w-full h-full object-cover object-[center_30%]"
           fetchpriority="high"
           decoding="async"
         />
@@ -146,13 +144,10 @@ function TheStudio() {
               className="relative overflow-hidden"
               style={{ aspectRatio: "4/5" }}
             >
-              <CldImage
-                publicId="DSC04563_1_foxptm"
+              <img
+                src={rawCloudinaryUrl("001.jpg")}
                 alt="The Studio"
-                width={800}
-                wrapperClassName="w-full h-full"
-                imgClassName="w-full h-full object-cover"
-                options={{ crop: "fill", gravity: "auto" }}
+                className="w-full h-full object-cover"
                 loading="lazy"
                 decoding="async"
               />

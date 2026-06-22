@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import CldImage from "../ui/CldImage";
+import { rawCloudinaryUrl } from "../../lib/cloudinary";
 
 const SPRING = { type: "spring", stiffness: 350, damping: 32, mass: 0.85 };
 
@@ -124,13 +124,10 @@ export default function MobileGallery({ items, interval = 5000, onCoupleClick })
             className="absolute inset-0 cursor-grab active:cursor-grabbing"
           >
             <div className="absolute inset-0">
-              <CldImage
-                publicId={item.publicId}
+              <img
+                src={rawCloudinaryUrl(item.publicId, "001.jpg")}
                 alt={item.text}
-                width={600}
-                options={item.options || {}}
-                wrapperClassName="w-full h-full"
-                imgClassName="w-full h-full object-cover pointer-events-none"
+                className="w-full h-full object-cover pointer-events-none"
               />
             </div>
 

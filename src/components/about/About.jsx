@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import MaskText from "../mask-text/MaskText";
-import CldImage from "../ui/CldImage";
+import { rawCloudinaryUrl } from "../../lib/cloudinary";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -110,12 +110,11 @@ export default function AboutSection() {
                   borderRadius: "2px",
                 }}
               >
-                <CldImage
-                  publicId="about-img"
+                <img
+                  ref={imgRef}
+                  src={rawCloudinaryUrl("about-img")}
                   alt="Heritage Documentation"
-                  imgRef={imgRef}
-                  wrapperClassName="w-full"
-                  imgClassName="w-full h-full object-center block"
+                  className="w-full h-full object-center block"
                   loading="lazy"
                   decoding="async"
                 />

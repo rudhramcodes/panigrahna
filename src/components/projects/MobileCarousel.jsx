@@ -1,6 +1,6 @@
 import { useRef, useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import CldImage from "../ui/CldImage";
+import { rawCloudinaryUrl } from "../../lib/cloudinary";
 
 export default function MobileCarousel({ items, interval = 5000 }) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -47,17 +47,12 @@ export default function MobileCarousel({ items, interval = 5000 }) {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
         >
-          <CldImage
-            publicId={item.publicId}
+          <img
+            src={rawCloudinaryUrl("001.jpg")}
             alt={item.text}
-            width={600}
-            options={item.options || {}}
-            wrapperClassName="w-full h-full"
-            imgClassName="w-full h-full object-cover pointer-events-none"
-            imgProps={{
-              decoding: "async",
-              draggable: false,
-            }}
+            className="w-full h-full object-cover pointer-events-none"
+            decoding="async"
+            draggable={false}
           />
 
           {/* Gradient overlay */}
