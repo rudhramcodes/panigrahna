@@ -4,6 +4,7 @@ import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import ImageViewer from "../components/ui/ImageViewer";
 import { rawCloudinaryUrl } from "../lib/cloudinary";
+import { useSmoothScroll } from "../components/smooth-scroll/SmoothScroll";
 
 import harshSayoneeImages from "../data/couples/harsh-and-sayonee.json";
 import rahulJeevaniImages from "../data/couples/rahul-and-jeevani.json";
@@ -151,10 +152,13 @@ export default function Projects() {
   const [viewerIndex, setViewerIndex] = useState(0);
   const [storyOpen, setStoryOpen] = useState(false);
   const coupleKey = useRef(0);
+  const lenisRef = useSmoothScroll();
 
   useEffect(() => {
     coupleKey.current++;
     setStoryOpen(false);
+    const lenis = lenisRef?.current;
+    if (lenis) lenis.scrollTo(0, { duration: 0.8 });
   }, [index]);
 
   useEffect(() => {
@@ -289,8 +293,8 @@ export default function Projects() {
               key={`story-${index}`}
             >
               <p
-                className="font-serif text-walnut/75 leading-[1.85] -mt-16"
-                style={{ fontSize: "clamp(0.95rem, 1.05vw, 1.1rem)" }}
+                className="font-serif text-walnut/70 leading-[1.85] -mt-16"
+                style={{ fontSize: "clamp(0.8rem, 1vw, 1.05rem)" }}
               >
                 {couple.premise}
               </p>
@@ -324,7 +328,7 @@ export default function Projects() {
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.5, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
                           className="font-serif text-walnut/70 leading-[1.85] text-center"
-                          style={{ fontSize: "clamp(0.9rem, 1vw, 1.05rem)" }}
+                          style={{ fontSize: "clamp(0.8rem, 1vw, 1.05rem)" }}
                         >
                           {paragraph}
                         </motion.p>
