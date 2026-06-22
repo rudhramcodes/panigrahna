@@ -1,6 +1,11 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
+
+  # ── Pass /api requests through (don't rewrite to index.html) ──
+  RewriteRule ^api/ - [L]
+
+  # ── SPA: serve index.html for all other routes ──
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d

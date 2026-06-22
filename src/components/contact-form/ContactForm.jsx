@@ -4,6 +4,7 @@ import { Send, Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
 import DatePicker from "../ui/DatePicker";
 import PhoneInput from "../ui/PhoneInput";
 import LocationSelect from "../ui/LocationSelect";
+import { apiPost } from "../../lib/api";
 
 /* ── ANIMATION VARIANTS ── */
 const fadeUp = {
@@ -187,7 +188,7 @@ export default function ContactForm() {
         coupleName: formData.coupleName,
         email: formData.email,
         phone: formData.phone,
-        eventDateFrom: formData.eventDateRange.from?.toISOString(),
+        eventDateFrom: formData.eventDateRange.from?.toISOString() || null,
         eventDateTo: formData.eventDateRange.to?.toISOString() || null,
         eventLocation: formData.eventLocation,
         location: formData.location,
@@ -197,20 +198,7 @@ export default function ContactForm() {
         moodboard: formData.moodboard,
       };
 
-      const res = await fetch("/api/inquiries", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        if (data.errors) {
-          setErrors((prev) => ({ ...prev, ...data.errors }));
-        }
-        throw new Error(data.message || "Something went wrong. Please try again.");
-      }
+      const data = await apiPost("/api/inquiries", payload);
 
       setSubmitted(true);
       setFormData({
@@ -228,6 +216,9 @@ export default function ContactForm() {
       setErrors({});
       setCountryCode("+91");
     } catch (err) {
+      if (err.data?.errors) {
+        setErrors((prev) => ({ ...prev, ...err.data.errors }));
+      }
       setApiError(err.message);
     } finally {
       setIsSubmitting(false);

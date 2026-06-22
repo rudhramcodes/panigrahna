@@ -7,6 +7,7 @@ import LocationSelect from "../components/ui/LocationSelect";
 import MaskText from "../components/mask-text/MaskText";
 import Footer from "../components/footer/Footer";
 import { rawCloudinaryUrl } from "../lib/cloudinary";
+import { apiPost } from "../lib/api";
 
 const InstagramIcon = () => (
   <svg width="18" height="18" viewBox="0 0 256 256" fill="currentColor">
@@ -225,20 +226,7 @@ export default function Contact() {
         moodboard: formData.moodboard,
       };
 
-      const res = await fetch("/api/inquiries", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        if (data.errors) {
-          setErrors((prev) => ({ ...prev, ...data.errors }));
-        }
-        throw new Error(data.message || "Something went wrong. Please try again.");
-      }
+      const data = await apiPost("/api/inquiries", payload);
 
       setSubmitted(true);
       setFormData({
@@ -256,6 +244,9 @@ export default function Contact() {
       setErrors({});
       setCountryCode("+91");
     } catch (err) {
+      if (err.data?.errors) {
+        setErrors((prev) => ({ ...prev, ...err.data.errors }));
+      }
       setApiError(err.message);
     } finally {
       setIsSubmitting(false);

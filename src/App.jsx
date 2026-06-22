@@ -9,6 +9,7 @@ import Projects from "./pages/Projects";
 import Contact from "./pages/Contact";
 import BridesPage from "./pages/BridesPage";
 import GroomsPage from "./pages/GroomsPage";
+import NotFound from "./pages/NotFound";
 
 function ScrollManager() {
   const { pathname, hash } = useLocation();
@@ -53,6 +54,7 @@ const App = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/brides" element={<BridesPage />} />
           <Route path="/grooms" element={<GroomsPage />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
         <BackToTop />
       </SmoothScroll>
