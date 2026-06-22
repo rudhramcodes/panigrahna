@@ -565,10 +565,14 @@ export default function Contact() {
                             <span className="font-sans text-[11px] uppercase tracking-[4px]">
                               Send Inquiry
                             </span>
-                            <ArrowUpRight
-                              size={18}
-                              className="transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1"
-                            />
+                            <div className="relative w-[18px] h-[18px]">
+                              <span className="absolute inset-0 flex items-center justify-center transition-all duration-[350ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:opacity-0 group-hover:translate-x-[10px] group-hover:-translate-y-[10px] group-hover:scale-[0.3]">
+                                <ArrowUpRight size={18} />
+                              </span>
+                              <span className="absolute inset-0 flex items-center justify-center transition-all duration-[350ms] ease-[cubic-bezier(0.16,1,0.3,1)] opacity-0 -translate-x-[10px] translate-y-[10px] scale-[0.3] group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 group-hover:scale-100">
+                                <ArrowUpRight size={18} />
+                              </span>
+                            </div>
                           </div>
                           <div className="absolute inset-0 scale-0 rounded-full bg-cinnamon-400/20 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100" />
                         </button>

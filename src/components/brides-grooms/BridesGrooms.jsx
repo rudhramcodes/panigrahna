@@ -1,90 +1,170 @@
 import { useState, useMemo, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import CldImage from "../ui/CldImage";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import ImageViewer from "../ui/ImageViewer";
 import MaskText from "../mask-text/MaskText";
-import { cloudinaryUrl } from "../../lib/cloudinary";
+import { rawCloudinaryUrl } from "../../lib/cloudinary";
 
 const BRIDES = [
-  "DSC04563_1_foxptm.jpg",
-  "DSC06642_1_lhpqi2.jpg",
-  "DSC06503_1_qx8pds.jpg",
-  "TKS05269_1_yvjsbn.jpg",
-  "DSC06398_1_chgpws.jpg",
-  "TKS05350_1_icb4yl.jpg",
-  "DSC06501_1_czy9w8.jpg",
-  "DSC06360_1_yfjfkb.jpg",
-  "DSC06398_1_chgpws.jpg",
-  "DSC06398_1_chgpws.jpg",
+  "hs1.jpg",
+  "hs2.jpg",
+  "hs3.jpg",
+  "hs4.jpg",
+  "hs5.jpg",
+  "hs6.jpg",
+  "hs7.jpg",
+  "hs8.jpg",
+  "hs9.jpg",
+  "hs10.jpg",
+  "hs11.jpg",
+  "hs12.jpg",
+  "hs13.jpg",
+  "hs14.jpg",
+  "hs15.jpg",
+  "hs16.jpg",
+  "hs17.jpg",
+  "hs18.jpg",
+  "hs19.jpg",
+  "hs20.jpg",
+  "hs21.jpg",
+  "hs22.jpg",
+  "hs23.jpg",
+  "hs24.jpg",
 ];
 
 const GROOMS = [
-  "TKS05225_1_jyeotg.jpg",
-  "TKS05320_1_iljauy.jpg",
-  "TKS05296_1_houjrv.jpg",
-  "TKS05225_1_jyeotg.jpg",
-  "TKS04526_dxtewa.jpg",
-  "TKS05280_1_otriau.jpg",
-  "DSC06360_1_yfjfkb.jpg",
-  "TKS05350_1_icb4yl.jpg",
-  "TKS05225_1_jyeotg.jpg",
-  "TKS05225_1_jyeotg.jpg",
+  "hs25.jpg",
+  "hs26.jpg",
+  "hs27.jpg",
+  "hs28.jpg",
+  "hs29.jpg",
+  "hs30.jpg",
+  "hs31.jpg",
+  "hs32.jpg",
+  "hs33.jpg",
+  "hs34.jpg",
+  "hs35.jpg",
+  "hs36.jpg",
+  "hs37.jpg",
+  "hs38.jpg",
+  "hs39.jpg",
+  "hs40.jpg",
+  "hs41.jpg",
+  "hs42.jpg",
+  "hs43.jpg",
+  "hs44.jpg",
+  "hs45.jpg",
+  "hs46.jpg",
+  "hs47.jpg",
+  "hs48.jpg",
 ];
 
 const EASE = [0.76, 0, 0.24, 1];
+const HOME_SHOW = 8;
 
-const ITEM_VARIANTS = {
-  hidden: { opacity: 0, y: 40, scale: 0.96 },
-  visible: (i) => ({
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.7, ease: EASE, delay: i * 0.05 },
-  }),
-};
+function ImageTile({ publicId, className, onClick }) {
+  return (
+    <motion.div
+      className={`group cursor-pointer overflow-hidden rounded-sm bg-sand/20 ${className}`}
+      onClick={onClick}
+    >
+      <img
+        src={rawCloudinaryUrl(publicId)}
+        alt=""
+        className="w-full h-full object-cover transition-all duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:scale-[1.04]"
+        loading="lazy"
+        decoding="async"
+      />
+      <div className="absolute inset-0 border border-white/0 group-hover:border-white/30 rounded-sm transition-all duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] pointer-events-none" />
+    </motion.div>
+  );
+}
 
-function GalleryGrid({ title, images, onImageClick }) {
+function BentoGrid({ images, onImageClick }) {
+  const [i0, i1, i2, i3, i4, i5, i6, i7] = images;
+
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
+      <div className="col-span-2 row-span-2 aspect-square md:aspect-auto">
+        <ImageTile publicId={i0} className="w-full h-full" onClick={() => onImageClick(0)} />
+      </div>
+      <div className="aspect-[4/5] md:aspect-auto">
+        <ImageTile publicId={i1} className="w-full h-full" onClick={() => onImageClick(1)} />
+      </div>
+      <div className="aspect-[4/5] md:aspect-auto">
+        <ImageTile publicId={i2} className="w-full h-full" onClick={() => onImageClick(2)} />
+      </div>
+      <div className="aspect-[4/5] md:aspect-auto">
+        <ImageTile publicId={i3} className="w-full h-full" onClick={() => onImageClick(3)} />
+      </div>
+      <div className="aspect-[4/5] md:aspect-auto">
+        <ImageTile publicId={i4} className="w-full h-full" onClick={() => onImageClick(4)} />
+      </div>
+      <div className="aspect-[4/5] md:aspect-auto">
+        <ImageTile publicId={i5} className="w-full h-full" onClick={() => onImageClick(5)} />
+      </div>
+      <div className="aspect-[4/5] md:aspect-auto">
+        <ImageTile publicId={i6} className="w-full h-full" onClick={() => onImageClick(6)} />
+      </div>
+      <div className="col-span-2 aspect-[4/5] md:aspect-auto">
+        <ImageTile publicId={i7} className="w-full h-full" onClick={() => onImageClick(7)} />
+      </div>
+    </div>
+  );
+}
+
+function CategorySection({ title, images, viewAllPath, onImageClick }) {
+  const navigate = useNavigate();
+  const showImages = images.slice(0, HOME_SHOW);
+
   return (
     <div>
-      <div className="mb-8 sm:mb-10 md:mb-12">
+      <div className="mb-6 sm:mb-8 md:mb-10">
         <MaskText
           outerTag="h2"
           tag="span"
-            amount={0.3}
+          amount={0.3}
           className="font-serif text-walnut font-light leading-none tracking-tight"
           outerStyle={{ fontSize: "clamp(1.4rem, 3.5vw, 2.4rem)" }}
           lines={[
-            <span key="line"><em className="italic">{title.split(" ")[0]}</em>{" "}{title.split(" ").slice(1).join(" ")}</span>,
+            <span key="line">
+              <em className="italic">{title.split(" ")[0]}</em>{" "}
+              {title.split(" ").slice(1).join(" ")}
+            </span>,
           ]}
         />
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3 md:gap-4">
-        {images.map((publicId, i) => (
-          <motion.div
-            key={publicId}
-            custom={i}
-            variants={ITEM_VARIANTS}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-60px" }}
-            className="group cursor-pointer overflow-hidden rounded-[1vw] bg-sand/20 relative aspect-[4/5]"
-            onClick={() => onImageClick(i)}
-          >
-            <CldImage
-              publicId={publicId}
-              alt=""
-              width={400}
-              options={{ crop: "fill", gravity: "auto" }}
-              wrapperClassName="w-full h-full transition-all duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:scale-[1.04]"
-              imgClassName="w-full h-full object-cover"
-              loading="lazy"
-              decoding="async"
-            />
-            <div className="absolute inset-0 border border-white/0 group-hover:border-white/30 rounded-[1vw] transition-all duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] pointer-events-none" />
-          </motion.div>
-        ))}
-      </div>
+      <BentoGrid images={showImages} onImageClick={onImageClick} />
+
+      <motion.div
+        className="mt-8 sm:mt-10 flex justify-center"
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, ease: EASE }}
+      >
+        <button
+          onClick={() => navigate(viewAllPath)}
+          className="group relative inline-flex h-14 items-center justify-center gap-3 overflow-hidden rounded-full bg-walnut px-8 text-sand transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.02] cursor-pointer"
+        >
+          <div className="relative z-10 flex items-center gap-3">
+            <span className="font-sans text-[11px] uppercase tracking-[4px]">
+              View All
+            </span>
+            <div className="relative w-[18px] h-[18px]">
+              <span className="absolute inset-0 flex items-center justify-center transition-all duration-[350ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:opacity-0 group-hover:translate-x-[10px] group-hover:-translate-y-[10px] group-hover:scale-[0.3]">
+                <ArrowUpRight size={18} strokeWidth={1.5} />
+              </span>
+              <span className="absolute inset-0 flex items-center justify-center transition-all duration-[350ms] ease-[cubic-bezier(0.16,1,0.3,1)] opacity-0 -translate-x-[10px] translate-y-[10px] scale-[0.3] group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 group-hover:scale-100">
+                <ArrowUpRight size={18} strokeWidth={1.5} />
+              </span>
+            </div>
+          </div>
+          <div className="absolute inset-0 scale-0 rounded-full bg-cinnamon-400/20 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100" />
+        </button>
+      </motion.div>
     </div>
   );
 }
@@ -92,50 +172,62 @@ function GalleryGrid({ title, images, onImageClick }) {
 export default function BridesGrooms() {
   const [viewerOpen, setViewerOpen] = useState(false);
   const [viewerIndex, setViewerIndex] = useState(0);
-  const [viewerType, setViewerType] = useState("bride");
+  const [viewerImages, setViewerImages] = useState([]);
 
-  const brideViewerImages = useMemo(
+  const allBrideViewerImages = useMemo(
     () =>
       BRIDES.map((publicId, i) => ({
         id: `bride-${i}`,
-        img: cloudinaryUrl(publicId, { width: 1200 }),
+        img: rawCloudinaryUrl(publicId),
       })),
     []
   );
 
-  const groomViewerImages = useMemo(
+  const allGroomViewerImages = useMemo(
     () =>
       GROOMS.map((publicId, i) => ({
         id: `groom-${i}`,
-        img: cloudinaryUrl(publicId, { width: 1200 }),
+        img: rawCloudinaryUrl(publicId),
       })),
     []
   );
 
-  const openViewer = useCallback((type, index) => {
-    setViewerType(type);
-    setViewerIndex(index);
-    setViewerOpen(true);
-  }, []);
+  const openBrideViewer = useCallback(
+    (index) => {
+      setViewerImages(allBrideViewerImages);
+      setViewerIndex(index);
+      setViewerOpen(true);
+    },
+    [allBrideViewerImages]
+  );
 
-  const viewerImages = viewerType === "bride" ? brideViewerImages : groomViewerImages;
+  const openGroomViewer = useCallback(
+    (index) => {
+      setViewerImages(allGroomViewerImages);
+      setViewerIndex(index);
+      setViewerOpen(true);
+    },
+    [allGroomViewerImages]
+  );
 
   return (
     <section className="relative w-full bg-sand/50 overflow-hidden py-20 sm:py-24 md:py-32">
       <div className="mx-auto max-w-[1480px] px-5 sm:px-8 md:px-12 lg:px-16">
-        <div className="mb-20 sm:mb-24 md:mb-32">
-          <GalleryGrid
+        <div className="mb-24 sm:mb-28 md:mb-36">
+          <CategorySection
             title="Brides of Panigrahna"
             images={BRIDES}
-            onImageClick={(i) => openViewer("bride", i)}
+            viewAllPath="/brides"
+            onImageClick={openBrideViewer}
           />
         </div>
 
         <div>
-          <GalleryGrid
+          <CategorySection
             title="Grooms of Panigrahna"
             images={GROOMS}
-            onImageClick={(i) => openViewer("groom", i)}
+            viewAllPath="/grooms"
+            onImageClick={openGroomViewer}
           />
         </div>
       </div>

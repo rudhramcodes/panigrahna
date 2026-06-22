@@ -6,6 +6,8 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Projects from "./pages/Projects";
 import Contact from "./pages/Contact";
+import BridesPage from "./pages/BridesPage";
+import GroomsPage from "./pages/GroomsPage";
 
 function ScrollManager() {
   const { pathname, hash } = useLocation();
@@ -48,6 +50,8 @@ const App = () => {
           <Route path="/about" element={<About />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/brides" element={<BridesPage />} />
+          <Route path="/grooms" element={<GroomsPage />} />
         </Routes>
       </SmoothScroll>
     </>

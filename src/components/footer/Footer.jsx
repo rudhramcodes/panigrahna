@@ -108,14 +108,6 @@ export default function Footer({ hideCTA = false }) {
             ]}
           />
 
-          {/* <motion.p
-            className="font-sans text-[clamp(0.9rem,1.1vw,1.1rem)] font-light leading-[1.6] text-taupe mb-16 mx-auto max-w-[540px]"
-            variants={fadeUp}
-            custom={1}
-          >
-            Crafting timeless visual stories for modern brands and couples.
-          </motion.p> */}
-
           <motion.div className="flex justify-center" variants={fadeUp} custom={2}>
             <Magnetic strength={0.2}>
               <Link
