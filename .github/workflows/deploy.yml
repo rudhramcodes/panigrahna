@@ -9,8 +9,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout code with full history
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check if critical files changed
+        id: changes
+        run: |
+          CHANGED=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+          echo "Changed files:"
+          echo "$CHANGED"
+          if echo "$CHANGED" | grep -E "^package\.json|^vite\.config\.js|\.env" > /dev/null; then
+            echo "clean=true" >> $GITHUB_OUTPUT
+          else
+            echo "clean=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -35,4 +49,4 @@ jobs:
           local-dir: ./dist/
           server-dir: ./
           protocol: ftps
-          dangerous-clean-slate: true
+          dangerous-clean-slate: ${{ steps.changes.outputs.clean }}
