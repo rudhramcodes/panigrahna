@@ -8,7 +8,7 @@ import MaskText from "../mask-text/MaskText";
 const COUPLES = [
   { name: "Harsh & Sayonee", publicId: "hs38.5.jpg", version: "v1781762717", quote: "A love story written in the stars", location: "Mumbai", date: "Dec 2024" },
   { name: "Rahul & Jeevani", publicId: "021.jpg", version: "v1781762717", quote: "Two hearts, one journey", location: "Udaipur", date: "Nov 2024" },
-  { name: "Prachi & Preet", publicId: "pp.jpg", version: "v1781762717", quote: "Where tradition meets forever", location: "Surat", date: "Oct 2024" },
+  { name: "Prachi & Preet", publicId: "pp2.jpg", version: "v1782208255", quote: "Where tradition meets forever", location: "Surat", date: "Oct 2024" },
   { name: "Ronak & Jessica", publicId: "rj72.jpg", version: "v1781762717", quote: "Dancing into eternity", location: "Goa", date: "Feb 2025" },
   { name: "Rutvik & Aishwarya", publicId: "ra.jpg", version: "v1781762717", quote: "A promise made in heaven", location: "Jaipur", date: "Jan 2025" },
 ];
