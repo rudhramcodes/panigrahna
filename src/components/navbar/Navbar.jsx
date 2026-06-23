@@ -6,28 +6,34 @@ import { useSmoothScroll } from "../smooth-scroll/SmoothScroll";
 
 export default function Navbar() {
   const [isActive, setIsActive] = useState(false);
-  const [heroInView, setHeroInView] = useState(false);
+  const [isDarkBg, setIsDarkBg] = useState(false);
   const lenisRef = useSmoothScroll();
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
     const hero = document.getElementById("hero");
-    if (!hero) {
-      setHeroInView(false);
-      return;
-    }
+    const about = document.getElementById("about");
 
-    const observer = new IntersectionObserver(
-      ([entry]) => setHeroInView(entry.isIntersecting),
-      { threshold: 0.3 }
-    );
+    const checkDark = () => {
+      const darkSections = [hero, about];
+      const isDark = darkSections.some((section) => {
+        if (!section) return false;
+        const rect = section.getBoundingClientRect();
+        return rect.top <= 80 && rect.bottom > 0;
+      });
+      setIsDarkBg(isDark);
+    };
 
-    observer.observe(hero);
-    return () => observer.disconnect();
+    checkDark();
+
+    window.addEventListener("scroll", checkDark, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", checkDark);
+    };
   }, [location.pathname]);
 
-  const lineColor = isActive || heroInView ? "bg-white" : "bg-black";
+  const lineColor = isActive || isDarkBg ? "bg-white" : "bg-black";
 
   useEffect(() => {
     const lenis = lenisRef?.current;
@@ -77,17 +83,17 @@ export default function Navbar() {
         >
           <span className="relative flex h-full w-full items-center justify-center">
             <span
-              className={`absolute h-[1.2px] ${lineColor} transition-all duration-300 ease-[cubic-bezier(0.76,0,0.24,1)] ${
+              className={`absolute h-[1.2px] ${lineColor} transition-all duration-300 ease-[cubic-bezier(0.76,0,0.24,1)]  ${
                 isActive ? "w-0" : "w-[50%]"
               }`}
             />
             <span
-              className={`absolute h-[1.2px] w-[50%] ${lineColor} transition-all duration-300 ease-[cubic-bezier(0.76,0,0.24,1)] ${
+              className={`absolute h-[1.2px] w-[50%] ${lineColor} transition-all duration-300 ease-[cubic-bezier(0.76,0,0.24,1)]  ${
                 isActive ? "rotate-45" : "-translate-y-[6px]"
               }`}
             />
             <span
-              className={`absolute h-[1.2px] ${lineColor} transition-all duration-300 ease-[cubic-bezier(0.76,0,0.24,1)] ${
+              className={`absolute h-[1.2px] ${lineColor} transition-all duration-300 ease-[cubic-bezier(0.76,0,0.24,1)]  ${
                 isActive ? "-rotate-45 w-[50%]" : "w-[50%] translate-y-[6px]"
               }`}
             />
