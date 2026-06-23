@@ -6,6 +6,24 @@ import PhoneInput from "../ui/PhoneInput";
 import LocationSelect from "../ui/LocationSelect";
 import { apiPost } from "../../lib/api";
 
+const InstagramIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 256 256" fill="currentColor">
+    <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z" />
+  </svg>
+);
+
+const FacebookIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 256 256" fill="currentColor">
+    <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm8,191.63V152h24a8,8,0,0,0,0-16H136V112a16,16,0,0,1,16-16h16a8,8,0,0,0,0-16H152a32,32,0,0,0-32,32v24H96a8,8,0,0,0,0,16h24v63.63a88,88,0,1,1,16,0Z" />
+  </svg>
+);
+
+const PinterestIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 256 256" fill="currentColor">
+    <path d="M224,112c0,22.57-7.9,43.2-22.23,58.11C188.39,184,170.25,192,152,192c-17.88,0-29.82-5.86-37.43-12l-10.78,45.82A8,8,0,0,1,96,232a8.24,8.24,0,0,1-1.84-.21,8,8,0,0,1-6-9.62l32-136a8,8,0,0,1,15.58,3.66l-16.9,71.8C122,166,131.3,176,152,176c27.53,0,56-23.94,56-64A72,72,0,1,0,73.63,148a8,8,0,0,1-13.85,8A88,88,0,1,1,224,112Z" />
+  </svg>
+);
+
 /* ── ANIMATION VARIANTS ── */
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -361,16 +379,33 @@ export default function ContactForm() {
                     Follow
                   </motion.h4>
                   <div className="flex gap-4">
-                    {["Instagram", "Facebook", "Pinterest"].map((social) => (
-                      <motion.a
-                        key={social}
-                        variants={fadeUp}
-                        href="#"
-                        className="font-serif italic text-lg text-walnut hover:text-cinnamon-400 transition-colors underline decoration-taupe/20 underline-offset-4"
-                      >
-                        {social}
-                      </motion.a>
-                    ))}
+                    <motion.a
+                      variants={fadeUp}
+                      href="https://instagram.com/panigrahna.rudhram"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex h-10 w-10 items-center justify-center rounded-full border border-taupe/20 text-taupe/60 hover:border-cinnamon-400/30 hover:text-cinnamon-400 transition-all duration-500"
+                    >
+                      <InstagramIcon />
+                    </motion.a>
+                    <motion.a
+                      variants={fadeUp}
+                      href="https://facebook.com/panigrahna.rudhram"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex h-10 w-10 items-center justify-center rounded-full border border-taupe/20 text-taupe/60 hover:border-cinnamon-400/30 hover:text-cinnamon-400 transition-all duration-500"
+                    >
+                      <FacebookIcon />
+                    </motion.a>
+                    <motion.a
+                      variants={fadeUp}
+                      href="https://pinterest.com/panigrahna_rudhram"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex h-10 w-10 items-center justify-center rounded-full border border-taupe/20 text-taupe/60 hover:border-cinnamon-400/30 hover:text-cinnamon-400 transition-all duration-500"
+                    >
+                      <PinterestIcon />
+                    </motion.a>
                   </div>
                 </motion.div>
               </div>
