@@ -1,10 +1,6 @@
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRef } from "react";
 import MaskText from "../mask-text/MaskText";
 import { rawCloudinaryUrl } from "../../lib/cloudinary";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const HEADING_LINES = [
   <span><em className="uppercase font-thin">Documenting</em> the <em className="text-gold-200">traditions</em></span>,
@@ -20,25 +16,6 @@ const NOTE_TEXT =
 export default function AboutSection() {
   const sectionRef = useRef(null);
   const imgRef = useRef(null);
-
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    const ctx = gsap.context(() => {
-      gsap.to(imgRef.current, {
-        yPercent: -12,
-        ease: "none",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1.4,
-        },
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
 
   return (
     <>
@@ -78,7 +55,6 @@ export default function AboutSection() {
           backgroundImage: "url(/images/about-bg.jpeg)",
           backgroundSize: "cover",
           backgroundPosition: "center",
-          backgroundAttachment: "fixed",
         }}
       >
         <div className="absolute inset-0 bg-black/55" />
