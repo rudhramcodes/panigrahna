@@ -6,11 +6,11 @@ import MobileGallery from "./MobileGallery";
 import MaskText from "../mask-text/MaskText";
 
 const COUPLES = [
-  { name: "Harsh & Sayonee", publicId: "TKS05225_1_jyeotg.jpg", quote: "A love story written in the stars", location: "Mumbai", date: "Dec 2024" },
-  { name: "Rahul & Jeevani", publicId: "DSC04563_1_foxptm.jpg", quote: "Two hearts, one journey", location: "Udaipur", date: "Nov 2024" },
-  { name: "Prachi & Preet", publicId: "DSC06503_1_qx8pds.jpg", quote: "Where tradition meets forever", location: "Surat", date: "Oct 2024" },
-  { name: "Ronak & Jessica", publicId: "TKS04526_dxtewa.jpg", quote: "Dancing into eternity", location: "Goa", date: "Feb 2025" },
-  { name: "Rutvik & Aishwarya", publicId: "HRS_6891_1_rpow6s.jpg", angle: -90, quote: "A promise made in heaven", location: "Jaipur", date: "Jan 2025" },
+  { name: "Harsh & Sayonee", publicId: "hs38.5.jpg", version: "v1781762717", quote: "A love story written in the stars", location: "Mumbai", date: "Dec 2024" },
+  { name: "Rahul & Jeevani", publicId: "021.jpg", version: "v1781762717", quote: "Two hearts, one journey", location: "Udaipur", date: "Nov 2024" },
+  { name: "Prachi & Preet", publicId: "pp.jpg", version: "v1781762717", quote: "Where tradition meets forever", location: "Surat", date: "Oct 2024" },
+  { name: "Ronak & Jessica", publicId: "rj72.jpg", version: "v1781762717", quote: "Dancing into eternity", location: "Goa", date: "Feb 2025" },
+  { name: "Rutvik & Aishwarya", publicId: "ra.jpg", version: "v1781762717", quote: "A promise made in heaven", location: "Jaipur", date: "Jan 2025" },
 ];
 
 export default function Project2() {
@@ -47,8 +47,8 @@ export default function Project2() {
   const galleryItems = useMemo(
     () =>
       COUPLES.map((c) => ({
-        image: rawCloudinaryUrl(c.publicId, "001.jpg"),
-        placeholder: rawCloudinaryUrl(c.publicId, "002.jpg"),
+        image: rawCloudinaryUrl(c.publicId, c.version || "001.jpg"),
+        placeholder: rawCloudinaryUrl(c.publicId, c.version || "002.jpg"),
         text: c.name,
       })),
     []
