@@ -35,6 +35,7 @@ export default function Project2() {
     () =>
       COUPLES.map((c) => ({
         publicId: c.publicId,
+        version: c.version,
         text: c.name,
         quote: c.quote,
         location: c.location,

@@ -125,7 +125,7 @@ export default function MobileGallery({ items, interval = 5000, onCoupleClick })
           >
             <div className="absolute inset-0">
               <img
-                src={rawCloudinaryUrl(item.publicId, "001.jpg")}
+                src={rawCloudinaryUrl(item.publicId, item.version || "001.jpg")}
                 alt={item.text}
                 className="w-full h-full object-cover pointer-events-none"
               />
@@ -133,13 +133,7 @@ export default function MobileGallery({ items, interval = 5000, onCoupleClick })
 
             <div className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
 
-            <div className="absolute bottom-0 left-0 right-0 px-6 pb-9">
-              <motion.div
-                className="w-8 h-[2px] bg-cinnamon-300 mb-3"
-                initial={{ width: 0 }}
-                animate={{ width: 32 }}
-                transition={{ delay: 0.25, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              />
+              <div className="absolute bottom-0 left-0 right-0 px-6 pb-9">
 
               <h3 className="font-serif text-white text-[clamp(1.4rem,5.5vw,1.8rem)] font-light leading-none tracking-tight">
                 {item.text}
