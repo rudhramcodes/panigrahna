@@ -54,6 +54,7 @@ export default function PanigrahnLoader({ onComplete }) {
   const detailRef2 = useRef(null);
   const wrapperRef = useRef(null);
   const glowRef = useRef(null);
+  const textRef = useRef(null);
   const [phase, setPhase] = useState("outline");
   const [particles] = useState(() => makeParticles(20));
   const [showParticles, setShowParticles] = useState(false);
@@ -136,8 +137,9 @@ export default function PanigrahnLoader({ onComplete }) {
     const detail2 = detailRef2.current;
     const wrapper = wrapperRef.current;
     const glow = glowRef.current;
+    const text = textRef.current;
 
-    if (!fill || !outline || !detail1 || !detail2 || !wrapper || !glow) return;
+    if (!fill || !outline || !detail1 || !detail2 || !wrapper || !glow || !text) return;
 
     const tl = gsap.timeline({
       onComplete: () => {
@@ -164,6 +166,17 @@ export default function PanigrahnLoader({ onComplete }) {
         duration: 1.1,
         ease: "power3.inOut",
       }
+    );
+
+    tl.fromTo(
+      text,
+      { clipPath: "inset(100% 0% 0% 0%)" },
+      {
+        clipPath: "inset(0% 0% 0% 0%)",
+        duration: 0.8,
+        ease: "power3.inOut",
+      },
+      "-=0.6"
     );
 
     tl.to(
@@ -382,6 +395,22 @@ export default function PanigrahnLoader({ onComplete }) {
             </div>
           )}
           </div>{/* closes logo container */}
+
+          <div
+            ref={textRef}
+            style={{
+              position: "relative",
+              zIndex: 1,
+              fontFamily: "var(--font-serif)",
+              fontSize: "clamp(20px, 4vmin, 36px)",
+              fontWeight: 600,
+              letterSpacing: "0.20em",
+              color: BRAND,
+              clipPath: "inset(100% 0% 0% 0%)",
+            }}
+          >
+            Panigrahna
+          </div>
         </div>{/* closes inner wrapper (wrapperRef) */}
         </> 
       )}

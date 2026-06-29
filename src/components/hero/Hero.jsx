@@ -33,9 +33,9 @@ export default function Hero() {
     <section ref={sectionRef} className="relative h-screen w-full overflow-hidden">
       <img
         ref={imgRef}
-        src={rawCloudinaryUrl("001.jpg")}
+        src={rawCloudinaryUrl("hero-img.jpg")}
         alt="Panigrahna"
-        className="absolute inset-0 h-full w-full object-cover object-center will-change-transform"
+        className="absolute inset-0 h-full w-full object-cover object-bottom will-change-transform"
         fetchpriority="high"
         decoding="async"
       />
