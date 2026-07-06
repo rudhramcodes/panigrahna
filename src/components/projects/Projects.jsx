@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
-import { cloudinaryUrl, RAW_VERSION } from "../../lib/cloudinary";
+import { rawCloudinaryUrl } from "../../lib/cloudinary";
 
 const IMG_800 = [
   "PS1.jpg",
@@ -30,23 +30,13 @@ function Column({ images, y, offset }) {
       style={{ y, top: offset }}
     >
       {images.map((publicId) => (
-        <div key={publicId} className="relative flex-1 rounded-[1vw] overflow-hidden progressive-bg" style={{
-          backgroundImage: `url(${cloudinaryUrl(publicId, { width: 30, quality: "auto:low", effect: "blur:1000", version: RAW_VERSION })})`,
-        }}>
+        <div key={publicId} className="relative flex-1 rounded-[1vw] overflow-hidden">
           <img
-            src={cloudinaryUrl(publicId, { version: RAW_VERSION })}
+            src={rawCloudinaryUrl(publicId)}
             alt=""
-            className="w-full h-full object-cover progressive-load"
+            className="w-full h-full object-cover"
             loading="lazy"
             decoding="async"
-            onLoad={(e) => {
-              e.currentTarget.classList.add('loaded');
-              e.currentTarget.parentElement.style.backgroundImage = 'none';
-            }}
-            onError={(e) => {
-              e.currentTarget.classList.add('loaded');
-              e.currentTarget.parentElement.style.backgroundImage = 'none';
-            }}
           />
         </div>
       ))}
