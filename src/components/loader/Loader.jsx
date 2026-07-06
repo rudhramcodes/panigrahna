@@ -15,7 +15,7 @@ const CLIP_PATH_1 =
 const CLIP_PATH_2 =
   "M1115.86,1766.24c-43.37,13.68-81.06,28.87-107.97,67.2-23.7,33.75-45.7,82.74-31.04,140.91,9.68,38.42,33.25,88.3,63.48,110.8,37.48,27.89,95.59,34.31,145.61,23.32,90.23-19.83,159.14-117.48,137.7-203.28-4.54-18.15-16.42-45.75-25.47-60.05-12.09-19.09-23.43-32.45-40.39-48.36-25.71-24.12-96.95-44.72-141.93-30.55Z";
 
-function Particle({ x, y, size, delay, duration, angle }) {
+function Particle({ x, y, size, delay, duration, angle, dist }) {
   return (
     <div
       style={{
@@ -29,7 +29,7 @@ function Particle({ x, y, size, delay, duration, angle }) {
         opacity: 0,
         animation: `particleFly ${duration}s ${delay}s ease-out forwards`,
         "--angle": `${angle}deg`,
-        "--dist": `${60 + Math.random() * 80}px`,
+        "--dist": `${dist}px`,
       }}
     />
   );
@@ -44,6 +44,7 @@ function makeParticles(count = 16) {
     delay: 0.02 * i,
     duration: 0.6 + Math.random() * 0.4,
     angle: (360 / count) * i + Math.random() * 15,
+    dist: 60 + Math.random() * 80,
   }));
 }
 
@@ -54,10 +55,13 @@ export default function PanigrahnLoader({ onComplete }) {
   const detailRef2 = useRef(null);
   const wrapperRef = useRef(null);
   const glowRef = useRef(null);
-  const textRef = useRef(null);
   const [phase, setPhase] = useState("outline");
   const [particles] = useState(() => makeParticles(20));
   const [showParticles, setShowParticles] = useState(false);
+
+  // ponytail: stabilize onComplete so changing parent refs don't restart GSAP timelines
+  const onCompleteRef = useRef(onComplete);
+  useEffect(() => { onCompleteRef.current = onComplete; });
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -137,9 +141,8 @@ export default function PanigrahnLoader({ onComplete }) {
     const detail2 = detailRef2.current;
     const wrapper = wrapperRef.current;
     const glow = glowRef.current;
-    const text = textRef.current;
 
-    if (!fill || !outline || !detail1 || !detail2 || !wrapper || !glow || !text) return;
+    if (!fill || !outline || !detail1 || !detail2 || !wrapper || !glow) return;
 
     const tl = gsap.timeline({
       onComplete: () => {
@@ -152,7 +155,7 @@ export default function PanigrahnLoader({ onComplete }) {
           ease: "power2.inOut",
           onComplete: () => {
             setPhase("done");
-            onComplete?.();
+            onCompleteRef.current?.();
           },
         });
       },
@@ -166,17 +169,6 @@ export default function PanigrahnLoader({ onComplete }) {
         duration: 1.1,
         ease: "power3.inOut",
       }
-    );
-
-    tl.fromTo(
-      text,
-      { clipPath: "inset(100% 0% 0% 0%)" },
-      {
-        clipPath: "inset(0% 0% 0% 0%)",
-        duration: 0.8,
-        ease: "power3.inOut",
-      },
-      "-=0.6"
     );
 
     tl.to(
@@ -206,7 +198,7 @@ export default function PanigrahnLoader({ onComplete }) {
     return () => {
       tl.kill();
     };
-  }, [phase, onComplete]);
+  }, [phase]);
 
   return (
     <div
@@ -251,18 +243,6 @@ export default function PanigrahnLoader({ onComplete }) {
           overflow: "hidden",
         }}
       >
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            backgroundImage: "url(/images/grain.jpeg)",
-            backgroundSize: "256px",
-            backgroundRepeat: "repeat",
-            opacity: 0.45,
-            pointerEvents: "none",
-          }}
-        />
-
         <div
           style={{
             position: "absolute",
@@ -395,22 +375,6 @@ export default function PanigrahnLoader({ onComplete }) {
             </div>
           )}
           </div>{/* closes logo container */}
-
-          <div
-            ref={textRef}
-            style={{
-              position: "relative",
-              zIndex: 1,
-              fontFamily: "var(--font-serif)",
-              fontSize: "clamp(20px, 4vmin, 36px)",
-              fontWeight: 600,
-              letterSpacing: "0.20em",
-              color: BRAND,
-              clipPath: "inset(100% 0% 0% 0%)",
-            }}
-          >
-            Panigrahna
-          </div>
         </div>{/* closes inner wrapper (wrapperRef) */}
         </> 
       )}

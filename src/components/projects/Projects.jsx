@@ -1,19 +1,19 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
-import { rawCloudinaryUrl } from "../../lib/cloudinary";
+import { cloudinaryUrl, RAW_VERSION } from "../../lib/cloudinary";
 
 const IMG_800 = [
-  "TKS05269_1_yvjsbn.jpg",
-  "TKS05296_1_houjrv.jpg",
-  "TKS05280_1_otriau.jpg",
-  "TKS05350_1_icb4yl.jpg",
-  "TKS05320_1_iljauy.jpg",
-  "DSC06503_1_qx8pds.jpg",
-  "DSC06398_1_chgpws.jpg",
-  "DSC06360_1_yfjfkb.jpg",
-  "DSC06642_1_lhpqi2.jpg",
-  "DSC06501_1_czy9w8.jpg",
+  "PS1.jpg",
+  "PS2.jpg",
+  "PS3.jpg",
+  "PS4.jpg",
+  "PS5.jpg",
+  "PS6.jpg",
+  "PS7.jpg",
+  "PS8.jpg",
+  "PS9.jpg",
+  "PS10.jpg",
 ];
 
 const COLUMNS = [
@@ -30,13 +30,23 @@ function Column({ images, y, offset }) {
       style={{ y, top: offset }}
     >
       {images.map((publicId) => (
-        <div key={publicId} className="relative flex-1 rounded-[1vw] overflow-hidden">
+        <div key={publicId} className="relative flex-1 rounded-[1vw] overflow-hidden progressive-bg" style={{
+          backgroundImage: `url(${cloudinaryUrl(publicId, { width: 30, quality: "auto:low", effect: "blur:1000", version: RAW_VERSION })})`,
+        }}>
           <img
-            src={rawCloudinaryUrl(publicId, "001.jpg")}
+            src={cloudinaryUrl(publicId, { version: RAW_VERSION })}
             alt=""
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover progressive-load"
             loading="lazy"
             decoding="async"
+            onLoad={(e) => {
+              e.currentTarget.classList.add('loaded');
+              e.currentTarget.parentElement.style.backgroundImage = 'none';
+            }}
+            onError={(e) => {
+              e.currentTarget.classList.add('loaded');
+              e.currentTarget.parentElement.style.backgroundImage = 'none';
+            }}
           />
         </div>
       ))}

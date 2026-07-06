@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import ImageViewer from "../components/ui/ImageViewer";
-import { rawCloudinaryUrl } from "../lib/cloudinary";
+import { cloudinaryUrl, RAW_VERSION } from "../lib/cloudinary";
 import { useSmoothScroll } from "../components/smooth-scroll/SmoothScroll";
 
 import harshSayoneeImages from "../data/couples/harsh-and-sayonee.json";
@@ -197,7 +197,7 @@ export default function Projects() {
       couple.images.map((entry, i) => {
         const publicId = typeof entry === "string" ? entry : entry.id;
         const version = typeof entry === "string" ? undefined : entry.version;
-        return { src: rawCloudinaryUrl(publicId, version), num: i + 1 };
+        return { src: cloudinaryUrl(publicId, { width: 1200, version: version || RAW_VERSION }), num: i + 1 };
       }),
     [index]
   );
@@ -227,7 +227,7 @@ export default function Projects() {
         const publicId = typeof entry === "string" ? entry : entry.id;
         const version = typeof entry === "string" ? undefined : entry.version;
         const img = new Image();
-        img.src = rawCloudinaryUrl(publicId, version);
+        img.src = cloudinaryUrl(publicId, { width: 1200, version: version || RAW_VERSION });
       });
     });
   }, [index]);

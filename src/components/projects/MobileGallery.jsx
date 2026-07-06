@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { rawCloudinaryUrl } from "../../lib/cloudinary";
+import { cloudinaryUrl, RAW_VERSION } from "../../lib/cloudinary";
 
 const SPRING = { type: "spring", stiffness: 350, damping: 32, mass: 0.85 };
 
@@ -123,11 +123,25 @@ export default function MobileGallery({ items, interval = 5000, onCoupleClick })
             }}
             className="absolute inset-0 cursor-grab active:cursor-grabbing"
           >
-            <div className="absolute inset-0">
+            <div
+              className="absolute inset-0 progressive-bg"
+              style={{
+                backgroundImage: `url(${cloudinaryUrl(item.publicId, { width: 30, quality: "auto:low", effect: "blur:1000", version: item.version || RAW_VERSION })})`,
+              }}
+            >
               <img
-                src={rawCloudinaryUrl(item.publicId, item.version || "001.jpg")}
+                src={cloudinaryUrl(item.publicId, { width: 500, version: item.version || RAW_VERSION })}
                 alt={item.text}
-                className="w-full h-full object-cover pointer-events-none"
+                className="w-full h-full object-cover pointer-events-none progressive-load"
+                loading="lazy"
+                onLoad={(e) => {
+                  e.currentTarget.classList.add('loaded');
+                  e.currentTarget.parentElement.style.backgroundImage = 'none';
+                }}
+                onError={(e) => {
+                  e.currentTarget.classList.add('loaded');
+                  e.currentTarget.parentElement.style.backgroundImage = 'none';
+                }}
               />
             </div>
 

@@ -18,6 +18,7 @@ const RAW_CLOUDINARY_VERSION = "v1781762717";
  * @param {string}  [options.gravity]          - "auto", "center", "face"
  * @param {number}  [options.angle]            - Rotation (e.g. -90)
  * @param {string}  [options.effect]           - Cloudinary effect (e.g. "blur:1000")
+ * @param {string}  [options.version]          - Cloudinary upload version (default: CLOUDINARY_VERSION)
  * @returns {string} Full Cloudinary URL
  */
 export function cloudinaryUrl(publicId, options = {}) {
@@ -30,6 +31,7 @@ export function cloudinaryUrl(publicId, options = {}) {
     gravity,
     angle,
     effect,
+    version,
   } = options;
 
   const params = [`f_${format}`, `q_${quality}`];
@@ -41,7 +43,8 @@ export function cloudinaryUrl(publicId, options = {}) {
   if (crop) params.push(`c_${crop}`);
   if (gravity) params.push(`g_${gravity}`);
 
-  return `${CLOUDINARY_BASE}/${params.join(",")}/${CLOUDINARY_VERSION}/${publicId}`;
+  const v = version || CLOUDINARY_VERSION;
+  return `${CLOUDINARY_BASE}/${params.join(",")}/${v}/${publicId}`;
 }
 
 /**
@@ -82,6 +85,8 @@ export function blurPlaceholder(publicId) {
     effect: "blur:1000",
   });
 }
+
+export const RAW_VERSION = RAW_CLOUDINARY_VERSION;
 
 export function rawCloudinaryUrl(publicId, version) {
   const v = version || RAW_CLOUDINARY_VERSION;

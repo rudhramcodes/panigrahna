@@ -2,7 +2,7 @@ import { useMemo, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 
-import { rawCloudinaryUrl } from "../lib/cloudinary";
+import { cloudinaryUrl, RAW_VERSION } from "../lib/cloudinary";
 import Footer from "../components/footer/Footer";
 
 import harshSayoneeImages from "../data/couples/harsh-and-sayonee.json";
@@ -81,7 +81,7 @@ export default function CoupleProject() {
       coupleImages.map((entry, i) => {
         const publicId = typeof entry === "string" ? entry : entry.id;
         const version = typeof entry === "string" ? undefined : entry.version;
-        return { src: rawCloudinaryUrl(publicId, version), num: i + 1 };
+        return { src: cloudinaryUrl(publicId, { width: 1200, version: version || RAW_VERSION }), num: i + 1 };
       }),
     [coupleImages]
   );
@@ -94,7 +94,7 @@ export default function CoupleProject() {
     <main className="min-h-screen bg-ivory">
       <section className="relative h-[55dvh] sm:h-[80dvh] w-full overflow-hidden">
         <img
-          src={rawCloudinaryUrl(couple.publicId, "001.jpg")}
+          src={cloudinaryUrl(couple.publicId, { width: 2000, version: RAW_VERSION })}
           alt={couple.name}
           className="w-full h-full object-cover"
           fetchpriority="high"

@@ -8,11 +8,9 @@ import { rawCloudinaryUrl } from "../lib/cloudinary";
 import { useSmoothScroll } from "../components/smooth-scroll/SmoothScroll";
 
 const ALL_GROOMS = [
-  "hs25.jpg", "hs26.jpg", "hs27.jpg", "hs28.jpg", "hs29.jpg",
-  "hs30.jpg", "hs31.jpg", "hs32.jpg", "hs33.jpg", "hs34.jpg",
-  "hs35.jpg", "hs36.jpg", "hs37.jpg", "hs38.jpg", "hs39.jpg",
-  "hs40.jpg", "hs41.jpg", "hs42.jpg", "hs43.jpg", "hs44.jpg",
-  "hs45.jpg", "hs46.jpg", "hs47.jpg", "hs48.jpg",
+  "G1.jpg", "G2.jpg", "G3.jpg", "G4.jpg", "G5.jpg",
+  "G6.jpg", "G7.jpg", "G8.jpg", "G9.jpg", "G10.jpg",
+  "G11.jpg", "G12.jpg", "G13.jpg", "G14.jpg", "G15.jpg",
 ];
 
 const EASE = [0.76, 0, 0.24, 1];
