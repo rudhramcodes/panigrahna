@@ -35,14 +35,14 @@ function Particle({ x, y, size, delay, duration, angle, dist }) {
   );
 }
 
-function makeParticles(count = 16) {
+function makeParticles(count = 12) {
   return Array.from({ length: count }, (_, i) => ({
     id: i,
     x: "50%",
     y: "50%",
     size: `${2 + Math.random() * 3}px`,
     delay: 0.02 * i,
-    duration: 0.6 + Math.random() * 0.4,
+    duration: 0.5 + Math.random() * 0.3,
     angle: (360 / count) * i + Math.random() * 15,
     dist: 60 + Math.random() * 80,
   }));
@@ -56,7 +56,7 @@ export default function PanigrahnLoader({ onComplete }) {
   const wrapperRef = useRef(null);
   const glowRef = useRef(null);
   const [phase, setPhase] = useState("outline");
-  const [particles] = useState(() => makeParticles(20));
+  const [particles] = useState(() => makeParticles(12));
   const [showParticles, setShowParticles] = useState(false);
 
   // ponytail: stabilize onComplete so changing parent refs don't restart GSAP timelines
@@ -223,10 +223,6 @@ export default function PanigrahnLoader({ onComplete }) {
           0%, 100% { transform: scale(1); }
           50%       { transform: scale(1.012); }
         }
-        @keyframes subtlePulse {
-          0%, 100% { opacity: 0.15; }
-          50%       { opacity: 0.4; }
-        }
       `}</style>
 
       <div
@@ -241,6 +237,8 @@ export default function PanigrahnLoader({ onComplete }) {
           justifyContent: "center",
           zIndex: 9999,
           overflow: "hidden",
+          willChange: "opacity",
+          contain: "paint",
         }}
       >
         <div
@@ -250,8 +248,9 @@ export default function PanigrahnLoader({ onComplete }) {
             height: "60vmin",
             borderRadius: "50%",
             background: `radial-gradient(circle, ${BRAND_GLOW} 0%, transparent 70%)`,
-            animation: "subtlePulse 2s ease-in-out infinite",
+            opacity: 0.25,
             pointerEvents: "none",
+            willChange: "opacity",
           }}
         />
 
@@ -260,6 +259,7 @@ export default function PanigrahnLoader({ onComplete }) {
             position: "relative",
             width: "clamp(140px, 28vmin, 280px)",
             animation: "breathe 3s ease-in-out infinite",
+            willChange: "transform",
           }}
         >
           <div
@@ -270,7 +270,7 @@ export default function PanigrahnLoader({ onComplete }) {
               background: `radial-gradient(ellipse, ${BRAND_GLOW} 0%, transparent 65%)`,
               opacity: 0,
               pointerEvents: "none",
-              filter: "blur(12px)",
+              willChange: "opacity",
             }}
           />
 
