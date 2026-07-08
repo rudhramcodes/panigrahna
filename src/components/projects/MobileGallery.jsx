@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { cloudinaryUrl, RAW_VERSION } from "../../lib/cloudinary";
+import { rawCloudinaryUrl, RAW_VERSION } from "../../lib/cloudinary";
 
 const SPRING = { type: "spring", stiffness: 350, damping: 32, mass: 0.85 };
 
@@ -126,11 +126,11 @@ export default function MobileGallery({ items, interval = 5000, onCoupleClick })
             <div
               className="absolute inset-0 progressive-bg"
               style={{
-                backgroundImage: `url(${cloudinaryUrl(item.publicId, { width: 30, quality: "auto:low", effect: "blur:1000", version: item.version || RAW_VERSION })})`,
+                backgroundImage: `url(${rawCloudinaryUrl(item.publicId, item.version || RAW_VERSION)})`,
               }}
             >
               <img
-                src={cloudinaryUrl(item.publicId, { width: 500, version: item.version || RAW_VERSION })}
+                src={rawCloudinaryUrl(item.publicId, item.version || RAW_VERSION)}
                 alt={item.text}
                 className="w-full h-full object-cover pointer-events-none progressive-load"
                 loading="lazy"

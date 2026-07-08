@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { cloudinaryUrl, RAW_VERSION } from '../../lib/cloudinary';
+import { rawCloudinaryUrl, RAW_VERSION } from '../../lib/cloudinary';
 import CircularGallery from "./CircularGallery";
 import MobileGallery from "./MobileGallery";
 import MaskText from "../mask-text/MaskText";
@@ -48,8 +48,8 @@ export default function Project2() {
   const galleryItems = useMemo(
     () =>
       COUPLES.map((c) => ({
-        image: cloudinaryUrl(c.publicId, { width: 1000, version: c.version || RAW_VERSION }),
-        placeholder: cloudinaryUrl(c.publicId, { width: 80, quality: "auto:low", version: c.version || RAW_VERSION }),
+        image: rawCloudinaryUrl(c.publicId, c.version || RAW_VERSION),
+        placeholder: rawCloudinaryUrl(c.publicId, c.version || RAW_VERSION),
         text: c.name,
       })),
     []
