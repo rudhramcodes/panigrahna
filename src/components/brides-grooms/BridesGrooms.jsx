@@ -7,13 +7,13 @@ import MaskText from "../mask-text/MaskText";
 import { rawCloudinaryUrl } from "../../lib/cloudinary";
 
 const BRIDES = [
-  "B1.jpg", "B2.jpg", "B3.jpg", "B4.jpg", "B5.jpg",
+  "B1.jpg", "B2.jpg", "B3.avif", "B04.avif", "B5.jpg",
   "B6.jpg", "B7.jpg", "B8.jpg",
 ];
 
 const GROOMS = [
-  "G1.jpg", "G2.jpg", "G3.jpg", "G4.jpg", "G5.jpg",
-  "G9.jpg", "G7.jpg", "G8.jpg",
+  "G1.jpg", "G2.jpg", "G3.avif", "G4.jpg", "G5.jpg",
+  "G9.jpg", "G7.jpg", "G8.avif",
 ];
 
 const EASE = [0.76, 0, 0.24, 1];
