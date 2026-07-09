@@ -30,12 +30,16 @@ export default function MaskText({
   return (
     <OuterTag ref={ref} className={className} style={outerStyle}>
       {lines.map((line, i) => (
-        <div key={i} className="overflow-hidden">
+        <div key={i} className="overflow-hidden [&.revealed]:overflow-visible">
           <MotionTag
             custom={i}
             variants={animation}
             initial="initial"
             animate={isInView ? "enter" : ""}
+            onAnimationComplete={() => {
+              const el = ref.current?.children?.[i];
+              if (el) el.classList.add("revealed");
+            }}
             style={{ display: "block", margin: 0 }}
           >
             {line}

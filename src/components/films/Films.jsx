@@ -43,15 +43,16 @@ export default function Films() {
     <section ref={sectionRef} className="films-section bg-sand/50">
       <div className="films-inner">
         <div className="films-header">
-          <div className="films-label">Selected Works</div>
+          <div className="films-label">FEATURED FILMS</div>
           <MaskText
             outerTag="h2"
             tag="span"
             amount={0.5}
             className="films-heading"
             lines={[
-              <span key="line1"><em>Films</em> that preserve</span>,
-              <span key="line2">the moments that matter</span>,
+              <span className="tracking-tight" key="line1">Stories told with care,
+              </span>,
+              <span className="tracking-tight" key="line2">remembered for a <em>lifetime.</em></span>,
             ]}
           />
           <p className="films-subtext">

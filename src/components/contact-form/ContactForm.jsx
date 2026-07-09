@@ -261,9 +261,9 @@ export default function ContactForm() {
           >
             Inquiry & Bookings
           </motion.span>
-          <h2 className="font-serif text-[clamp(2.8rem,6vw,5rem)] leading-[0.9] tracking-tighter text-walnut font-thin">
-            Let&rsquo;s create something{" "}
-            <span className="italic text-cinnamon-300">beautiful</span>.
+          <h2 className="font-serif text-[clamp(1.8rem,4vw,3.2rem)] leading-[1.1] tracking-tighter text-walnut font-thin">
+            The beginning of your legacy{" "}
+            <span className="italic text-cinnamon-300">starts here.</span>
           </h2>
         </div>
 

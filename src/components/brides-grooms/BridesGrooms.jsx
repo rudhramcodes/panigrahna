@@ -70,7 +70,7 @@ function BentoGrid({ images, onImageClick }) {
   );
 }
 
-function CategorySection({ title, images, viewAllPath, onImageClick }) {
+function CategorySection({ title, description, images, viewAllPath, onImageClick }) {
   const navigate = useNavigate();
   const showImages = images.slice(0, HOME_SHOW);
 
@@ -90,6 +90,17 @@ function CategorySection({ title, images, viewAllPath, onImageClick }) {
             </span>,
           ]}
         />
+        {description && (
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: EASE, delay: 0.15 }}
+            className="font-sans text-sm sm:text-base text-taupe/70 leading-relaxed max-w-2xl mt-4"
+          >
+            {description}
+          </motion.p>
+        )}
       </div>
 
       <BentoGrid images={showImages} onImageClick={onImageClick} />
@@ -172,6 +183,7 @@ export default function BridesGrooms() {
         <div className="mb-24 sm:mb-28 md:mb-36">
           <CategorySection
             title="Brides of Panigrahna"
+            description="Every Panigrahna bride carries a story of her own. Through thoughtful artistry and genuine emotion, we preserve her grace in a way that feels timeless."
             images={BRIDES}
             viewAllPath="/brides"
             onImageClick={openBrideViewer}
@@ -181,6 +193,7 @@ export default function BridesGrooms() {
         <div>
           <CategorySection
             title="Grooms of Panigrahna"
+            description="Every groom steps into a new chapter with confidence, purpose, and quiet strength. We preserve those defining moments with timeless artistry and authentic storytelling."
             images={GROOMS}
             viewAllPath="/grooms"
             onImageClick={openGroomViewer}

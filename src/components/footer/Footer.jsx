@@ -103,8 +103,8 @@ export default function Footer({ hideCTA = false }) {
             amount={0.5}
             className="font-serif text-[clamp(2.3rem,5.5vw,5rem)] font-light leading-[1] tracking-tighter text-walnut mb-12"
             lines={[
-              <span key="line1">Let&rsquo;s Create Something</span>,
-              <span key="line2"><span className="italic font-light text-cinnamon-300">Meaningful </span>Together.</span>,
+              <span key="line1">Let&rsquo;s Create What</span>,
+              <span key="line2"><span className="italic font-light text-cinnamon-300">Time </span>Cannot Erase.</span>,
             ]}
           />
 
@@ -154,8 +154,9 @@ export default function Footer({ hideCTA = false }) {
                 <motion.div variants={fadeUp} className="mb-10">
                   <img src="/images/logo.svg" alt="Logo" className="h-12 w-auto brightness-0 invert" />
                 </motion.div>
-                <motion.h3 variants={fadeUp} className="font-serif text-[clamp(2.5rem,4vw,3.5rem)] leading-none text-sand/90 font-thin tracking-tighter mb-12">
-                  Capturing the <span className="italic text-cinnamon-200">extraordinary</span> in every shared glance.
+                <motion.h3 variants={fadeUp} className="font-serif text-[clamp(1.6rem,3vw,2.4rem)] leading-[1.15] text-sand/90 font-thin tracking-tight mb-6">
+                  Every celebration fades with time.{" "}
+                  <span className="italic text-cinnamon-300">A meaningful story never does.</span>
                 </motion.h3>
                 <motion.div variants={fadeUp} className="flex gap-4">
                   <a href="https://instagram.com/panigrahna.rudhram" target="_blank" rel="noopener noreferrer" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white/40 hover:border-cinnamon-200 hover:text-cinnamon-200 transition-all duration-500">

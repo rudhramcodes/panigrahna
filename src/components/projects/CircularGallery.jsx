@@ -1,19 +1,8 @@
 import { Camera, Mesh, Plane, Program, Renderer, Texture, Transform } from 'ogl';
 import { useEffect, useRef, useState, useCallback } from 'react';
+import { animate, createTimer } from 'animejs';
 
 import './CircularGallery.css';
-
-function debounce(func, wait) {
-  let timeout;
-  return function (...args) {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func.apply(this, args), wait);
-  };
-}
-
-function lerp(p1, p2, t) {
-  return p1 + (p2 - p1) * t;
-}
 
 function autoBind(instance) {
   const proto = Object.getPrototypeOf(instance);
@@ -380,216 +369,179 @@ class App {
   constructor(
     container,
     {
-      items,
-      bend,
-      textColor = '#ffffff',
-      borderRadius = 0,
-      font = 'bold 30px Figtree',
-      scrollSpeed = 2,
-      scrollEase = 0.05,
-      onDragStart = null,
-      onItemClick = null
+      items, bend, textColor = '#ffffff', borderRadius = 0, font = 'bold 30px Figtree',
+      scrollSpeed = 1, lerpEase = 0.06, snapDelay = 350,
+      onDragStart = null, onItemClick = null
     } = {}
   ) {
-    document.documentElement.classList.remove('no-js');
     this.container = container;
     this.scrollSpeed = scrollSpeed;
-    this.scroll = { ease: scrollEase, current: 0, target: 0, last: 0 };
-    this.onCheckDebounce = debounce(this.onCheck, 200);
     this.onDragStart = onDragStart;
     this.onItemClick = onItemClick;
+    this.lerpEase = lerpEase;
+    this.snapDelay = snapDelay;
+    this.scroll = { current: 0, target: 0, last: 0 };
+    this.isDown = this.isClick = false;
+    this.dragPos = 0;
+    this.startX = 0;
+    this.snapAnim = null;
+    this.wheelTimer = null;
+
     this.createRenderer();
     this.createCamera();
     this.createScene();
     this.onResize();
     this.createGeometry();
     this.createMedias(items, bend, textColor, borderRadius, font);
-    this.update();
-    this.addEventListeners();
+    this.startLoop();
+    this.addEvents();
   }
   createRenderer() {
-    this.renderer = new Renderer({
-      alpha: true,
-      antialias: true,
-      dpr: Math.min(window.devicePixelRatio || 1, 2)
-    });
+    this.renderer = new Renderer({ alpha: true, antialias: true, dpr: Math.min(window.devicePixelRatio || 1, 2) });
     this.gl = this.renderer.gl;
     this.gl.clearColor(0, 0, 0, 0);
     this.container.appendChild(this.gl.canvas);
   }
-  createCamera() {
-    this.camera = new Camera(this.gl);
-    this.camera.fov = 45;
-    this.camera.position.z = 20;
-  }
-  createScene() {
-    this.scene = new Transform();
-  }
-  createGeometry() {
-    this.planeGeometry = new Plane(this.gl, {
-      heightSegments: 50,
-      widthSegments: 100
-    });
-  }
-  createMedias(items, bend = 1, textColor, borderRadius, font) {
-    const defaultItems = [
-      { image: `https://picsum.photos/seed/1/800/600?grayscale`, text: 'Bridge' },
-      { image: `https://picsum.photos/seed/2/800/600?grayscale`, text: 'Desk Setup' },
-      { image: `https://picsum.photos/seed/3/800/600?grayscale`, text: 'Waterfall' },
-      { image: `https://picsum.photos/seed/4/800/600?grayscale`, text: 'Strawberries' },
-      { image: `https://picsum.photos/seed/5/800/600?grayscale`, text: 'Deep Diving' },
-      { image: `https://picsum.photos/seed/16/800/600?grayscale`, text: 'Train Track' },
-      { image: `https://picsum.photos/seed/17/800/600?grayscale`, text: 'Santorini' },
-      { image: `https://picsum.photos/seed/8/800/600?grayscale`, text: 'Blurry Lights' },
-      { image: `https://picsum.photos/seed/9/800/600?grayscale`, text: 'New York' },
-      { image: `https://picsum.photos/seed/10/800/600?grayscale`, text: 'Good Boy' },
-      { image: `https://picsum.photos/seed/21/800/600?grayscale`, text: 'Coastline' },
-      { image: `https://picsum.photos/seed/12/800/600?grayscale`, text: 'Palm Trees' }
+  createCamera() { this.camera = new Camera(this.gl); this.camera.fov = 45; this.camera.position.z = 20; }
+  createScene() { this.scene = new Transform(); }
+  createGeometry() { this.planeGeometry = new Plane(this.gl, { heightSegments: 50, widthSegments: 100 }); }
+  createMedias(items, bend, textColor, borderRadius, font) {
+    const defaults = [
+      { image: 'https://picsum.photos/seed/1/800/600?grayscale', text: 'Bridge' },
+      { image: 'https://picsum.photos/seed/2/800/600?grayscale', text: 'Desk Setup' },
+      { image: 'https://picsum.photos/seed/3/800/600?grayscale', text: 'Waterfall' },
+      { image: 'https://picsum.photos/seed/4/800/600?grayscale', text: 'Strawberries' },
+      { image: 'https://picsum.photos/seed/5/800/600?grayscale', text: 'Deep Diving' },
+      { image: 'https://picsum.photos/seed/16/800/600?grayscale', text: 'Train Track' },
+      { image: 'https://picsum.photos/seed/17/800/600?grayscale', text: 'Santorini' },
+      { image: 'https://picsum.photos/seed/8/800/600?grayscale', text: 'Blurry Lights' },
+      { image: 'https://picsum.photos/seed/9/800/600?grayscale', text: 'New York' },
+      { image: 'https://picsum.photos/seed/10/800/600?grayscale', text: 'Good Boy' },
+      { image: 'https://picsum.photos/seed/21/800/600?grayscale', text: 'Coastline' },
+      { image: 'https://picsum.photos/seed/12/800/600?grayscale', text: 'Palm Trees' }
     ];
-    const galleryItems = items && items.length ? items : defaultItems;
-    this.mediasImages = galleryItems.concat(galleryItems);
-    this.medias = this.mediasImages.map((data, index) => {
-      return new Media({
-        geometry: this.planeGeometry,
-        gl: this.gl,
-        image: data.image,
-        placeholder: data.placeholder,
-        index,
-        length: this.mediasImages.length,
-        renderer: this.renderer,
-        scene: this.scene,
-        screen: this.screen,
-        text: data.text,
-        viewport: this.viewport,
-        bend,
-        textColor,
-        borderRadius,
-        font
-      });
+    const gItems = items?.length ? items : defaults;
+    this.mediasImages = gItems.concat(gItems);
+    this.medias = this.mediasImages.map((d, i) => new Media({
+      geometry: this.planeGeometry, gl: this.gl, image: d.image, placeholder: d.placeholder,
+      index: i, length: this.mediasImages.length, renderer: this.renderer, scene: this.scene,
+      screen: this.screen, text: d.text, viewport: this.viewport, bend, textColor, borderRadius, font
+    }));
+  }
+
+  /* ── SCROLL ── */
+  lerpCurrent() {
+    if (this.isDown || this.snapAnim) return;
+    const diff = this.scroll.target - this.scroll.current;
+    if (Math.abs(diff) < 0.001) { this.scroll.current = this.scroll.target; return; }
+    this.scroll.current += diff * this.lerpEase;
+  }
+  snapTo(target) {
+    if (this.snapAnim) this.snapAnim.pause();
+    this.scroll.target = target;
+    this.snapAnim = animate({
+      targets: this.scroll, current: target,
+      ease: 'spring',
+      spring: { stiffness: 170, damping: 26, mass: 0.65 },
+      onComplete: () => { this.snapAnim = null; },
     });
   }
-  onTouchDown(e) {
-    this.isDown = true;
-    this.scroll.position = this.scroll.current;
-    this.start = e.touches ? e.touches[0].clientX : e.clientX;
-    if (this.onDragStart) this.onDragStart();
+  snapToNearest() {
+    if (!this.medias?.[0]) return;
+    const w = this.medias[0].width;
+    this.snapTo(Math.round(this.scroll.current / w) * w);
   }
-  onTouchMove(e) {
+
+  /* ── POINTER ── */
+  down(e) {
+    if (this.snapAnim) { this.snapAnim.pause(); this.snapAnim = null; }
+    this.scroll.target = this.scroll.current;
+    this.isDown = true; this.isClick = true;
+    this.dragPos = this.scroll.current;
+    this.startX = e.clientX;
+    this.onDragStart?.();
+  }
+  move(e) {
     if (!this.isDown) return;
-    const x = e.touches ? e.touches[0].clientX : e.clientX;
-    const distance = (this.start - x) * (this.scrollSpeed * 0.025);
-    this.scroll.target = this.scroll.position + distance;
+    if (Math.abs(e.clientX - this.startX) > 3) this.isClick = false;
+    const dx = (e.clientX - this.startX) * this.scrollSpeed * 0.025;
+    this.scroll.current = this.dragPos - dx;
+    this.scroll.target = this.scroll.current;
   }
-  onTouchUp(e) {
-    this.isDown = false;
-    this.onCheck();
-
-    if (this.onItemClick && this.start != null) {
-      const x = e && e.changedTouches ? e.changedTouches[0].clientX : e ? e.clientX : this.start;
-      const y = e && e.changedTouches ? e.changedTouches[0].clientY : e ? e.clientY : 0;
-      const dist = Math.abs(this.start - x);
-      if (dist < 10 && this.medias && this.medias.length) {
-        const canvasRect = this.gl.canvas.getBoundingClientRect();
-        const clickX = x - canvasRect.left;
-        const clickY = y - canvasRect.top;
-        // Ignore clicks outside the canvas (e.g. navbar/menu buttons)
-        if (clickX < 0 || clickX > canvasRect.width || clickY < 0 || clickY > canvasRect.height) {
-          this.start = null;
-          return;
-        }
-        const screenW = this.screen.width;
-
-        let closest = null;
-        let closestDist = Infinity;
-
-        for (let i = 0; i < this.medias.length; i++) {
-          const worldX = this.medias[i].plane.position.x;
-          const screenX = (worldX / this.viewport.width + 0.5) * screenW;
-          const d = Math.abs(screenX - clickX);
-          if (d < closestDist) {
-            closestDist = d;
-            closest = i;
-          }
-        }
-
-        if (closest !== null) {
-          const itemIndex = closest % (this.mediasImages.length / 2);
-          this.onItemClick(itemIndex);
-        }
-      }
+  up(e) {
+    if (!this.isDown) return; this.isDown = false;
+    if (this.isClick) { this.handleClick(e.clientX, e.clientY); return; }
+    this.snapToNearest();
+  }
+  handleClick(cx, cy) {
+    if (!this.onItemClick || !this.medias) return;
+    const rect = this.gl.canvas.getBoundingClientRect();
+    const x = cx - rect.left, y = cy - rect.top;
+    if (x < 0 || x > rect.width || y < 0 || y > rect.height) return;
+    const sw = this.screen.width;
+    let best = null, bestD = Infinity;
+    for (let i = 0; i < this.medias.length; i++) {
+      const sx = (this.medias[i].plane.position.x / this.viewport.width + 0.5) * sw;
+      const d = Math.abs(sx - x);
+      if (d < bestD) { bestD = d; best = i; }
     }
-    this.start = null;
+    if (best !== null) this.onItemClick(best % (this.mediasImages.length / 2));
   }
+
+  /* ── WHEEL ── */
   onWheel(e) {
+    e.preventDefault?.();
     const delta = e.deltaY || e.wheelDelta || e.detail;
-    this.scroll.target += (delta > 0 ? this.scrollSpeed : -this.scrollSpeed) * 0.2;
-    this.onCheckDebounce();
-    if (this.onDragStart) this.onDragStart();
+    this.scroll.target += (delta > 0 ? 1 : -1) * this.scrollSpeed * 0.35;
+    if (this.snapAnim) { this.snapAnim.pause(); this.snapAnim = null; }
+    clearTimeout(this.wheelTimer);
+    this.wheelTimer = setTimeout(() => this.snapToNearest(), this.snapDelay);
   }
-  onCheck() {
-    if (!this.medias || !this.medias[0]) return;
-    const width = this.medias[0].width;
-    const itemIndex = Math.round(Math.abs(this.scroll.target) / width);
-    const item = width * itemIndex;
-    this.scroll.target = this.scroll.target < 0 ? -item : item;
-  }
+
+  /* ── RESIZE ── */
   onResize() {
-    this.screen = {
-      width: this.container.clientWidth,
-      height: this.container.clientHeight
-    };
+    this.screen = { width: this.container.clientWidth, height: this.container.clientHeight };
     this.renderer.setSize(this.screen.width, this.screen.height);
-    this.camera.perspective({
-      aspect: this.screen.width / this.screen.height
-    });
+    this.camera.perspective({ aspect: this.screen.width / this.screen.height });
     const fov = (this.camera.fov * Math.PI) / 180;
-    const height = 2 * Math.tan(fov / 2) * this.camera.position.z;
-    const width = height * this.camera.aspect;
-    this.viewport = { width, height };
-    if (this.medias) {
-      this.medias.forEach(media => media.onResize({ screen: this.screen, viewport: this.viewport }));
-    }
+    const h = 2 * Math.tan(fov / 2) * this.camera.position.z;
+    this.viewport = { width: h * this.camera.aspect, height: h };
+    this.medias?.forEach(m => m.onResize({ screen: this.screen, viewport: this.viewport }));
   }
-  update() {
-    this.scroll.current = lerp(this.scroll.current, this.scroll.target, this.scroll.ease);
-    const direction = this.scroll.current > this.scroll.last ? 'right' : 'left';
+
+  /* ── RENDER ── */
+  render() {
+    this.lerpCurrent();
     if (this.medias) {
-      this.medias.forEach(media => media.update(this.scroll, direction));
+      const dir = this.scroll.current > this.scroll.last ? 'right' : 'left';
+      this.medias.forEach(m => m.update(this.scroll, dir));
+      this.scroll.last = this.scroll.current;
     }
     this.renderer.render({ scene: this.scene, camera: this.camera });
-    this.scroll.last = this.scroll.current;
-    this.raf = window.requestAnimationFrame(this.update.bind(this));
   }
-  addEventListeners() {
-    this.boundOnResize = this.onResize.bind(this);
-    this.boundOnWheel = this.onWheel.bind(this);
-    this.boundOnTouchDown = this.onTouchDown.bind(this);
-    this.boundOnTouchMove = this.onTouchMove.bind(this);
-    this.boundOnTouchUp = this.onTouchUp.bind(this);
-    window.addEventListener('resize', this.boundOnResize);
-    window.addEventListener('mousewheel', this.boundOnWheel);
-    window.addEventListener('wheel', this.boundOnWheel);
-    window.addEventListener('mousedown', this.boundOnTouchDown);
-    window.addEventListener('mousemove', this.boundOnTouchMove);
-    window.addEventListener('mouseup', this.boundOnTouchUp);
-    window.addEventListener('touchstart', this.boundOnTouchDown);
-    window.addEventListener('touchmove', this.boundOnTouchMove);
-    window.addEventListener('touchend', this.boundOnTouchUp);
+  startLoop() { createTimer({ loop: true, onUpdate: () => this.render() }); }
+
+  /* ── EVENTS ── */
+  addEvents() {
+    this._ = {
+      resize: this.onResize.bind(this), wheel: this.onWheel.bind(this),
+      down: this.down.bind(this), move: this.move.bind(this), up: this.up.bind(this),
+    };
+    window.addEventListener('resize', this._.resize);
+    window.addEventListener('wheel', this._.wheel, { passive: false });
+    window.addEventListener('pointerdown', this._.down);
+    window.addEventListener('pointermove', this._.move);
+    window.addEventListener('pointerup', this._.up);
   }
   destroy() {
-    window.cancelAnimationFrame(this.raf);
-    window.removeEventListener('resize', this.boundOnResize);
-    window.removeEventListener('mousewheel', this.boundOnWheel);
-    window.removeEventListener('wheel', this.boundOnWheel);
-    window.removeEventListener('mousedown', this.boundOnTouchDown);
-    window.removeEventListener('mousemove', this.boundOnTouchMove);
-    window.removeEventListener('mouseup', this.boundOnTouchUp);
-    window.removeEventListener('touchstart', this.boundOnTouchDown);
-    window.removeEventListener('touchmove', this.boundOnTouchMove);
-    window.removeEventListener('touchend', this.boundOnTouchUp);
-    if (this.renderer && this.renderer.gl && this.renderer.gl.canvas.parentNode) {
-      this.renderer.gl.canvas.parentNode.removeChild(this.renderer.gl.canvas);
-    }
+    if (this.snapAnim) this.snapAnim.pause();
+    clearTimeout(this.wheelTimer);
+    window.removeEventListener('resize', this._.resize);
+    window.removeEventListener('wheel', this._.wheel);
+    window.removeEventListener('pointerdown', this._.down);
+    window.removeEventListener('pointermove', this._.move);
+    window.removeEventListener('pointerup', this._.up);
+    this.gl.canvas.parentNode?.removeChild(this.gl.canvas);
   }
 }
 
@@ -600,8 +552,8 @@ export default function CircularGallery({
   borderRadius = 0.05,
   font = 'light 30px Berlingske Serif',
   fontUrl,
-  scrollSpeed = 2,
-  scrollEase = 0.05,
+  scrollSpeed = 1.5,
+  wheelSnapDelay = 300,
   onItemClick
 }) {
   const containerRef = useRef(null);
@@ -640,7 +592,7 @@ export default function CircularGallery({
         borderRadius,
         font: resolvedFont,
         scrollSpeed,
-        scrollEase,
+        wheelSnapDelay,
         onDragStart: handleDragStart,
         onItemClick
       });
@@ -649,7 +601,7 @@ export default function CircularGallery({
       isMounted = false;
       if (app) app.destroy();
     };
-  }, [items, bend, textColor, borderRadius, font, fontUrl, scrollSpeed, scrollEase, handleDragStart, onItemClick]);
+  }, [items, bend, textColor, borderRadius, font, fontUrl, scrollSpeed, wheelSnapDelay, handleDragStart, onItemClick]);
 
   return (
     <div className="circular-gallery-wrapper">
