@@ -1,8 +1,19 @@
 import { Camera, Mesh, Plane, Program, Renderer, Texture, Transform } from 'ogl';
-import { useEffect, useRef, useState, useCallback } from 'react';
-import { animate, createTimer } from 'animejs';
+import { useEffect, useRef } from 'react';
 
 import './CircularGallery.css';
+
+function debounce(func, wait) {
+  let timeout;
+  return function (...args) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), wait);
+  };
+}
+
+function lerp(p1, p2, t) {
+  return p1 + (p2 - p1) * t;
+}
 
 function autoBind(instance) {
   const proto = Object.getPrototypeOf(instance);
@@ -177,7 +188,6 @@ class Media {
     geometry,
     gl,
     image,
-    placeholder,
     index,
     length,
     renderer,
@@ -194,7 +204,6 @@ class Media {
     this.geometry = geometry;
     this.gl = gl;
     this.image = image;
-    this.placeholder = placeholder;
     this.index = index;
     this.length = length;
     this.renderer = renderer;
@@ -212,9 +221,7 @@ class Media {
     this.onResize();
   }
   createShader() {
-    const texture = new Texture(this.gl, {
-      generateMipmaps: true
-    });
+    const texture = new Texture(this.gl, { generateMipmaps: true });
     this.program = new Program(this.gl, {
       depthTest: false,
       depthWrite: false,
@@ -237,12 +244,12 @@ class Media {
         uniform sampler2D tMap;
         uniform float uBorderRadius;
         varying vec2 vUv;
-        
+
         float roundedBoxSDF(vec2 p, vec2 b, float r) {
           vec2 d = abs(p) - b;
           return length(max(d, vec2(0.0))) + min(max(d.x, d.y), 0.0) - r;
         }
-        
+
         void main() {
           vec2 ratio = vec2(
             min((uPlaneSizes.x / uPlaneSizes.y) / (uImageSizes.x / uImageSizes.y), 1.0),
@@ -253,11 +260,11 @@ class Media {
             vUv.y * ratio.y + (1.0 - ratio.y) * 0.5
           );
           vec4 color = texture2D(tMap, uv);
-          
+
           float d = roundedBoxSDF(vUv - 0.5, vec2(0.5 - uBorderRadius), uBorderRadius);
           float edgeSmooth = 0.002;
           float alpha = 1.0 - smoothstep(-edgeSmooth, edgeSmooth, d);
-          
+
           gl_FragColor = vec4(color.rgb, alpha);
         }
       `,
@@ -269,28 +276,13 @@ class Media {
       },
       transparent: true
     });
-    let fullLoaded = false;
-    const setTexture = (img) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.src = this.image;
+    img.onload = () => {
       texture.image = img;
       this.program.uniforms.uImageSizes.value = [img.naturalWidth, img.naturalHeight];
     };
-
-    if (this.placeholder) {
-      const placeholderImg = new Image();
-      placeholderImg.crossOrigin = 'anonymous';
-      placeholderImg.onload = () => {
-        if (!fullLoaded) setTexture(placeholderImg);
-      };
-      placeholderImg.src = this.placeholder;
-    }
-
-    const fullImg = new Image();
-    fullImg.crossOrigin = 'anonymous';
-    fullImg.onload = () => {
-      setTexture(fullImg);
-      fullLoaded = true;
-    };
-    fullImg.src = this.image;
   }
   createMesh() {
     this.plane = new Mesh(this.gl, {
@@ -369,216 +361,245 @@ class App {
   constructor(
     container,
     {
-      items, bend, textColor = '#ffffff', borderRadius = 0, font = 'bold 30px Figtree',
-      scrollSpeed = 1, lerpEase = 0.06, snapDelay = 350,
-      onDragStart = null, onItemClick = null
+      items,
+      bend,
+      textColor = '#ffffff',
+      borderRadius = 0,
+      font = 'bold 30px Figtree',
+      scrollSpeed = 2,
+      scrollEase = 0.05,
+      onItemClick = null
     } = {}
   ) {
+    document.documentElement.classList.remove('no-js');
     this.container = container;
     this.scrollSpeed = scrollSpeed;
-    this.onDragStart = onDragStart;
+    this.scroll = { ease: scrollEase, current: 0, target: 0, last: 0 };
+    this.onCheckDebounce = debounce(this.onCheck, 200);
     this.onItemClick = onItemClick;
-    this.lerpEase = lerpEase;
-    this.snapDelay = snapDelay;
-    this.scroll = { current: 0, target: 0, last: 0 };
-    this.isDown = this.isClick = false;
-    this.dragPos = 0;
     this.startX = 0;
-    this.snapAnim = null;
-    this.wheelTimer = null;
-
+    this.isDown = false;
+    this.isClick = false;
     this.createRenderer();
     this.createCamera();
     this.createScene();
     this.onResize();
     this.createGeometry();
     this.createMedias(items, bend, textColor, borderRadius, font);
-    this.startLoop();
-    this.addEvents();
+    this.update();
+    this.addEventListeners();
   }
   createRenderer() {
-    this.renderer = new Renderer({ alpha: true, antialias: true, dpr: Math.min(window.devicePixelRatio || 1, 2) });
+    this.renderer = new Renderer({
+      alpha: true,
+      antialias: true,
+      dpr: Math.min(window.devicePixelRatio || 1, 2)
+    });
     this.gl = this.renderer.gl;
     this.gl.clearColor(0, 0, 0, 0);
     this.container.appendChild(this.gl.canvas);
   }
-  createCamera() { this.camera = new Camera(this.gl); this.camera.fov = 45; this.camera.position.z = 20; }
-  createScene() { this.scene = new Transform(); }
-  createGeometry() { this.planeGeometry = new Plane(this.gl, { heightSegments: 50, widthSegments: 100 }); }
-  createMedias(items, bend, textColor, borderRadius, font) {
-    const defaults = [
-      { image: 'https://picsum.photos/seed/1/800/600?grayscale', text: 'Bridge' },
-      { image: 'https://picsum.photos/seed/2/800/600?grayscale', text: 'Desk Setup' },
-      { image: 'https://picsum.photos/seed/3/800/600?grayscale', text: 'Waterfall' },
-      { image: 'https://picsum.photos/seed/4/800/600?grayscale', text: 'Strawberries' },
-      { image: 'https://picsum.photos/seed/5/800/600?grayscale', text: 'Deep Diving' },
-      { image: 'https://picsum.photos/seed/16/800/600?grayscale', text: 'Train Track' },
-      { image: 'https://picsum.photos/seed/17/800/600?grayscale', text: 'Santorini' },
-      { image: 'https://picsum.photos/seed/8/800/600?grayscale', text: 'Blurry Lights' },
-      { image: 'https://picsum.photos/seed/9/800/600?grayscale', text: 'New York' },
-      { image: 'https://picsum.photos/seed/10/800/600?grayscale', text: 'Good Boy' },
-      { image: 'https://picsum.photos/seed/21/800/600?grayscale', text: 'Coastline' },
-      { image: 'https://picsum.photos/seed/12/800/600?grayscale', text: 'Palm Trees' }
-    ];
-    const gItems = items?.length ? items : defaults;
-    this.mediasImages = gItems.concat(gItems);
-    this.medias = this.mediasImages.map((d, i) => new Media({
-      geometry: this.planeGeometry, gl: this.gl, image: d.image, placeholder: d.placeholder,
-      index: i, length: this.mediasImages.length, renderer: this.renderer, scene: this.scene,
-      screen: this.screen, text: d.text, viewport: this.viewport, bend, textColor, borderRadius, font
-    }));
+  createCamera() {
+    this.camera = new Camera(this.gl);
+    this.camera.fov = 45;
+    this.camera.position.z = 20;
   }
-
-  /* ── SCROLL ── */
-  lerpCurrent() {
-    if (this.isDown || this.snapAnim) return;
-    const diff = this.scroll.target - this.scroll.current;
-    if (Math.abs(diff) < 0.001) { this.scroll.current = this.scroll.target; return; }
-    this.scroll.current += diff * this.lerpEase;
+  createScene() {
+    this.scene = new Transform();
   }
-  snapTo(target) {
-    if (this.snapAnim) this.snapAnim.pause();
-    this.scroll.target = target;
-    this.snapAnim = animate({
-      targets: this.scroll, current: target,
-      ease: 'spring',
-      spring: { stiffness: 170, damping: 26, mass: 0.65 },
-      onComplete: () => { this.snapAnim = null; },
+  createGeometry() {
+    this.planeGeometry = new Plane(this.gl, {
+      heightSegments: 50,
+      widthSegments: 100
     });
   }
-  snapToNearest() {
-    if (!this.medias?.[0]) return;
-    const w = this.medias[0].width;
-    this.snapTo(Math.round(this.scroll.current / w) * w);
+  createMedias(items, bend = 1, textColor, borderRadius, font) {
+    const defaultItems = [
+      { image: `https://picsum.photos/seed/1/800/600?grayscale`, text: 'Bridge' },
+      { image: `https://picsum.photos/seed/2/800/600?grayscale`, text: 'Desk Setup' },
+      { image: `https://picsum.photos/seed/3/800/600?grayscale`, text: 'Waterfall' },
+      { image: `https://picsum.photos/seed/4/800/600?grayscale`, text: 'Strawberries' },
+      { image: `https://picsum.photos/seed/5/800/600?grayscale`, text: 'Deep Diving' },
+      { image: `https://picsum.photos/seed/16/800/600?grayscale`, text: 'Train Track' },
+      { image: `https://picsum.photos/seed/17/800/600?grayscale`, text: 'Santorini' },
+      { image: `https://picsum.photos/seed/8/800/600?grayscale`, text: 'Blurry Lights' },
+      { image: `https://picsum.photos/seed/9/800/600?grayscale`, text: 'New York' },
+      { image: `https://picsum.photos/seed/10/800/600?grayscale`, text: 'Good Boy' },
+      { image: `https://picsum.photos/seed/21/800/600?grayscale`, text: 'Coastline' },
+      { image: `https://picsum.photos/seed/12/800/600?grayscale`, text: 'Palm Trees' }
+    ];
+    const galleryItems = items && items.length ? items : defaultItems;
+    this.mediasImages = galleryItems.concat(galleryItems);
+    this.medias = this.mediasImages.map((data, index) => {
+      return new Media({
+        geometry: this.planeGeometry,
+        gl: this.gl,
+        image: data.image,
+        index,
+        length: this.mediasImages.length,
+        renderer: this.renderer,
+        scene: this.scene,
+        screen: this.screen,
+        text: data.text,
+        viewport: this.viewport,
+        bend,
+        textColor,
+        borderRadius,
+        font
+      });
+    });
   }
-
-  /* ── POINTER ── */
-  down(e) {
-    if (this.snapAnim) { this.snapAnim.pause(); this.snapAnim = null; }
-    this.scroll.target = this.scroll.current;
-    this.isDown = true; this.isClick = true;
-    this.dragPos = this.scroll.current;
-    this.startX = e.clientX;
-    this.onDragStart?.();
-  }
-  move(e) {
-    if (!this.isDown) return;
-    if (Math.abs(e.clientX - this.startX) > 3) this.isClick = false;
-    const dx = (e.clientX - this.startX) * this.scrollSpeed * 0.025;
-    this.scroll.current = this.dragPos - dx;
-    this.scroll.target = this.scroll.current;
-  }
-  up(e) {
-    if (!this.isDown) return; this.isDown = false;
-    if (this.isClick) { this.handleClick(e.clientX, e.clientY); return; }
-    this.snapToNearest();
-  }
-  handleClick(cx, cy) {
-    if (!this.onItemClick || !this.medias) return;
+  handleClick(clientX, clientY) {
+    if (!this.onItemClick) return;
     const rect = this.gl.canvas.getBoundingClientRect();
-    const x = cx - rect.left, y = cy - rect.top;
-    if (x < 0 || x > rect.width || y < 0 || y > rect.height) return;
+    const cx = clientX - rect.left;
+    const cy = clientY - rect.top;
+    if (cx < 0 || cx > rect.width || cy < 0 || cy > rect.height) return;
     const sw = this.screen.width;
     let best = null, bestD = Infinity;
     for (let i = 0; i < this.medias.length; i++) {
       const sx = (this.medias[i].plane.position.x / this.viewport.width + 0.5) * sw;
-      const d = Math.abs(sx - x);
+      const d = Math.abs(sx - cx);
       if (d < bestD) { bestD = d; best = i; }
     }
     if (best !== null) this.onItemClick(best % (this.mediasImages.length / 2));
   }
-
-  /* ── WHEEL ── */
+  onTouchDown(e) {
+    this.isDown = true;
+    this.isClick = true;
+    this.scroll.position = this.scroll.current;
+    this.start = e.touches ? e.touches[0].clientX : e.clientX;
+    this.startY = e.touches ? e.touches[0].clientY : e.clientY;
+  }
+  onTouchMove(e) {
+    if (!this.isDown) return;
+    const x = e.touches ? e.touches[0].clientX : e.clientX;
+    const distance = (this.start - x) * (this.scrollSpeed * 0.025);
+    if (Math.abs(x - this.start) > 5) this.isClick = false;
+    this.scroll.target = this.scroll.position + distance;
+  }
+  onTouchUp(e) {
+    this.isDown = false;
+    if (this.isClick && this.onItemClick) {
+      const clientX = e && e.changedTouches ? e.changedTouches[0].clientX : e ? e.clientX : this.start;
+      const clientY = e && e.changedTouches ? e.changedTouches[0].clientY : e ? e.clientY : this.startY;
+      this.handleClick(clientX, clientY);
+      return;
+    }
+    this.onCheck();
+  }
   onWheel(e) {
-    e.preventDefault?.();
     const delta = e.deltaY || e.wheelDelta || e.detail;
-    this.scroll.target += (delta > 0 ? 1 : -1) * this.scrollSpeed * 0.35;
-    if (this.snapAnim) { this.snapAnim.pause(); this.snapAnim = null; }
-    clearTimeout(this.wheelTimer);
-    this.wheelTimer = setTimeout(() => this.snapToNearest(), this.snapDelay);
+    this.scroll.target += (delta > 0 ? this.scrollSpeed : -this.scrollSpeed) * 0.2;
+    this.onCheckDebounce();
   }
-
-  /* ── RESIZE ── */
+  onKeyDown(e) {
+    switch (e.key) {
+      case 'ArrowRight':
+        e.preventDefault();
+        this.scroll.target += this.scrollSpeed * 5;
+        this.onCheckDebounce();
+        break;
+      case 'ArrowLeft':
+        e.preventDefault();
+        this.scroll.target -= this.scrollSpeed * 5;
+        this.onCheckDebounce();
+        break;
+      case 'Home':
+        e.preventDefault();
+        this.scroll.target = 0;
+        this.onCheckDebounce();
+        break;
+      default:
+        break;
+    }
+  }
+  onCheck() {
+    if (!this.medias || !this.medias[0]) return;
+    const width = this.medias[0].width;
+    const itemIndex = Math.round(Math.abs(this.scroll.target) / width);
+    const item = width * itemIndex;
+    this.scroll.target = this.scroll.target < 0 ? -item : item;
+  }
   onResize() {
-    this.screen = { width: this.container.clientWidth, height: this.container.clientHeight };
+    this.screen = {
+      width: this.container.clientWidth,
+      height: this.container.clientHeight
+    };
     this.renderer.setSize(this.screen.width, this.screen.height);
-    this.camera.perspective({ aspect: this.screen.width / this.screen.height });
+    this.camera.perspective({
+      aspect: this.screen.width / this.screen.height
+    });
     const fov = (this.camera.fov * Math.PI) / 180;
-    const h = 2 * Math.tan(fov / 2) * this.camera.position.z;
-    this.viewport = { width: h * this.camera.aspect, height: h };
-    this.medias?.forEach(m => m.onResize({ screen: this.screen, viewport: this.viewport }));
-  }
-
-  /* ── RENDER ── */
-  render() {
-    this.lerpCurrent();
+    const height = 2 * Math.tan(fov / 2) * this.camera.position.z;
+    const width = height * this.camera.aspect;
+    this.viewport = { width, height };
     if (this.medias) {
-      const dir = this.scroll.current > this.scroll.last ? 'right' : 'left';
-      this.medias.forEach(m => m.update(this.scroll, dir));
-      this.scroll.last = this.scroll.current;
+      this.medias.forEach(media => media.onResize({ screen: this.screen, viewport: this.viewport }));
+    }
+  }
+  update() {
+    this.scroll.current = lerp(this.scroll.current, this.scroll.target, this.scroll.ease);
+    const direction = this.scroll.current > this.scroll.last ? 'right' : 'left';
+    if (this.medias) {
+      this.medias.forEach(media => media.update(this.scroll, direction));
     }
     this.renderer.render({ scene: this.scene, camera: this.camera });
+    this.scroll.last = this.scroll.current;
+    this.raf = window.requestAnimationFrame(this.update.bind(this));
   }
-  startLoop() { createTimer({ loop: true, onUpdate: () => this.render() }); }
+  addEventListeners() {
+    this.boundOnResize = this.onResize.bind(this);
+    this.boundOnWheel = this.onWheel.bind(this);
+    this.boundOnTouchDown = this.onTouchDown.bind(this);
+    this.boundOnTouchMove = this.onTouchMove.bind(this);
+    this.boundOnTouchUp = this.onTouchUp.bind(this);
+    this.boundOnKeyDown = this.onKeyDown.bind(this);
 
-  /* ── EVENTS ── */
-  addEvents() {
-    this._ = {
-      resize: this.onResize.bind(this), wheel: this.onWheel.bind(this),
-      down: this.down.bind(this), move: this.move.bind(this), up: this.up.bind(this),
-    };
-    window.addEventListener('resize', this._.resize);
-    window.addEventListener('wheel', this._.wheel, { passive: false });
-    window.addEventListener('pointerdown', this._.down);
-    window.addEventListener('pointermove', this._.move);
-    window.addEventListener('pointerup', this._.up);
+    window.addEventListener('resize', this.boundOnResize);
+    window.addEventListener('mousewheel', this.boundOnWheel);
+    window.addEventListener('wheel', this.boundOnWheel);
+    window.addEventListener('mousedown', this.boundOnTouchDown);
+    window.addEventListener('mousemove', this.boundOnTouchMove);
+    window.addEventListener('mouseup', this.boundOnTouchUp);
+    window.addEventListener('touchstart', this.boundOnTouchDown, { passive: true });
+    window.addEventListener('touchmove', this.boundOnTouchMove, { passive: true });
+    window.addEventListener('touchend', this.boundOnTouchUp);
+
+    this.container?.addEventListener('keydown', this.boundOnKeyDown);
   }
   destroy() {
-    if (this.snapAnim) this.snapAnim.pause();
-    clearTimeout(this.wheelTimer);
-    window.removeEventListener('resize', this._.resize);
-    window.removeEventListener('wheel', this._.wheel);
-    window.removeEventListener('pointerdown', this._.down);
-    window.removeEventListener('pointermove', this._.move);
-    window.removeEventListener('pointerup', this._.up);
-    this.gl.canvas.parentNode?.removeChild(this.gl.canvas);
+    window.cancelAnimationFrame(this.raf);
+    window.removeEventListener('resize', this.boundOnResize);
+    window.removeEventListener('mousewheel', this.boundOnWheel);
+    window.removeEventListener('wheel', this.boundOnWheel);
+    window.removeEventListener('mousedown', this.boundOnTouchDown);
+    window.removeEventListener('mousemove', this.boundOnTouchMove);
+    window.removeEventListener('mouseup', this.boundOnTouchUp);
+    window.removeEventListener('touchstart', this.boundOnTouchDown);
+    window.removeEventListener('touchmove', this.boundOnTouchMove);
+    window.removeEventListener('touchend', this.boundOnTouchUp);
+    if (this.renderer && this.renderer.gl && this.renderer.gl.canvas.parentNode) {
+      this.renderer.gl.canvas.parentNode.removeChild(this.renderer.gl.canvas);
+    }
+    if (this.container) {
+      this.container.removeEventListener('keydown', this.boundOnKeyDown);
+    }
   }
 }
 
 export default function CircularGallery({
   items,
   bend = 3,
-  textColor = '#3d2b1a',
+  textColor = '#ffffff',
   borderRadius = 0.05,
-  font = 'light 30px Berlingske Serif',
+  font = 'bold 30px Figtree',
   fontUrl,
-  scrollSpeed = 1.5,
-  wheelSnapDelay = 300,
+  scrollSpeed = 2,
+  scrollEase = 0.05,
   onItemClick
 }) {
   const containerRef = useRef(null);
-  const [showHint, setShowHint] = useState(true);
-  const [isMobile, setIsMobile] = useState(false);
-
-  const handleDragStart = useCallback(() => {
-    setShowHint(false);
-  }, []);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768 || 'ontouchstart' in window);
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  useEffect(() => {
-    if (!showHint) return;
-    const timer = setTimeout(() => setShowHint(false), 4000);
-    return () => clearTimeout(timer);
-  }, [showHint]);
-
   useEffect(() => {
     if (!containerRef.current) return;
     let app;
@@ -592,29 +613,23 @@ export default function CircularGallery({
         borderRadius,
         font: resolvedFont,
         scrollSpeed,
-        wheelSnapDelay,
-        onDragStart: handleDragStart,
+        scrollEase,
         onItemClick
       });
     });
+
     return () => {
       isMounted = false;
       if (app) app.destroy();
     };
-  }, [items, bend, textColor, borderRadius, font, fontUrl, scrollSpeed, wheelSnapDelay, handleDragStart, onItemClick]);
-
+  }, [items, bend, textColor, borderRadius, font, fontUrl, scrollSpeed, scrollEase, onItemClick]);
   return (
-    <div className="circular-gallery-wrapper">
-      <div className="circular-gallery" ref={containerRef} />
-      {isMobile && showHint && (
-        <div className="drag-hint">
-          <svg className="drag-hint-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <path d="M14 4l-4 4 4 4" />
-            <path d="M10 4l4 4-4 4" />
-          </svg>
-          <span>Drag to explore</span>
-        </div>
-      )}
-    </div>
+    <div
+      className="circular-gallery"
+      ref={containerRef}
+      tabIndex={0}
+      role="region"
+      aria-label="Circular image gallery. Use left and right arrow keys to navigate."
+    />
   );
 }

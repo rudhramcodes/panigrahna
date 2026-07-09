@@ -82,7 +82,7 @@ function CategorySection({ title, description, images, viewAllPath, onImageClick
           tag="span"
           amount={0.3}
           className="font-serif text-walnut font-light leading-none tracking-tight"
-          outerStyle={{ fontSize: "clamp(1.4rem, 3.5vw, 2.4rem)" }}
+          outerStyle={{ fontSize: "clamp(1.8rem, 4.5vw, 3.2rem)" }}
           lines={[
             <span key="line">
               <em className="italic">{title.split(" ")[0]}</em>{" "}

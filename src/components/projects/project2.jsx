@@ -102,10 +102,10 @@ export default function Project2() {
             items={galleryItems}
             bend={2.5}
             borderRadius={0.06}
-            font="300 22px 'Berlingske Serif'"
+            font="300 22px Berlingske Serif"
             textColor="#3d2b1a"
-            scrollSpeed={1.5}
-            wheelSnapDelay={400}
+            scrollSpeed={2}
+            scrollEase={0.05}
             onItemClick={handleCoupleClick}
           />
         )}
