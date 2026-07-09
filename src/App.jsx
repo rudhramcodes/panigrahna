@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
+import { useImageProtection } from "./lib/useImageProtection";
 import SmoothScroll from "./components/smooth-scroll/SmoothScroll";
 import Navbar from "./components/navbar/Navbar";
 import BackToTop from "./components/ui/BackToTop";
@@ -41,6 +42,7 @@ function ScrollManager() {
 }
 
 const App = () => {
+  useImageProtection();
   return (
     <>
       <ScrollManager />

@@ -180,6 +180,13 @@ html.lenis body {
   pointer-events: none;
 }
 
+/* ── Image Protection ── */
+img {
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
 body {
   font-family: "Open Sans", sans-serif;
   font-optical-sizing: auto;

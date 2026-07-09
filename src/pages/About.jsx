@@ -84,15 +84,6 @@ function AboutHero() {
         style={{ y: textY, opacity }}
       >
         <div className="max-w-[1200px] mx-auto w-full">
-          <motion.span
-            className="block font-sans text-sand/70 text-xs sm:text-sm uppercase tracking-[0.3em] mb-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, ease, delay: 0.2 }}
-          >
-            About the Studio
-          </motion.span>
-
           <motion.h1
             className="font-serif text-sand font-light leading-[.9] tracking-tighter"
             style={{ fontSize: "clamp(3.5rem, 12vw, 8rem)" }}
@@ -100,9 +91,10 @@ function AboutHero() {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, ease, delay: 0.3 }}
           >
-            Our
+            Inside 
             <br />
-            <span className="italic font-light">Story</span>
+            the {" "}
+            <span className="italic font-light">Studio</span>
           </motion.h1>
 
           <motion.p
@@ -112,8 +104,7 @@ function AboutHero() {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, ease, delay: 0.5 }}
           >
-            A wedding film studio rooted in tradition, driven by artistry — 
-            capturing love stories across India with cinematic soul.
+            Step inside panigrahna, where creativity is inspired by tradition and every film begins with a story waiting to be beautifully told.
           </motion.p>
         </div>
       </motion.div>
@@ -187,9 +178,8 @@ function TheStudio() {
               className="font-serif text-walnut font-light leading-[1.05] tracking-tight mb-6"
               style={{ fontSize: "clamp(2rem, 4.5vw, 4rem)" }}
             >
-              Crafting Cinema
-              <br />
-              <span className="italic text-cinnamon-300">from the Heart</span>
+              The Art of{" "}
+              <span className="italic text-cinnamon-300">Meaningful Storytelling</span>
             </motion.h2>
 
             <motion.p
@@ -197,10 +187,7 @@ function TheStudio() {
               className="font-sans text-taupe leading-relaxed font-light mb-4"
               style={{ fontSize: "clamp(0.85rem, 1vw, 1rem)" }}
             >
-              Panigrahna was born from a simple belief — that every wedding is a 
-              symphony of moments waiting to be preserved. We are storytellers first, 
-              filmmakers second. Our work is guided not by trends, but by the quiet 
-              truth of each couple's journey.
+              Every frame we create begins with a simple intention—to preserve what matters most. Beyond the celebrations, the décor, and the traditions are the emotions that define each wedding.
             </motion.p>
 
             <motion.p
@@ -208,11 +195,7 @@ function TheStudio() {
               className="font-sans text-taupe/70 leading-relaxed font-light"
               style={{ fontSize: "clamp(0.8rem, 0.9vw, 0.95rem)" }}
             >
-              Rooted in Mumbai and Surat, our team brings together a deep reverence 
-              for Indian wedding traditions and a cinematic eye honed across hundreds 
-              of celebrations. We don't document weddings — we immerse ourselves in 
-              them, becoming trusted witnesses to the laughter, the tears, and the 
-              moments in between.
+              Those are the moments we choose to remember. With an understated cinematic style and a deep respect for every family's story, we create films that feel as genuine decades later as they do today.
             </motion.p>
 
             <motion.div variants={fadeUp} className="mt-8 flex flex-wrap gap-6">

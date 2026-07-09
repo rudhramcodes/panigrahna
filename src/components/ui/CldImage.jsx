@@ -67,7 +67,8 @@ export default function CldImage({
         ref={imgEl}
         src={src}
         alt={alt}
-        className={`progressive-load ${imgClassName}`}
+        draggable="false"
+        className={`progressive-load pointer-events-none select-none ${imgClassName}`}
         {...imgProps}
       />
     </div>
