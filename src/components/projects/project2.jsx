@@ -2,17 +2,10 @@ import { useRef, useState, useEffect, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createTimeline } from 'animejs';
 import { rawCloudinaryUrl, RAW_VERSION } from '../../lib/cloudinary';
+import { COUPLES } from '../../data/couples';
 import CircularGallery from "./CircularGallery";
 import MobileGallery from "./MobileGallery";
 import MaskText from "../mask-text/MaskText";
-
-const COUPLES = [
-  { name: "Harsh & Sayonee", publicId: "hs38.5.jpg", version: "v1781762717", quote: "A love story written in the stars", location: "Mumbai", date: "Dec 2024" },
-  { name: "Rahul & Jeevani", publicId: "021.jpg", version: "v1781762717", quote: "Two hearts, one journey", location: "Udaipur", date: "Nov 2024" },
-  { name: "Prachi & Preet", publicId: "pp2.jpg", version: "v1782208255", quote: "Where tradition meets forever", location: "Surat", date: "Oct 2024" },
-  { name: "Ronak & Jessica", publicId: "rj72.jpg", version: "v1781762717", quote: "Dancing into eternity", location: "Goa", date: "Feb 2025" },
-  { name: "Rutvik & Aishwarya", publicId: "ra.jpg", version: "v1781762717", quote: "A promise made in heaven", location: "Jaipur", date: "Jan 2025" },
-];
 
 export default function Project2() {
   const navigate = useNavigate();
@@ -21,7 +14,7 @@ export default function Project2() {
 
   const handleCoupleClick = useCallback(
     (coupleIndex) => {
-      navigate("/projects", { state: { coupleIndex } });
+      navigate(`/projects/${COUPLES[coupleIndex].slug}`);
     },
     [navigate]
   );
@@ -49,13 +42,9 @@ export default function Project2() {
   const mobileItems = useMemo(
     () =>
       COUPLES.map((c) => ({
-        publicId: c.publicId,
-        version: c.version,
+        publicId: c.coverPublicId,
+        version: c.coverVersion,
         text: c.name,
-        quote: c.quote,
-        location: c.location,
-        date: c.date,
-        options: c.angle ? { angle: c.angle } : {},
       })),
     []
   );
@@ -63,8 +52,8 @@ export default function Project2() {
   const galleryItems = useMemo(
     () =>
       COUPLES.map((c) => ({
-        image: rawCloudinaryUrl(c.publicId, c.version || RAW_VERSION),
-        placeholder: rawCloudinaryUrl(c.publicId, c.version || RAW_VERSION),
+        image: rawCloudinaryUrl(c.coverPublicId, c.coverVersion || RAW_VERSION),
+        placeholder: rawCloudinaryUrl(c.coverPublicId, c.coverVersion || RAW_VERSION),
         text: c.name,
       })),
     []

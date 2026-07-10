@@ -1,26 +1,11 @@
 import { useState, useCallback, useEffect, useMemo, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import ImageViewer from "../components/ui/ImageViewer";
 import { rawCloudinaryUrl, RAW_VERSION } from "../lib/cloudinary";
 import { useSmoothScroll } from "../components/smooth-scroll/SmoothScroll";
-
-import harshSayoneeImages from "../data/couples/harsh-and-sayonee.json";
-import rahulJeevaniImages from "../data/couples/rahul-and-jeevani.json";
-import prachiPreetImages from "../data/couples/prachi-and-preet.json";
-import ronakJessicaImages from "../data/couples/ronak-and-jessica.json";
-import rutvikAishwaryaImages from "../data/couples/rutvik-and-aishwarya.json";
-
-const COUPLES = [
-  { name: "Harsh & Sayonee", images: harshSayoneeImages },
-  { name: "Rahul & Jeevani", images: rahulJeevaniImages,
-    premise: "Some weddings are remembered for how they looked. This one stayed with us because of how it felt. Over four days of traditions, laughter, family, and quiet moments, Rahul and Jeevni\u2019s celebration unfolded with a warmth that was impossible to miss. This is a glimpse into a wedding that felt honest, personal, and deeply their own.",
-    description: "Rahul, a well-known Kannada actor, and Jeevni\u2019s wedding was one of those celebrations that felt effortless, personal, and true to the people at its heart. Held in the presence of their families and closest loved ones, the wedding embraced authentic Kannada traditions and rituals, with blessings from Lord Venkateswara of Tirupati woven into the celebrations.\n\nWhat stood out to us throughout the day was not any single ritual or grand moment, but the way Rahul and Jeevni\u2019s eyes naturally found each other in every meaningful moment. Whether they were surrounded by hundreds of guests or quietly participating in a ceremony, there was always a glance, a smile, or a moment of eye contact that reflected their comfort and connection with one another. Many of our favourite photographs from the wedding came from these simple, unscripted interactions.\n\nTheir celebration was also a reflection of the people and things they love. Family played a central role, and even their beloved dogs, who are very much a part of their lives, found a place in the story. From traditional rituals and emotional blessings to candid moments shared with loved ones, every part of the wedding felt genuine and meaningful. It was a joy to document a celebration that stayed rooted in tradition while remaining completely true to Rahul and Jeevni\u2019s journey together." },
-  { name: "Prachi & Preet", images: prachiPreetImages },
-  { name: "Ronak & Jessica", images: ronakJessicaImages },
-  { name: "Rutvik & Aishwarya", images: rutvikAishwaryaImages },
-];
+import { COUPLES } from "../data/couples";
 
 const headingSlide = {
   enter: (dir) => ({ y: 60, opacity: 0, scale: 0.97, filter: "blur(6px)" }),
@@ -144,9 +129,11 @@ function NavButton({ dir, onClick, label }) {
 }
 
 export default function Projects() {
-  const location = useLocation();
-  const initialIndex = location.state?.coupleIndex ?? 0;
-  const [[index, dir], setPage] = useState([initialIndex, 0]);
+  const { slug } = useParams();
+  const navigate = useNavigate();
+  const index = COUPLES.findIndex((c) => c.slug === slug);
+  const activeIndex = index >= 0 ? index : 0;
+  const [dir, setDir] = useState(0);
   const [pageLoaded, setPageLoaded] = useState(false);
   const [viewerOpen, setViewerOpen] = useState(false);
   const [viewerIndex, setViewerIndex] = useState(0);
@@ -157,25 +144,29 @@ export default function Projects() {
   useEffect(() => {
     coupleKey.current++;
     setStoryOpen(false);
+    setViewerOpen(false);
     const lenis = lenisRef?.current;
     if (lenis) lenis.scrollTo(0, { duration: 0.8 });
-  }, [index]);
+  }, [activeIndex, lenisRef]);
 
   useEffect(() => {
     setPageLoaded(true);
   }, []);
 
   const goNext = useCallback(() => {
-    setPage(([i]) => [(i + 1) % COUPLES.length, 1]);
-  }, []);
+    setDir(1);
+    navigate(`/projects/${COUPLES[(activeIndex + 1) % COUPLES.length].slug}`);
+  }, [activeIndex, navigate]);
 
   const goPrev = useCallback(() => {
-    setPage(([i]) => [(i - 1 + COUPLES.length) % COUPLES.length, -1]);
-  }, []);
+    setDir(-1);
+    navigate(`/projects/${COUPLES[(activeIndex - 1 + COUPLES.length) % COUPLES.length].slug}`);
+  }, [activeIndex, navigate]);
 
   const goTo = useCallback((i) => {
-    setPage(([current]) => [i, i > current ? 1 : -1]);
-  }, []);
+    setDir(i > activeIndex ? 1 : -1);
+    navigate(`/projects/${COUPLES[i].slug}`);
+  }, [activeIndex, navigate]);
 
   const viewerOpenRef = useRef(false);
   useEffect(() => { viewerOpenRef.current = viewerOpen; }, [viewerOpen]);
@@ -190,7 +181,7 @@ export default function Projects() {
     return () => window.removeEventListener("keydown", onKey);
   }, [goNext, goPrev]);
 
-  const couple = COUPLES[index];
+  const couple = COUPLES[activeIndex];
 
   const gridImages = useMemo(
     () =>
@@ -199,7 +190,7 @@ export default function Projects() {
         const version = typeof entry === "string" ? undefined : entry.version;
         return { src: rawCloudinaryUrl(publicId, version || RAW_VERSION), num: i + 1 };
       }),
-    [index]
+    [activeIndex]
   );
 
   const layoutFragments = useMemo(() => buildLayoutFragments(gridImages), [gridImages]);
@@ -210,7 +201,7 @@ export default function Projects() {
         id: `${couple.name}-${item.num}`,
         img: item.src,
       })),
-    [index, gridImages]
+    [activeIndex, gridImages, couple.name]
   );
 
   const handleItemClick = useCallback((i) => {
@@ -220,8 +211,8 @@ export default function Projects() {
 
   /* Preload first images of adjacent couples for instant navigation */
   useEffect(() => {
-    const next = COUPLES[(index + 1) % COUPLES.length];
-    const prev = COUPLES[(index - 1 + COUPLES.length) % COUPLES.length];
+    const next = COUPLES[(activeIndex + 1) % COUPLES.length];
+    const prev = COUPLES[(activeIndex - 1 + COUPLES.length) % COUPLES.length];
     [next, prev].forEach((couple) => {
       couple.images.slice(0, 2).forEach((entry) => {
         const publicId = typeof entry === "string" ? entry : entry.id;
@@ -230,7 +221,11 @@ export default function Projects() {
         img.src = rawCloudinaryUrl(publicId, version || RAW_VERSION);
       });
     });
-  }, [index]);
+  }, [activeIndex]);
+
+  if (index < 0) {
+    return <Navigate to="/projects" replace />;
+  }
 
   return (
     <main className="relative min-h-screen bg-ivory overflow-x-hidden">
@@ -290,7 +285,7 @@ export default function Projects() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              key={`story-${index}`}
+              key={`story-${activeIndex}`}
             >
               <p
                 className="font-serif text-walnut/70 leading-[1.85] -mt-16"
@@ -356,7 +351,7 @@ export default function Projects() {
         <div className="mx-auto max-w-[1480px]">
           <AnimatePresence mode="wait">
             <motion.div
-              key={`grid-${index}-${coupleKey.current}`}
+              key={`grid-${activeIndex}-${coupleKey.current}`}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1, transition: { duration: 0.4 } }}
               exit={{ opacity: 0, transition: { duration: 0.25 } }}
@@ -434,8 +429,8 @@ export default function Projects() {
             <NavButton dir="prev" onClick={goPrev} label="Previous" />
 
             <div className="flex items-center gap-4 sm:gap-6">
-              <AnimatedCounter value={index + 1} total={COUPLES.length} />
-              <DotNav total={COUPLES.length} active={index} onChange={goTo} />
+              <AnimatedCounter value={activeIndex + 1} total={COUPLES.length} />
+              <DotNav total={COUPLES.length} active={activeIndex} onChange={goTo} />
             </div>
 
             <NavButton dir="next" onClick={goNext} label="Next" />

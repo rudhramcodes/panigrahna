@@ -7,6 +7,7 @@ import BackToTop from "./components/ui/BackToTop";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Projects from "./pages/Projects";
+import ProjectListing from "./pages/ProjectListing";
 import Contact from "./pages/Contact";
 import BridesPage from "./pages/BridesPage";
 import GroomsPage from "./pages/GroomsPage";
@@ -51,7 +52,8 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
-          <Route path="/projects" element={<Projects />} />
+          <Route path="/projects" element={<ProjectListing />} />
+          <Route path="/projects/:slug" element={<Projects />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/brides" element={<BridesPage />} />
           <Route path="/grooms" element={<GroomsPage />} />
