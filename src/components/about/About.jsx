@@ -14,7 +14,7 @@ const NOTE_TEXT =
 
 export default function AboutSection() {
   return (
-    <section className="relative overflow-hidden bg-sand/50 px-6 py-14 text-primary sm:px-8 sm:py-20 md:px-12 lg:px-16 lg:py-24">
+    <section className="relative overflow-hidden bg-sand/50 px-6 pb-8 pt-14 text-primary sm:px-8 sm:pb-10 sm:pt-20 md:px-12 md:py-20 lg:px-16 lg:py-24">
       <div className="mx-auto grid max-w-[1180px] items-center gap-8 md:grid-cols-[0.9fr_1.1fr] md:gap-12 lg:gap-16">
         <div className="relative order-2 w-full max-w-[520px] md:order-none md:mx-auto md:max-w-none">
           <div className="aspect-[1.08] overflow-hidden rounded-[1vw] bg-sandstone-200 shadow-[0_22px_55px_rgba(53,28,3,0.12)]">

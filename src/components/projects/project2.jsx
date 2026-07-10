@@ -75,7 +75,7 @@ export default function Project2() {
       className="relative flex flex-col w-full bg-sand/50 overflow-hidden select-none"
       style={{ height: "100dvh", minHeight: isMobile ? "680px" : "620px" }}
     >
-      <div ref={headerRef} className="shrink-0 px-6 sm:px-8 md:px-12 lg:px-16 pt-20 sm:pt-16 md:pt-24 pb-3 sm:pb-3 md:pb-4 lg:text-center text-left">
+      <div ref={headerRef} className="shrink-0 px-6 sm:px-8 md:px-12 lg:px-16 pt-10 sm:pt-12 md:pt-24 pb-3 sm:pb-3 md:pb-4 lg:text-center text-left">
         <span className="header-label block font-serif text-taupe text-[10px] sm:text-xs uppercase tracking-[0.2em] mb-1.5 sm:mb-3">
           Our Couples
         </span>
