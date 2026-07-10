@@ -437,7 +437,7 @@ export default function Contact() {
                   className="aspect-[4/5] bg-walnut overflow-hidden rounded-sm"
                 >
                   <img
-                    src="https://i.pinimg.com/1200x/26/f1/51/26f15116730ed7a348f067e4ed9fb9b2.jpg"
+                    src={rawCloudinaryUrl("B1.jpg")}
                     className="w-full h-full object-cover opacity-80 hover:scale-105 transition-transform duration-1000"
                     alt="Atmospheric"
                   />
