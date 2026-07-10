@@ -73,9 +73,9 @@ export default function Project2() {
   return (
     <section
       className="relative flex flex-col w-full bg-sand/50 overflow-hidden select-none"
-      style={{ height: "100dvh", minHeight: "620px" }}
+      style={{ height: "100dvh", minHeight: isMobile ? "680px" : "620px" }}
     >
-      <div ref={headerRef} className="shrink-0 px-5 sm:px-8 md:px-12 lg:px-16 pt-6 sm:pt-12 md:pt-24 pb-4 sm:pb-3 md:pb-4 lg:text-center text-left">
+      <div ref={headerRef} className="shrink-0 px-6 sm:px-8 md:px-12 lg:px-16 pt-20 sm:pt-16 md:pt-24 pb-3 sm:pb-3 md:pb-4 lg:text-center text-left">
         <span className="header-label block font-serif text-taupe text-[10px] sm:text-xs uppercase tracking-[0.2em] mb-1.5 sm:mb-3">
           Our Couples
         </span>
@@ -87,7 +87,7 @@ export default function Project2() {
           outerStyle={{ fontSize: "clamp(1.5rem, 3.5vw, 2.8rem)" }}
           lines={[<span key="stories">Every Story <span className="italic text-[#c8a882]">Deserves</span> to Be Remembered.</span>]}
         />
-        <p className="header-desc font-sans text-taupe/80 text-sm sm:text-base max-w-xl mt-2 sm:mt-3 leading-relaxed font-light lg:mx-auto hidden sm:block">
+        <p className="header-desc font-sans text-taupe/80 text-xs sm:text-base max-w-xl mt-3 leading-relaxed font-light lg:mx-auto">
           Every couple has a story worth telling. Through our lens, we capture
           the quiet glances, the laughter, and the love that makes each journey
           unique.

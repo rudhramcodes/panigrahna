@@ -14,9 +14,9 @@ const NOTE_TEXT =
 
 export default function AboutSection() {
   return (
-    <section className="relative overflow-hidden bg-sand/50 px-5 py-16 text-primary sm:px-8 sm:py-20 md:px-12 lg:px-16 lg:py-24">
-      <div className="mx-auto grid max-w-[1180px] items-center gap-9 md:grid-cols-[0.9fr_1.1fr] md:gap-12 lg:gap-16">
-        <div className="relative mx-auto w-full max-w-[520px] md:max-w-none">
+    <section className="relative overflow-hidden bg-sand/50 px-6 py-14 text-primary sm:px-8 sm:py-20 md:px-12 lg:px-16 lg:py-24">
+      <div className="mx-auto grid max-w-[1180px] items-center gap-8 md:grid-cols-[0.9fr_1.1fr] md:gap-12 lg:gap-16">
+        <div className="relative order-2 w-full max-w-[520px] md:order-none md:mx-auto md:max-w-none">
           <div className="aspect-[1.08] overflow-hidden rounded-[1vw] bg-sandstone-200 shadow-[0_22px_55px_rgba(53,28,3,0.12)]">
             <img
               src={rawCloudinaryUrl("about-img")}
@@ -28,7 +28,7 @@ export default function AboutSection() {
           </div>
         </div>
 
-        <div className="mx-auto max-w-[620px] text-center md:mx-0 md:text-left">
+        <div className="order-1 max-w-[620px] text-left md:order-none md:mx-0">
           <span className="mb-3 block font-serif text-[10px] uppercase tracking-[0.2em] text-taupe">
             About Panigrahna
           </span>
@@ -36,15 +36,15 @@ export default function AboutSection() {
           <MaskText
             outerTag="h2"
             tag="span"
-            className="font-serif text-[clamp(2.05rem,3.6vw,4.15rem)] font-light leading-[0.98] text-walnut [text-wrap:balance]"
+            className="font-serif text-[clamp(2.05rem,3.6vw,4.15rem)] font-light leading-[0.98] text-walnut"
             amount={0.35}
             staggerDelay={0.08}
             lines={HEADING_LINES}
           />
 
-          <div className="mt-6 grid gap-5 pt-6 sm:grid-cols-[1fr_0.72fr] sm:gap-7">
+          <div className="mt-5 grid gap-4 pt-5 sm:grid-cols-[1fr_0.72fr] sm:gap-7 md:mt-6 md:gap-5 md:pt-6">
             <MaskText
-              className="mx-auto max-w-[410px] text-[0.82rem] font-light leading-[1.85] text-taupe/85 md:mx-0"
+              className="max-w-[410px] text-[0.82rem] font-light leading-[1.85] text-taupe/85"
               tag="p"
               amount={0.35}
               lines={[BODY_TEXT]}
@@ -52,7 +52,7 @@ export default function AboutSection() {
 
             <MaskText
               tag="p"
-              className="mx-auto max-w-[280px] font-serif text-[clamp(1rem,1.15vw,1.18rem)] font-light italic leading-[1.6] text-cinnamon-500 sm:border-l sm:border-taupe/15 sm:pl-6 md:mx-0"
+              className="max-w-[300px] font-serif text-[clamp(1rem,1.15vw,1.18rem)] font-light italic leading-[1.6] text-cinnamon-500 sm:border-l sm:border-taupe/15 sm:pl-6 md:max-w-[280px]"
               amount={0.35}
               lines={[NOTE_TEXT]}
             />
