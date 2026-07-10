@@ -145,7 +145,7 @@ function TheStudio() {
             </motion.div>
 
             {/* Floating stat badge */}
-            <motion.div
+            {/* <motion.div
               className="absolute -bottom-3 -right-3 sm:-bottom-5 sm:-right-5 bg-walnut rounded-full flex flex-col items-center justify-center text-sand shadow-2xl"
               style={{ width: "clamp(90px, 10vw, 130px)", height: "clamp(90px, 10vw, 130px)" }}
               initial={{ opacity: 0, scale: 0 }}
@@ -156,7 +156,7 @@ function TheStudio() {
               <span className="font-sans text-[9px] sm:text-[10px] uppercase tracking-[0.15em] text-sand/60 mt-1 text-center leading-tight px-2">
                 Years
               </span>
-            </motion.div>
+            </motion.div> */}
           </motion.div>
 
           {/* Content */}
@@ -198,7 +198,7 @@ function TheStudio() {
               Those are the moments we choose to remember. With an understated cinematic style and a deep respect for every family's story, we create films that feel as genuine decades later as they do today.
             </motion.p>
 
-            <motion.div variants={fadeUp} className="mt-8 flex flex-wrap gap-6">
+            {/* <motion.div variants={fadeUp} className="mt-8 flex flex-wrap gap-6">
               {[
                 { label: "Couples Served", value: "150+" },
                 { label: "Cities Covered", value: "25+" },
@@ -213,7 +213,7 @@ function TheStudio() {
                   </span>
                 </div>
               ))}
-            </motion.div>
+            </motion.div> */}
           </motion.div>
         </div>
       </div>
@@ -264,9 +264,9 @@ function Philosophy() {
               style={{ fontSize: "clamp(1.6rem, 3.8vw, 3.5rem)" }}
             >
               <span className="italic text-cinnamon-200/50 font-normal text-[1.2em] leading-none align-middle">"</span>
-              Every frame is a love letter.
+              Beyond every celebration
               <br />
-              <span className="italic text-cinnamon-200">Every film, an heirloom.</span>
+              <span className="italic text-cinnamon-200">is a story worth keeping.</span>
               <span className="italic text-cinnamon-200/50 font-normal text-[1.2em] leading-none align-middle">"</span>
             </p>
           </blockquote>
@@ -278,9 +278,7 @@ function Philosophy() {
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ delay: 0.5, duration: 0.6 }}
           >
-            We believe the best wedding films don't just show you what happened — 
-            they make you feel it. Our approach blends the honesty of documentary 
-            with the poetry of cinema, creating narratives that resonate across generations.
+            Our work is shaped by people rather than perfection. Every film reflects the individuality, emotion, and quiet beauty that make each journey entirely its own.
           </motion.p>
         </motion.div>
       </div>
@@ -292,100 +290,100 @@ function Philosophy() {
    Section 4: Core Values
    ───────────────────────────────────────── */
 
-const VALUES = [
-  {
-    icon: Eye,
-    title: "Authentic Eye",
-    description:
-      "We capture real moments as they unfold — unscripted, unfiltered, and deeply human. No forced poses, just honest emotion.",
-    color: "text-cinnamon-300",
-  },
-  {
-    icon: Heart,
-    title: "Heartfelt Approach",
-    description:
-      "Every couple we work with becomes family. We invest ourselves fully in your story, earning the trust to document your most intimate moments.",
-    color: "text-ember-300",
-  },
-  {
-    icon: Feather,
-    title: "Gentle Presence",
-    description:
-      "We move through your celebration like quiet observers — unseen yet ever-present, ensuring nothing is staged and everything is felt.",
-    color: "text-cinnamon-300",
-  },
-  {
-    icon: Target,
-    title: "Uncompromising Craft",
-    description:
-      "From cinematic composition to nuanced colour grading, every frame is refined until it carries the emotional weight it deserves.",
-    color: "text-ember-300",
-  },
-];
+// const VALUES = [
+//   {
+//     icon: Eye,
+//     title: "Authentic Eye",
+//     description:
+//       "We capture real moments as they unfold — unscripted, unfiltered, and deeply human. No forced poses, just honest emotion.",
+//     color: "text-cinnamon-300",
+//   },
+//   {
+//     icon: Heart,
+//     title: "Heartfelt Approach",
+//     description:
+//       "Every couple we work with becomes family. We invest ourselves fully in your story, earning the trust to document your most intimate moments.",
+//     color: "text-ember-300",
+//   },
+//   {
+//     icon: Feather,
+//     title: "Gentle Presence",
+//     description:
+//       "We move through your celebration like quiet observers — unseen yet ever-present, ensuring nothing is staged and everything is felt.",
+//     color: "text-cinnamon-300",
+//   },
+//   {
+//     icon: Target,
+//     title: "Uncompromising Craft",
+//     description:
+//       "From cinematic composition to nuanced colour grading, every frame is refined until it carries the emotional weight it deserves.",
+//     color: "text-ember-300",
+//   },
+// ];
 
-function CoreValues() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.15 });
+// function CoreValues() {
+//   const ref = useRef(null);
+//   const isInView = useInView(ref, { once: true, amount: 0.15 });
 
-  return (
-    <Section ref={ref} className="bg-sand/40 py-[clamp(4rem,8vw,8rem)]">
-      <div className="mx-auto max-w-[1480px] px-5 sm:px-8 md:px-12 lg:px-16">
-        <motion.div
-          className="text-center mb-12 sm:mb-16"
-          variants={stagger}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-        >
-          <motion.span
-            variants={fadeUp}
-            className="block font-sans text-cinnamon-300 text-xs uppercase tracking-[0.25em] mb-4"
-          >
-            What We Stand For
-          </motion.span>
-          <motion.h2
-            variants={fadeUp}
-            className="font-serif text-walnut font-light tracking-tight"
-            style={{ fontSize: "clamp(2rem, 4.5vw, 4rem)" }}
-          >
-            Our <span className="italic text-cinnamon-300">Values</span>
-          </motion.h2>
-        </motion.div>
+//   return (
+//     <Section ref={ref} className="bg-sand/40 py-[clamp(4rem,8vw,8rem)]">
+//       <div className="mx-auto max-w-[1480px] px-5 sm:px-8 md:px-12 lg:px-16">
+//         <motion.div
+//           className="text-center mb-12 sm:mb-16"
+//           variants={stagger}
+//           initial="hidden"
+//           animate={isInView ? "visible" : "hidden"}
+//         >
+//           <motion.span
+//             variants={fadeUp}
+//             className="block font-sans text-cinnamon-300 text-xs uppercase tracking-[0.25em] mb-4"
+//           >
+//             What We Stand For
+//           </motion.span>
+//           <motion.h2
+//             variants={fadeUp}
+//             className="font-serif text-walnut font-light tracking-tight"
+//             style={{ fontSize: "clamp(2rem, 4.5vw, 4rem)" }}
+//           >
+//             Our <span className="italic text-cinnamon-300">Values</span>
+//           </motion.h2>
+//         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
-          {VALUES.map((val, i) => {
-            const Icon = val.icon;
-            const cardRef = useRef(null);
-            const cardInView = useInView(cardRef, { once: true, amount: 0.3 });
+//         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
+//           {VALUES.map((val, i) => {
+//             const Icon = val.icon;
+//             const cardRef = useRef(null);
+//             const cardInView = useInView(cardRef, { once: true, amount: 0.3 });
 
-            return (
-              <motion.div
-                key={val.title}
-                ref={cardRef}
-                className="group bg-ivory p-8 sm:p-10 lg:p-12 transition-all duration-500 hover:shadow-2xl hover:shadow-walnut/5"
-                initial={{ opacity: 0, y: 40 }}
-                animate={cardInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: i * 0.1, duration: 0.7, ease }}
-              >
-                <Icon size={24} className={`${val.color} mb-5`} strokeWidth={1.2} />
+//             return (
+//               <motion.div
+//                 key={val.title}
+//                 ref={cardRef}
+//                 className="group bg-ivory p-8 sm:p-10 lg:p-12 transition-all duration-500 hover:shadow-2xl hover:shadow-walnut/5"
+//                 initial={{ opacity: 0, y: 40 }}
+//                 animate={cardInView ? { opacity: 1, y: 0 } : {}}
+//                 transition={{ delay: i * 0.1, duration: 0.7, ease }}
+//               >
+//                 <Icon size={24} className={`${val.color} mb-5`} strokeWidth={1.2} />
 
-                <h3
-                  className="font-serif text-walnut font-light mb-3"
-                  style={{ fontSize: "clamp(1.2rem, 1.8vw, 1.6rem)" }}
-                >
-                  {val.title}
-                </h3>
+//                 <h3
+//                   className="font-serif text-walnut font-light mb-3"
+//                   style={{ fontSize: "clamp(1.2rem, 1.8vw, 1.6rem)" }}
+//                 >
+//                   {val.title}
+//                 </h3>
 
-                <p className="font-sans text-taupe/70 font-light leading-relaxed text-sm sm:text-base max-w-[420px]">
-                  {val.description}
-                </p>
-              </motion.div>
-            );
-          })}
-        </div>
-      </div>
-    </Section>
-  );
-}
+//                 <p className="font-sans text-taupe/70 font-light leading-relaxed text-sm sm:text-base max-w-[420px]">
+//                   {val.description}
+//                 </p>
+//               </motion.div>
+//             );
+//           })}
+//         </div>
+//       </div>
+//     </Section>
+//   );
+// }
 
 /* ─────────────────────────────────────────
    Section 5: Our Journey (Timeline)
@@ -570,9 +568,9 @@ export default function About() {
       <AboutHero />
       <TheStudio />
       <Philosophy />
-      <CoreValues />
+      {/* <CoreValues /> */}
       <Journey />
-      <AboutCTA />
+      {/* <AboutCTA /> */}
       <Footer />
     </>
   );
