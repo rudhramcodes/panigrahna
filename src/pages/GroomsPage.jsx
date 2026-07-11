@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, useRef } from "react";
+import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
@@ -9,24 +9,26 @@ import { rawCloudinaryUrl } from "../lib/cloudinary";
 import { useSmoothScroll } from "../components/smooth-scroll/SmoothScroll";
 
 const ALL_GROOMS = [
-  "G1.jpg", "G2.jpg", "G3.jpg", "G4.jpg", "G5.jpg",
-  "G6.jpg", "G7.jpg", "G8.avif", "G9.jpg", "G10.jpg",
+  "G1.jpg", "G3.jpg", "G5.jpg",
+  "G6.jpg", "G7.jpg",
   "G11.jpg", "G12.jpg", "G13.jpg", "G14.jpg", "G15.jpg",
 ];
 
 const EASE = [0.76, 0, 0.24, 1];
 
-function buildLayoutFragments(images) {
+function buildLayoutFragments(images, ratios) {
   const fragments = [];
   let i = 0;
   while (i < images.length) {
-    const remaining = images.length - i;
-    const seed = ((i * 137 + 51) % 10);
-    if (remaining >= 2 && seed < 5) {
+    const r0 = ratios?.[i];
+    const r1 = ratios?.[i + 1];
+    const bothNonPortrait = r0 !== undefined && r1 !== undefined && r0 >= 1 && r1 >= 1;
+    const sameAspect = bothNonPortrait && Math.abs(r0 - r1) < 0.1;
+    if (r0 !== undefined && r1 !== undefined && bothNonPortrait && sameAspect) {
       fragments.push({ type: "pair", items: [images[i], images[i + 1]] });
       i += 2;
     } else {
-      fragments.push({ type: "single", items: [images[i]] });
+      fragments.push({ type: "single", items: [images[i]], isLandscape: r0 !== undefined && r0 >= 1 });
       i++;
     }
   }
@@ -55,6 +57,7 @@ function ParallaxWrapper({ children, speed = 0.28, fullHeight }) {
 export default function GroomsPage() {
   const navigate = useNavigate();
   const lenisRef = useSmoothScroll();
+  const [imageRatios, setImageRatios] = useState(null);
   const [viewerOpen, setViewerOpen] = useState(false);
   const [viewerIndex, setViewerIndex] = useState(0);
 
@@ -67,7 +70,24 @@ export default function GroomsPage() {
     []
   );
 
-  const layoutFragments = useMemo(() => buildLayoutFragments(gridItems), [gridItems]);
+  useEffect(() => {
+    if (gridItems.length === 0) { setImageRatios({}); return; }
+    let mounted = true;
+    const ratios = {};
+    let remaining = gridItems.length;
+    const imgs = [];
+    const done = () => { if (mounted) setImageRatios(ratios); };
+    gridItems.forEach((item, i) => {
+      const img = new Image();
+      imgs.push(img);
+      img.onload = () => { ratios[i] = img.naturalWidth / img.naturalHeight; if (!--remaining) done(); };
+      img.onerror = () => { ratios[i] = 1.5; if (!--remaining) done(); };
+      img.src = item.src;
+    });
+    return () => { mounted = false; imgs.forEach((img) => { img.onload = null; img.onerror = null; }); };
+  }, [gridItems]);
+
+  const layoutFragments = useMemo(() => imageRatios ? buildLayoutFragments(gridItems, imageRatios) : [], [gridItems, imageRatios]);
 
   const viewerImages = useMemo(
     () =>
@@ -136,12 +156,13 @@ export default function GroomsPage() {
 
       <section className="px-5 sm:px-8 md:px-12 lg:px-16 pb-24 sm:pb-32">
         <div className="mx-auto max-w-[1480px]">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1, transition: { duration: 0.4 } }}
-            className="flex flex-col items-center gap-20 sm:gap-28 md:gap-36 lg:gap-44"
-          >
-            {layoutFragments.map((frag, fi) => {
+          {imageRatios ? (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { duration: 0.4 } }}
+              className="flex flex-col items-center gap-20 sm:gap-28 md:gap-36 lg:gap-44"
+            >
+              {layoutFragments.map((frag, fi) => {
               const img0 = frag.items[0];
               const img1 = frag.items[1];
 
@@ -182,7 +203,7 @@ export default function GroomsPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-80px" }}
                   transition={{ duration: 0.6, ease: EASE }}
-                  className="w-full max-w-[1400px] mx-auto group cursor-pointer"
+                  className={`w-full ${frag.isLandscape ? '' : 'max-w-[1400px]'} mx-auto group cursor-pointer`}
                   onClick={() => openViewer(img0.num - 1)}
                 >
                   <div className="overflow-hidden rounded-sm">
@@ -199,8 +220,15 @@ export default function GroomsPage() {
                   </div>
                 </motion.div>
               );
-            })}
-          </motion.div>
+              })}
+            </motion.div>
+          ) : (
+            <div className="flex justify-center py-32">
+              <span className="font-sans text-cinnamon-300/50 text-xs uppercase tracking-[0.25em]">
+                Loading gallery&hellip;
+              </span>
+            </div>
+          )}
         </div>
       </section>
 

@@ -6,34 +6,11 @@ import { useSmoothScroll } from "../smooth-scroll/SmoothScroll";
 
 export default function Navbar() {
   const [isActive, setIsActive] = useState(false);
-  const [isDarkBg, setIsDarkBg] = useState(false);
   const lenisRef = useSmoothScroll();
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => {
-    const hero = document.getElementById("hero");
-    const about = document.getElementById("about");
-
-    const checkDark = () => {
-      const darkSections = [hero, about];
-      const isDark = darkSections.some((section) => {
-        if (!section) return false;
-        const rect = section.getBoundingClientRect();
-        return rect.top <= 80 && rect.bottom > 0;
-      });
-      setIsDarkBg(isDark);
-    };
-
-    checkDark();
-
-    window.addEventListener("scroll", checkDark, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", checkDark);
-    };
-  }, [location.pathname]);
-
-  const lineColor = isActive || isDarkBg ? "bg-white" : "bg-black";
+  const lineColor = isActive ? "bg-white" : "bg-black";
 
   useEffect(() => {
     const lenis = lenisRef?.current;

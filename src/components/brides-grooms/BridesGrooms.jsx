@@ -11,8 +11,7 @@ const BRIDES = [
 ];
 
 const GROOMS = [
-  "G1.jpg", "G2.jpg", "G3.avif", "G4.jpg", "G5.jpg",
-  "G9.jpg", "G7.jpg", "G8.avif",
+  "G1.jpg", "G3.avif", "G5.jpg", "G7.jpg", "G11.jpg", "G15.jpg",
 ];
 
 const EASE = [0.76, 0, 0.24, 1];

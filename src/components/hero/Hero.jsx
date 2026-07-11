@@ -44,13 +44,13 @@ export default function Hero() {
       <div className="absolute inset-x-0 bottom-0 px-5 sm:px-8 md:px-12 lg:px-16 pb-6 sm:pb-10 lg:pb-4 pointer-events-none select-none">
         <h1 className="font-serif text-sand font-thin leading-none tracking-tight">
           <span
-            className="block font-serif text-sand font-thin leading-none tracking-tighter"
+            className="block font-serif text-walnut font-thin leading-none tracking-tighter"
             style={{ fontSize: "clamp(2.8rem, 10vw, 8rem)" }}
           >
             To,
           </span>
           <span
-            className="block font-serif text-sand font-thin leading-none tracking-tighter"
+            className="block font-serif text-walnut font-thin leading-none tracking-tighter"
             style={{ fontSize: "clamp(4rem, 14vw, 8rem)" }}
           >
             Eternity.
