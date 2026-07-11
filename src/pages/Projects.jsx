@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import SEO from "../components/ui/SEO";
 import ImageViewer from "../components/ui/ImageViewer";
 import { rawCloudinaryUrl, RAW_VERSION } from "../lib/cloudinary";
 import { useSmoothScroll } from "../components/smooth-scroll/SmoothScroll";
@@ -249,6 +250,10 @@ export default function Projects() {
 
   return (
     <main className="relative min-h-screen bg-ivory overflow-x-hidden">
+      <SEO
+        title={`${couple.name} Wedding — ${couple.story ? couple.story.split('.')[0] : 'Wedding Photography'} | Panigrahna`}
+        description={`${couple.name}'s wedding story by Panigrahna. ${couple.story || 'Candid wedding photography from Mumbai\'s best wedding photographer.'}`}
+      />
       {/* ── HEADER: Centered couple name ── */}
       <header className="pt-24 sm:pt-32 md:pt-36 pb-2 px-5 sm:px-8 md:px-12 lg:px-16 text-center">
         <div className="mx-auto max-w-[1480px]">

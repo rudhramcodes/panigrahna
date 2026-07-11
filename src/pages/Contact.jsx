@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { Send, Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
+import SEO from "../components/ui/SEO";
 import DatePicker from "../components/ui/DatePicker";
 import PhoneInput from "../components/ui/PhoneInput";
 import LocationSelect from "../components/ui/LocationSelect";
@@ -255,6 +256,10 @@ export default function Contact() {
 
   return (
     <div className="bg-parchment min-h-screen overflow-x-hidden">
+      <SEO
+        title="Contact — Hire Wedding Photographer in Mumbai"
+        description="Book Panigrahna for your wedding. Candid wedding photography, cinematic wedding films, and full wedding planning in Mumbai, Surat, Delhi, and destination weddings in India."
+      />
       {/* HERO */}
       <section className="relative pt-40 pb-20 sm:pt-48 sm:pb-32 px-6 sm:px-10">
         <div className="max-w-[1600px] mx-auto">

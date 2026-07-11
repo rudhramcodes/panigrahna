@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import SEO from "../components/ui/SEO";
 import PanigrahnLoader from "../components/loader/Loader";
 import Hero from "../components/hero/Hero";
 import AboutSection from "../components/about/About";
@@ -39,6 +40,18 @@ function ContentSection() {
 }
 
 export default function Home() {
+  return (
+    <>
+      <SEO
+        title="Best Wedding Photographer in Mumbai"
+        description="Book the best wedding photographer in Mumbai. Panigrahna offers candid wedding photography, cinematic wedding films, and full wedding planning for traditional Hindu weddings across India."
+      />
+      <HomeContent />
+    </>
+  );
+}
+
+function HomeContent() {
   const [loaderDone, setLoaderDone] = useState(
     () => sessionStorage.getItem(LOADER_KEY) === "true"
   );

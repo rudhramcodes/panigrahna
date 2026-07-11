@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { animate, stagger } from "animejs";
+import SEO from "../components/ui/SEO";
 import { COUPLES } from "../data/couples";
 import { rawCloudinaryUrl } from "../lib/cloudinary";
 
@@ -44,6 +45,10 @@ export default function ProjectListing() {
 
   return (
     <main className="relative min-h-screen overflow-x-hidden bg-ivory text-primary">
+      <SEO
+        title="Wedding Photography Portfolio — Best Wedding Photographer in Mumbai"
+        description="Browse real wedding photography portfolios by Panigrahna. Candid, traditional, and destination wedding photography from Mumbai's best wedding photographer."
+      />
       <section className="px-5 pb-12 pt-24 sm:px-8 sm:pt-32 md:px-12 lg:px-16">
         <div ref={heroRef} className="mx-auto grid max-w-[1480px] gap-9 lg:min-h-[78vh] lg:grid-cols-[0.78fr_1.22fr] lg:items-center">
           <div className="relative z-10 opacity-0">

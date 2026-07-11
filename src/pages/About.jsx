@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowUpRight, Heart, Eye, Feather, BookOpen, Target } from "lucide-react";
+import SEO from "../components/ui/SEO";
 import { rawCloudinaryUrl } from "../lib/cloudinary";
 import Footer from "../components/footer/Footer";
 
@@ -565,6 +566,10 @@ function AboutCTA() {
 export default function About() {
   return (
     <>
+      <SEO
+        title="About — Best Wedding Photographer in Mumbai"
+        description="Meet Panigrahna — Mumbai's traditional wedding photography and planning company. We capture candid stories, cinematic films, and timeless rituals across India."
+      />
       <AboutHero />
       <TheStudio />
       <Philosophy />

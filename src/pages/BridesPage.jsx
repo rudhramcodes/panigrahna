@@ -2,6 +2,7 @@ import { useState, useMemo, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
+import SEO from "../components/ui/SEO";
 import ImageViewer from "../components/ui/ImageViewer";
 import Footer from "../components/footer/Footer";
 import { rawCloudinaryUrl } from "../lib/cloudinary";
@@ -97,6 +98,10 @@ export default function BridesPage() {
 
   return (
     <main className="min-h-screen bg-ivory">
+      <SEO
+        title="Bridal Wedding Photography — Traditional Bridal Portraits Mumbai"
+        description="Browse our bridal wedding photography portfolio. Traditional and candid bridal portraits by Panigrahna — best wedding photographer in Mumbai."
+      />
       <section className="pt-28 sm:pt-32 md:pt-36 pb-6 sm:pb-8 px-5 sm:px-8 md:px-12 lg:px-16">
         <div className="mx-auto max-w-[1480px]">
           <motion.button
