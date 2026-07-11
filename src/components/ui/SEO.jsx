@@ -1,8 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useId } from "react";
 
 const SITE_NAME = "Panigrahna";
-const SITE_URL = "https://panigrahna.com";
-const DEFAULT_IMAGE = "/images/og-image.jpg";
 
 function upsertMeta(name, content, property) {
   if (!content) return;
@@ -22,7 +20,9 @@ function removeMeta(attr, key) {
   if (el) el.remove();
 }
 
-export default function SEO({ title, description, ogImage, noindex }) {
+export default function SEO({ title, description, ogImage, noindex, schema }) {
+  const schemaId = useId();
+
   useEffect(() => {
     const fullTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} — Traditional Wedding Photography & Planning`;
     document.title = fullTitle;
@@ -31,20 +31,31 @@ export default function SEO({ title, description, ogImage, noindex }) {
     upsertMeta("og:title", fullTitle, true);
     upsertMeta("og:description", description, true);
     upsertMeta("og:url", window.location.href, true);
-    upsertMeta("og:image", ogImage || DEFAULT_IMAGE, true);
+    upsertMeta("og:image", ogImage || "/images/og-image.jpg", true);
     upsertMeta("og:site_name", SITE_NAME, true);
     upsertMeta("og:type", "website", true);
     upsertMeta("twitter:card", "summary_large_image");
     upsertMeta("twitter:title", fullTitle);
     upsertMeta("twitter:description", description);
-    upsertMeta("twitter:image", ogImage || DEFAULT_IMAGE);
+    upsertMeta("twitter:image", ogImage || "/images/og-image.jpg");
 
     if (noindex) {
       upsertMeta("robots", "noindex, nofollow");
     } else {
       removeMeta("name", "robots");
     }
-  }, [title, description, ogImage, noindex]);
+
+    const existing = document.getElementById(schemaId);
+    if (existing) existing.remove();
+
+    if (schema) {
+      const script = document.createElement("script");
+      script.id = schemaId;
+      script.type = "application/ld+json";
+      script.textContent = JSON.stringify(schema);
+      document.head.appendChild(script);
+    }
+  }, [title, description, ogImage, noindex, schema, schemaId]);
 
   return null;
 }

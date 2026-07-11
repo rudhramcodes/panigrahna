@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://panigrahna.com/sitemap.xml

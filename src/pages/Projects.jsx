@@ -253,6 +253,18 @@ export default function Projects() {
       <SEO
         title={`${couple.name} Wedding — ${couple.story ? couple.story.split('.')[0] : 'Wedding Photography'} | Panigrahna`}
         description={`${couple.name}'s wedding story by Panigrahna. ${couple.story || 'Candid wedding photography from Mumbai\'s best wedding photographer.'}`}
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "Event",
+          "name": `${couple.name} Wedding`,
+          "description": couple.story,
+          "image": `https://panigrahna.com/images/og-image.jpg`,
+          "organizer": {
+            "@type": "Organization",
+            "name": "Panigrahna",
+            "url": "https://panigrahna.com"
+          }
+        }}
       />
       {/* ── HEADER: Centered couple name ── */}
       <header className="pt-24 sm:pt-32 md:pt-36 pb-2 px-5 sm:px-8 md:px-12 lg:px-16 text-center">

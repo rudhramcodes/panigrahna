@@ -45,6 +45,21 @@ export default function Home() {
       <SEO
         title="Best Wedding Photographer in Mumbai"
         description="Book the best wedding photographer in Mumbai. Panigrahna offers candid wedding photography, cinematic wedding films, and full wedding planning for traditional Hindu weddings across India."
+        schema={{
+          "@context": "https://schema.org",
+          "@type": ["LocalBusiness", "Organization"],
+          "name": "Panigrahna",
+          "description": "Traditional wedding photography and planning services in Mumbai",
+          "url": "https://panigrahna.com",
+          "image": "https://panigrahna.com/images/og-image.jpg",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Mumbai",
+            "addressCountry": "IN"
+          },
+          "serviceType": ["Wedding Photography", "Wedding Planning", "Wedding Cinematography", "Event Management"],
+          "areaServed": ["Mumbai", "Surat", "Delhi", "Goa", "Jaipur", "Udaipur", "India"]
+        }}
       />
       <HomeContent />
     </>

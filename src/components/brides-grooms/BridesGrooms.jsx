@@ -7,8 +7,7 @@ import MaskText from "../mask-text/MaskText";
 import { rawCloudinaryUrl } from "../../lib/cloudinary";
 
 const BRIDES = [
-  "B1.jpg", "B2.jpg", "B3.avif", "B04.avif", "B5.jpg",
-  "B6.jpg", "B7.jpg", "B8.jpg",
+  "B1.jpg", "B3.avif", "B04.avif", "B03.jpg", "B04.5.jpg", "B05.jpg", "B12.jpg", "B17.jpg",
 ];
 
 const GROOMS = [
