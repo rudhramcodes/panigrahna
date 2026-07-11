@@ -19,17 +19,19 @@ const counterSlide = {
   exit: { y: -20, opacity: 0 },
 };
 
-function buildLayoutFragments(images) {
+function buildLayoutFragments(images, ratios) {
   const fragments = [];
   let i = 0;
   while (i < images.length) {
-    const remaining = images.length - i;
-    const seed = ((i * 137 + 51) % 10);
-    if (remaining >= 2 && seed < 5) {
+    const r0 = ratios?.[i];
+    const r1 = ratios?.[i + 1];
+    const bothPortrait = r0 !== undefined && r1 !== undefined && r0 < 1 && r1 < 1;
+    const sameAspect = bothPortrait && Math.abs(r0 - r1) < 0.1;
+    if (r0 !== undefined && r1 !== undefined && bothPortrait && sameAspect) {
       fragments.push({ type: "pair", items: [images[i], images[i + 1]] });
       i += 2;
     } else {
-      fragments.push({ type: "single", items: [images[i]] });
+      fragments.push({ type: "single", items: [images[i]], isLandscape: r0 !== undefined && r0 >= 1 });
       i++;
     }
   }
@@ -137,6 +139,7 @@ export default function Projects() {
   const [pageLoaded, setPageLoaded] = useState(false);
   const [viewerOpen, setViewerOpen] = useState(false);
   const [viewerIndex, setViewerIndex] = useState(0);
+  const [imageRatios, setImageRatios] = useState(null);
   const [storyOpen, setStoryOpen] = useState(false);
   const coupleKey = useRef(0);
   const lenisRef = useSmoothScroll();
@@ -193,7 +196,24 @@ export default function Projects() {
     [activeIndex]
   );
 
-  const layoutFragments = useMemo(() => buildLayoutFragments(gridImages), [gridImages]);
+  useEffect(() => {
+    if (gridImages.length === 0) { setImageRatios({}); return; }
+    let mounted = true;
+    const ratios = {};
+    let remaining = gridImages.length;
+    const imgs = [];
+    const done = () => { if (mounted) setImageRatios(ratios); };
+    gridImages.forEach((item, i) => {
+      const img = new Image();
+      imgs.push(img);
+      img.onload = () => { ratios[i] = img.naturalWidth / img.naturalHeight; if (!--remaining) done(); };
+      img.onerror = () => { ratios[i] = 1.5; if (!--remaining) done(); };
+      img.src = item.src;
+    });
+    return () => { mounted = false; imgs.forEach((img) => { img.onload = null; img.onerror = null; }); };
+  }, [gridImages]);
+
+  const layoutFragments = useMemo(() => imageRatios ? buildLayoutFragments(gridImages, imageRatios) : [], [gridImages, imageRatios]);
 
   const viewerImages = useMemo(
     () =>
@@ -349,15 +369,16 @@ export default function Projects() {
       {/* ── GALLERY ── */}
       <section className="px-5 sm:px-8 md:px-12 lg:px-16 py-8 sm:py-10 md:py-12">
         <div className="mx-auto max-w-[1480px]">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={`grid-${activeIndex}-${coupleKey.current}`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1, transition: { duration: 0.4 } }}
-              exit={{ opacity: 0, transition: { duration: 0.25 } }}
-              className="flex flex-col items-center gap-20 sm:gap-28 md:gap-36 lg:gap-44"
-            >
-              {layoutFragments.map((frag, fi) => {
+          {imageRatios ? (
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`grid-${activeIndex}-${coupleKey.current}`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1, transition: { duration: 0.4 } }}
+                exit={{ opacity: 0, transition: { duration: 0.25 } }}
+                className="flex flex-col items-center gap-20 sm:gap-28 md:gap-36 lg:gap-44"
+              >
+                {layoutFragments.map((frag, fi) => {
                 const img0 = frag.items[0];
                 const img1 = frag.items[1];
 
@@ -398,7 +419,7 @@ export default function Projects() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-80px" }}
                     transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                    className="w-full max-w-[1400px] mx-auto group cursor-pointer"
+                    className={`w-full ${frag.isLandscape ? '' : 'max-w-[1400px]'} mx-auto group cursor-pointer`}
                     onClick={() => handleItemClick(img0.num - 1)}
                   >
                     <div className="overflow-hidden rounded-sm">
@@ -415,9 +436,16 @@ export default function Projects() {
                     </div>
                   </motion.div>
                 );
-              })}
-            </motion.div>
-          </AnimatePresence>
+                })}
+              </motion.div>
+            </AnimatePresence>
+          ) : (
+            <div className="flex justify-center py-32">
+              <span className="font-sans text-cinnamon-300/50 text-xs uppercase tracking-[0.25em]">
+                Loading gallery&hellip;
+              </span>
+            </div>
+          )}
         </div>
       </section>
 

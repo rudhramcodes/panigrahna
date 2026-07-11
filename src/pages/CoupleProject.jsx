@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 
@@ -29,17 +29,20 @@ const ALL_COUPLES = [
   { slug: "rutvik-and-aishwarya", name: "Rutvik & Aishwarya", publicId: "HRS_6891_1_rpow6s.jpg", angle: -90, quote: "A promise made in heaven", location: "Jaipur", date: "Jan 2025" },
 ];
 
-function buildLayoutFragments(images) {
+function buildLayoutFromRatios(images, ratios) {
   const fragments = [];
   let i = 0;
   while (i < images.length) {
-    const remaining = images.length - i;
-    const seed = ((i * 137 + 51) % 10);
-    if (remaining >= 2 && seed < 5) {
+    const r0 = ratios[i];
+    const r1 = ratios[i + 1];
+    const bothPortrait = r0 < 1 && r1 !== undefined && r1 < 1;
+    // only pair if both portrait and aspect ratios are within 10%
+    const sameAspect = bothPortrait && Math.abs(r0 - r1) < 0.1;
+    if (bothPortrait && sameAspect) {
       fragments.push({ type: "pair", items: [images[i], images[i + 1]] });
       i += 2;
     } else {
-      fragments.push({ type: "single", items: [images[i]] });
+      fragments.push({ type: "single", items: [images[i]], isLandscape: r0 >= 1 });
       i++;
     }
   }
@@ -86,7 +89,28 @@ export default function CoupleProject() {
     [coupleImages]
   );
 
-  const layoutFragments = useMemo(() => buildLayoutFragments(gridItems), [gridItems]);
+  const [imageRatios, setImageRatios] = useState(null);
+  useEffect(() => {
+    if (gridItems.length === 0) { setImageRatios({}); return; }
+    let mounted = true;
+    const ratios = {};
+    let remaining = gridItems.length;
+    const imgs = [];
+    const done = () => { if (mounted) setImageRatios(ratios); };
+    gridItems.forEach((item, i) => {
+      const img = new Image();
+      imgs.push(img);
+      img.onload = () => { ratios[i] = img.naturalWidth / img.naturalHeight; if (!--remaining) done(); };
+      img.onerror = () => { ratios[i] = 1.5; if (!--remaining) done(); };
+      img.src = item.src;
+    });
+    return () => { mounted = false; imgs.forEach((img) => { img.onload = null; img.onerror = null; }); };
+  }, [gridItems]);
+
+  const layoutFragments = useMemo(
+    () => imageRatios ? buildLayoutFromRatios(gridItems, imageRatios) : [],
+    [gridItems, imageRatios]
+  );
 
   const [storyOpen, setStoryOpen] = useState(false);
 
@@ -223,52 +247,60 @@ export default function CoupleProject() {
             </span>
           </motion.div>
 
-          <div className="flex flex-col items-center gap-24 sm:gap-32 md:gap-40 lg:gap-48">
-            {layoutFragments.map((frag, fi) => {
-              const img0 = frag.items[0];
-              const img1 = frag.items[1];
+          {imageRatios ? (
+            <div className="flex flex-col items-center gap-24 sm:gap-32 md:gap-40 lg:gap-48">
+              {layoutFragments.map((frag, fi) => {
+                const img0 = frag.items[0];
+                const img1 = frag.items[1];
 
-              if (frag.type === "pair") {
+                if (frag.type === "pair") {
+                  return (
+                    <div key={`pair-${fi}`} className="w-full flex flex-col sm:flex-row gap-3 sm:gap-4">
+                      {[img0, img1].map((item) => (
+                        <div key={item.num} className="flex-1 min-w-0">
+                          <ParallaxWrapper>
+                            <motion.div
+                              initial={{ opacity: 0, y: 20 }}
+                              whileInView={{ opacity: 1, y: 0 }}
+                              viewport={{ once: true, margin: "-20px" }}
+                              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                              className="cursor-pointer"
+                              whileHover={{ scale: 1.03 }}
+                            >
+                              <img src={item.src} alt="" className="w-full h-auto select-none" loading="lazy" />
+                            </motion.div>
+                          </ParallaxWrapper>
+                        </div>
+                      ))}
+                    </div>
+                  );
+                }
+
                 return (
-                  <div key={`pair-${fi}`} className="w-full flex flex-col sm:flex-row gap-3 sm:gap-4">
-                    {[img0, img1].map((item) => (
-                      <div key={item.num} className="flex-1 min-w-0">
-                        <ParallaxWrapper>
-                          <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-20px" }}
-                            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                            className="cursor-pointer"
-                            whileHover={{ scale: 1.03 }}
-                          >
-                            <img src={item.src} alt="" className="w-full h-auto select-none" loading="lazy" />
-                          </motion.div>
-                        </ParallaxWrapper>
-                      </div>
-                    ))}
+                  <div key={`single-${fi}`} className={`w-full ${frag.isLandscape ? '' : 'max-w-[1400px]'} mx-auto`}>
+                    <ParallaxWrapper>
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-20px" }}
+                        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                        className="cursor-pointer"
+                        whileHover={{ scale: 1.03 }}
+                      >
+                        <img src={img0.src} alt="" className="w-full h-auto select-none" loading="lazy" />
+                      </motion.div>
+                    </ParallaxWrapper>
                   </div>
                 );
-              }
-
-              return (
-                <div key={`single-${fi}`} className="w-full max-w-[1400px] mx-auto">
-                  <ParallaxWrapper>
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, margin: "-20px" }}
-                      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                      className="cursor-pointer"
-                      whileHover={{ scale: 1.03 }}
-                    >
-                      <img src={img0.src} alt="" className="w-full h-auto select-none" loading="lazy" />
-                    </motion.div>
-                  </ParallaxWrapper>
-                </div>
-              );
-            })}
-          </div>
+              })}
+            </div>
+          ) : (
+            <div className="flex justify-center py-32">
+              <span className="font-sans text-cinnamon-300/50 text-xs uppercase tracking-[0.25em]">
+                Loading gallery&hellip;
+              </span>
+            </div>
+          )}
         </div>
       </section>
 
