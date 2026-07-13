@@ -149,7 +149,7 @@ export default function GroomsPage() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.15, ease: EASE }}
           >
-            Honouring the strength and elegance of every groom
+            Every groom steps into a new chapter with confidence, purpose, and quiet strength. We preserve those defining moments with timeless artistry and authentic storytelling.
           </motion.p>
         </div>
       </section>

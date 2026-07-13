@@ -148,7 +148,7 @@ export default function BridesPage() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.15, ease: EASE }}
           >
-            Celebrating the grace and beauty of every bride
+            Every Panigrahna bride carries a story of her own. Through thoughtful artistry and genuine emotion, we preserve her grace in a way that feels timeless.
           </motion.p>
         </div>
       </section>
