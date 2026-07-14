@@ -10,6 +10,10 @@ export const COUPLES = [
     name: "Harsh & Sayonee",
     coverPublicId: "hs38.5.jpg",
     coverVersion: "v1781762717",
+    listingImages: {
+      primary: "hs38.5.jpg",
+      secondary: "hs22.jpg",
+    },
     story:
       "A tender celebration of quiet closeness, heirloom details, and the kind of portraits that feel like they have always belonged to the family archive.",
     images: harshSayoneeImages,
@@ -19,6 +23,10 @@ export const COUPLES = [
     name: "Rahul & Jeevani",
     coverPublicId: "021.jpg",
     coverVersion: "v1781762717",
+    listingImages: {
+      primary: "150.jpg",
+      secondary: "046.jpg",
+    },
     story:
       "Four days of warmth, tradition, laughter, and effortless connection. Their story stayed with us because every glance felt honest and deeply their own.",
     images: rahulJeevaniImages,
@@ -32,6 +40,10 @@ export const COUPLES = [
     name: "Prachi & Preet",
     coverPublicId: "pp2.jpg",
     coverVersion: "v1782208255",
+    listingImages: {
+      primary: "pp2.jpg",
+      secondary: "PP19.jpg",
+    },
     story:
       "A graceful union where modern romance met ceremonial beauty, filled with soft gestures, vivid textures, and moments that unfolded without performance.",
     images: prachiPreetImages,
@@ -41,6 +53,10 @@ export const COUPLES = [
     name: "Ronak & Jessica",
     coverPublicId: "rj72.jpg",
     coverVersion: "v1781762717",
+    listingImages: {
+      primary: "rj72.jpg",
+      secondary: "RJ18.jpg",
+    },
     story:
       "An intimate story shaped by movement, joy, and the easy rhythm of two people completely present with each other and everyone they love.",
     images: ronakJessicaImages,
@@ -50,6 +66,10 @@ export const COUPLES = [
     name: "Rutvik & Aishwarya",
     coverPublicId: "ra.jpg",
     coverVersion: "v1781762717",
+    listingImages: {
+      primary: "RA28.jpg",
+      secondary: "RA13.jpg",
+    },
     story:
       "A layered wedding story of blessings, family, and luminous rituals, preserved through portraits that feel calm, devotional, and quietly cinematic.",
     images: rutvikAishwaryaImages,

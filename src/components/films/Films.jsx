@@ -50,9 +50,9 @@ export default function Films() {
             amount={0.5}
             className="films-heading"
             lines={[
-              <span className="tracking-tight" key="line1">Stories told with care,
+              <span className="tracking-tight" key="line1">Some moments pass in
               </span>,
-              <span className="tracking-tight" key="line2">remembered for a <em>lifetime.</em></span>,
+              <span className="tracking-tight" key="line2">seconds, <em> yet stay with us forever.</em></span>,
             ]}
           />
           <p className="films-subtext">
