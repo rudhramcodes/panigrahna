@@ -5,7 +5,7 @@ const RAW_CLOUDINARY_VERSION = "v1781762717";
 /**
  * Generate a Cloudinary URL with transformations.
  *
- * Uses AVIF format with auto:good quality — best compression
+ * Uses AVIF format with auto:good quality - best compression
  * while maintaining visually lossless quality.
  *
  * @param {string} publicId  - Cloudinary public ID (with extension if any)

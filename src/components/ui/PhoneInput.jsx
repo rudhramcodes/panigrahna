@@ -203,7 +203,7 @@ export default function PhoneInput({
                 className="absolute top-full left-0 z-50 mt-2 w-72 bg-ivory border border-taupe/10 rounded-sm shadow-xl shadow-walnut/10 max-h-72 overflow-y-auto overscroll-contain"
                 style={{ WebkitOverflowScrolling: "touch", touchAction: "pan-y" }}
               >
-                {/* Search — sticky at top */}
+                {/* Search - sticky at top */}
                 <div className="sticky top-0 bg-ivory border-b border-taupe/10 z-10 rounded-t-sm">
                   <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-taupe/40" />
                   <input

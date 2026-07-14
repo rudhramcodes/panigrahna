@@ -251,7 +251,7 @@ export default function Projects() {
   return (
     <main className="relative min-h-screen bg-ivory overflow-x-hidden">
       <SEO
-        title={`${couple.name} Wedding — ${couple.story ? couple.story.split('.')[0] : 'Wedding Photography'} | Panigrahna`}
+        title={`${couple.name} Wedding - ${couple.story ? couple.story.split('.')[0] : 'Wedding Photography'} | Panigrahna`}
         description={`${couple.name}'s wedding story by Panigrahna. ${couple.story || 'Candid wedding photography from Mumbai\'s best wedding photographer.'}`}
         schema={{
           "@context": "https://schema.org",

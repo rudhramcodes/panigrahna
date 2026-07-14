@@ -24,7 +24,7 @@ export default function SEO({ title, description, ogImage, noindex, schema }) {
   const schemaId = useId();
 
   useEffect(() => {
-    const fullTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} — Traditional Wedding Photography & Planning`;
+    const fullTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} - Traditional Wedding Photography & Planning`;
     document.title = fullTitle;
 
     upsertMeta("description", description);

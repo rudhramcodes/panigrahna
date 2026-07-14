@@ -47,7 +47,7 @@ export default function Navbar() {
           href="/"
           onClick={handleLogoClick}
           className="relative z-10 transition-opacity duration-300 hover:opacity-70"
-          aria-label="Panigrahna — Home"
+          aria-label="Panigrahna - Home"
         >
           <img src="/images/logo.svg" alt="Panigrahna" className="h-8 w-auto md:h-12" />
         </a>

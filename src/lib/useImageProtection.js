@@ -10,12 +10,12 @@ export function useImageProtection() {
         e.preventDefault();
         return;
       }
-      // Ctrl/Cmd+Shift+I/J/C — DevTools shortcuts
+      // Ctrl/Cmd+Shift+I/J/C - DevTools shortcuts
       if ((e.ctrlKey || e.metaKey) && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) {
         e.preventDefault();
         return;
       }
-      // Ctrl/Cmd+U — View Source
+      // Ctrl/Cmd+U - View Source
       if ((e.ctrlKey || e.metaKey) && e.key.toUpperCase() === 'U') {
         e.preventDefault();
       }

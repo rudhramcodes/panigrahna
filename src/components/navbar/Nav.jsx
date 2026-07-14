@@ -49,7 +49,7 @@ export default function Nav({ onClose }) {
 
   return (
     <>
-      {/* Backdrop — click outside to close */}
+      {/* Backdrop - click outside to close */}
       <motion.div
         variants={backdropVariants}
         initial="initial"

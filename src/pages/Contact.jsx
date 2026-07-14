@@ -257,7 +257,7 @@ export default function Contact() {
   return (
     <div className="bg-parchment min-h-screen overflow-x-hidden">
       <SEO
-        title="Contact — Hire Wedding Photographer in Mumbai"
+        title="Contact - Hire Wedding Photographer in Mumbai"
         description="Book Panigrahna for your wedding. Candid wedding photography, cinematic wedding films, and full wedding planning in Mumbai, Surat, Delhi, and destination weddings in India."
       />
       {/* HERO */}

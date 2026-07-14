@@ -93,7 +93,7 @@ export default function Project2() {
             borderRadius={0.06}
             font="300 22px Berlingske Serif"
             textColor="#3d2b1a"
-            scrollSpeed={2}
+            scrollSpeed={1.4}
             scrollEase={0.05}
             onItemClick={handleCoupleClick}
           />

@@ -118,8 +118,8 @@ export default function GroomsPage() {
   return (
     <main className="min-h-screen bg-ivory">
       <SEO
-        title="Groom Wedding Photography — Traditional Groom Portraits Mumbai"
-        description="Browse our groom wedding photography portfolio. Traditional and candid groom portraits by Panigrahna — best wedding photographer in Mumbai."
+        title="Groom Wedding Photography - Traditional Groom Portraits Mumbai"
+        description="Browse our groom wedding photography portfolio. Traditional and candid groom portraits by Panigrahna - best wedding photographer in Mumbai."
       />
       <section className="pt-28 sm:pt-32 md:pt-36 pb-6 sm:pb-8 px-5 sm:px-8 md:px-12 lg:px-16">
         <div className="mx-auto max-w-[1480px]">

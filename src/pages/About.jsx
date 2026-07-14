@@ -188,7 +188,7 @@ function TheStudio() {
               className="font-sans text-taupe leading-relaxed font-light mb-4"
               style={{ fontSize: "clamp(0.85rem, 1vw, 1rem)" }}
             >
-              Every frame we create begins with a simple intention—to preserve what matters most. Beyond the celebrations, the décor, and the traditions are the emotions that define each wedding.
+              Every frame we create begins with a simple intention to preserve what matters most. Beyond the celebrations, the décor, and the traditions are the emotions that define each wedding.
             </motion.p>
 
             <motion.p
@@ -296,7 +296,7 @@ function Philosophy() {
 //     icon: Eye,
 //     title: "Authentic Eye",
 //     description:
-//       "We capture real moments as they unfold — unscripted, unfiltered, and deeply human. No forced poses, just honest emotion.",
+//       "We capture real moments as they unfold - unscripted, unfiltered, and deeply human. No forced poses, just honest emotion.",
 //     color: "text-cinnamon-300",
 //   },
 //   {
@@ -310,7 +310,7 @@ function Philosophy() {
 //     icon: Feather,
 //     title: "Gentle Presence",
 //     description:
-//       "We move through your celebration like quiet observers — unseen yet ever-present, ensuring nothing is staged and everything is felt.",
+//       "We move through your celebration like quiet observers - unseen yet ever-present, ensuring nothing is staged and everything is felt.",
 //     color: "text-cinnamon-300",
 //   },
 //   {
@@ -392,11 +392,11 @@ function Philosophy() {
 
 const MILESTONES = [
   { year: "2016", title: "The Beginning", description: "Panigrahna was founded with a single camera and an unwavering belief in the power of story." },
-  { year: "2018", title: "First Milestone", description: "We documented our 50th wedding — a moment that affirmed our path and deepened our craft." },
+  { year: "2018", title: "First Milestone", description: "We documented our 50th wedding - a moment that affirmed our path and deepened our craft." },
   { year: "2020", title: "Finding New Language", description: "Amid global stillness, we reimagined intimacy in storytelling, emerging with a refined cinematic voice." },
-  { year: "2022", title: "Across India", description: "Our team grew, spanning Mumbai to Surat and beyond — covering 25+ cities and counting." },
+  { year: "2022", title: "Across India", description: "Our team grew, spanning Mumbai to Surat and beyond - covering 25+ cities and counting." },
   { year: "2024", title: "500 Films Strong", description: "Five hundred love stories. Five hundred distinct narratives. And the same devotion that started it all." },
-  { year: "2025", title: "The Next Chapter", description: "New horizons, new stories. Every wedding remains a privilege — a story we are honoured to tell." },
+  { year: "2025", title: "The Next Chapter", description: "New horizons, new stories. Every wedding remains a privilege - a story we are honoured to tell." },
 ];
 
 function Journey() {
@@ -567,8 +567,8 @@ export default function About() {
   return (
     <>
       <SEO
-        title="About — Best Wedding Photographer in Mumbai"
-        description="Meet Panigrahna — Mumbai's traditional wedding photography and planning company. We capture candid stories, cinematic films, and timeless rituals across India."
+        title="About - Best Wedding Photographer in Mumbai"
+        description="Meet Panigrahna - Mumbai's traditional wedding photography and planning company. We capture candid stories, cinematic films, and timeless rituals across India."
       />
       <AboutHero />
       <TheStudio />

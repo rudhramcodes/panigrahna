@@ -56,7 +56,7 @@ export default function Films() {
             ]}
           />
           <p className="films-subtext">
-            Each film is crafted to honor the intimacy and grandeur of your celebration —
+            Each film is crafted to honor the intimacy and grandeur of your celebration
             a timeless narrative woven through light, movement, and emotion.
           </p>
         </div>
