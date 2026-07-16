@@ -4,6 +4,7 @@ import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import SEO from "../components/ui/SEO";
 import ImageViewer from "../components/ui/ImageViewer";
+import SoundtrackPlayer from "../components/ui/SoundtrackPlayer";
 import { rawCloudinaryUrl, RAW_VERSION } from "../lib/cloudinary";
 import { useSmoothScroll } from "../components/smooth-scroll/SmoothScroll";
 import { COUPLES } from "../data/couples";
@@ -178,6 +179,7 @@ export default function Projects() {
   useEffect(() => {
     const onKey = (e) => {
       if (viewerOpenRef.current) return;
+      if (e.target instanceof HTMLElement && e.target.closest("input, button, a")) return;
       if (e.key === "ArrowRight") goNext();
       if (e.key === "ArrowLeft") goPrev();
     };
@@ -314,8 +316,8 @@ export default function Projects() {
       </header>
 
       {/* ── STORY: Premise + Read More ── */}
-      {couple.premise && (
-        <section className="px-5 sm:px-8 md:px-12 lg:px-16 py-10 sm:py-14 md:py-16">
+      {(couple.premise || couple.story) && (
+        <section className="px-5 py-8 sm:px-8 sm:py-10 md:px-12 md:py-12 lg:px-16">
           <div className="mx-auto max-w-[680px] text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -325,13 +327,13 @@ export default function Projects() {
               key={`story-${activeIndex}`}
             >
               <p
-                className="font-serif text-walnut/70 leading-[1.85] -mt-16"
+                className="font-serif leading-[1.85] text-walnut/70"
                 style={{ fontSize: "clamp(0.8rem, 1vw, 1.05rem)" }}
               >
-                {couple.premise}
+                {couple.premise || couple.story}
               </p>
 
-              {!storyOpen && (
+              {couple.description && !storyOpen && (
                 <motion.button
                   onClick={() => setStoryOpen(true)}
                   className="group mt-6 inline-flex items-center gap-2 font-sans text-[10px] uppercase tracking-[0.35em] text-cinnamon-400 hover:text-walnut transition-colors duration-500 cursor-pointer"
@@ -344,7 +346,7 @@ export default function Projects() {
               )}
 
               <AnimatePresence initial={false}>
-                {storyOpen && (
+                {couple.description && storyOpen && (
                   <motion.div
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
@@ -378,6 +380,8 @@ export default function Projects() {
                   </motion.div>
                 )}
               </AnimatePresence>
+
+              <SoundtrackPlayer soundtrack={couple.soundtrack} />
             </motion.div>
           </div>
         </section>

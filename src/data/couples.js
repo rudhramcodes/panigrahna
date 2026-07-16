@@ -14,6 +14,11 @@ export const COUPLES = [
       primary: "hs38.5.jpg",
       secondary: "hs22.jpg",
     },
+    soundtrack: {
+      title: "Saath, Always",
+      label: "Hindi love selection",
+      src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+    },
     story:
       "A tender celebration of quiet closeness, heirloom details, and the kind of portraits that feel like they have always belonged to the family archive.",
     images: harshSayoneeImages,
@@ -26,6 +31,11 @@ export const COUPLES = [
     listingImages: {
       primary: "150.jpg",
       secondary: "046.jpg",
+    },
+    soundtrack: {
+      title: "Home in Your Eyes",
+      label: "Hindi love selection",
+      src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
     },
     story:
       "Four days of warmth, tradition, laughter, and effortless connection. Their story stayed with us because every glance felt honest and deeply their own.",
@@ -44,6 +54,11 @@ export const COUPLES = [
       primary: "pp2.jpg",
       secondary: "PP19.jpg",
     },
+    soundtrack: {
+      title: "Until Forever",
+      label: "English love selection",
+      src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+    },
     story:
       "A graceful union where modern romance met ceremonial beauty, filled with soft gestures, vivid textures, and moments that unfolded without performance.",
     images: prachiPreetImages,
@@ -57,6 +72,11 @@ export const COUPLES = [
       primary: "rj72.jpg",
       secondary: "RJ18.jpg",
     },
+    soundtrack: {
+      title: "The Wedding Dance",
+      label: "Crab_Audio · Romantic instrumental · 3:04",
+      src: "https://cdn.pixabay.com/audio/2024/12/19/audio_881940ec55.mp3",
+    },
     story:
       "An intimate story shaped by movement, joy, and the easy rhythm of two people completely present with each other and everyone they love.",
     images: ronakJessicaImages,
@@ -69,6 +89,11 @@ export const COUPLES = [
     listingImages: {
       primary: "RA28.jpg",
       secondary: "RA13.jpg",
+    },
+    soundtrack: {
+      title: "Tera Mera Safar",
+      label: "Hindi love selection",
+      src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
     },
     story:
       "A layered wedding story of blessings, family, and luminous rituals, preserved through portraits that feel calm, devotional, and quietly cinematic.",
