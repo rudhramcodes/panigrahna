@@ -16,7 +16,6 @@ export const COUPLES = [
     },
     soundtrack: {
       title: "Saath, Always",
-      label: "Hindi love selection",
       src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
     },
     story:
@@ -34,7 +33,6 @@ export const COUPLES = [
     },
     soundtrack: {
       title: "Home in Your Eyes",
-      label: "Hindi love selection",
       src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
     },
     story:
@@ -56,7 +54,6 @@ export const COUPLES = [
     },
     soundtrack: {
       title: "Until Forever",
-      label: "English love selection",
       src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
     },
     story:
@@ -74,7 +71,6 @@ export const COUPLES = [
     },
     soundtrack: {
       title: "The Wedding Dance",
-      label: "Crab_Audio · Romantic instrumental · 3:04",
       src: "https://cdn.pixabay.com/audio/2024/12/19/audio_881940ec55.mp3",
     },
     story:
@@ -92,7 +88,6 @@ export const COUPLES = [
     },
     soundtrack: {
       title: "Tera Mera Safar",
-      label: "Hindi love selection",
       src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
     },
     story:
