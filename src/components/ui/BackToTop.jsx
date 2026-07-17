@@ -27,7 +27,7 @@ export default function BackToTop() {
     }
   };
 
-  const isProjects = pathname === "/projects";
+  const isProjects = pathname.startsWith("/projects");
 
   return (
     <AnimatePresence>
