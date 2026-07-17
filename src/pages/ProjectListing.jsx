@@ -43,7 +43,7 @@ function ProjectStory({ couple, number }) {
       >
         <div className="absolute right-0 top-0 h-[86%] w-[76%] overflow-hidden rounded-[6px] bg-sandstone-200 sm:w-[70%]">
           <CldImage
-            pubslicId={couple.listingImages.primary}
+            publicId={couple.listingImages.primary}
             alt={`${couple.name} wedding portrait`}
             width={1200}
             options={{ version: couple.coverVersion, crop: "fill", gravity: "auto" }}
