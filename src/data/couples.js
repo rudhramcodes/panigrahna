@@ -70,8 +70,8 @@ export const COUPLES = [
       secondary: "RJ18.jpg",
     },
     soundtrack: {
-      title: "The Wedding Dance",
-      src: "https://cdn.pixabay.com/audio/2024/12/19/audio_881940ec55.mp3",
+      title: "Rangsari",
+      src: "https://res.cloudinary.com/dvsrgdyi7/video/upload/rangisari",
     },
     story:
       "An intimate story shaped by movement, joy, and the easy rhythm of two people completely present with each other and everyone they love.",
