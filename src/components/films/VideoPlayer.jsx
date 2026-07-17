@@ -1,18 +1,21 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import "./VideoPlayer.css";
 
-export default function VideoPlayer({ videoId, title, thumbnailUrl, type = "youtube" }) {
-  const [playerActive, setPlayerActive] = useState(false);
+export default function VideoPlayer({ videoId, title, thumbnailUrl, type = "youtube", loop, autoPlay }) {
+  const [playerActive, setPlayerActive] = useState(autoPlay || false);
   const containerRef = useRef(null);
 
   const handleThumbnailClick = useCallback(() => {
     setPlayerActive(true);
   }, []);
 
-  const embedSrc =
+  let embedSrc =
     type === "google-drive"
       ? `https://drive.google.com/file/d/${videoId}/preview`
       : `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+
+  if (loop) embedSrc += `&loop=1&playlist=${videoId}`;
+  if (autoPlay) embedSrc += "&mute=1";
 
   return (
     <div ref={containerRef} className="vp-container">

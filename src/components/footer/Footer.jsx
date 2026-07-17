@@ -186,7 +186,7 @@ export default function Footer({ hideCTA = false }) {
                   { label: "Home", to: "/" },
                   { label: "About", to: "/about" },
                   { label: "Works", to: "/projects" },
-                  { label: "Films", to: "/#films" },
+                  { label: "Films", to: "/films" },
                   { label: "Contact", to: "/contact" },
                 ].map((item, i) => (
                   <motion.li key={item.label} variants={fadeUp} custom={i}>

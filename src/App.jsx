@@ -11,6 +11,7 @@ import ProjectListing from "./pages/ProjectListing";
 import Contact from "./pages/Contact";
 import BridesPage from "./pages/BridesPage";
 import GroomsPage from "./pages/GroomsPage";
+import FilmsPage from "./pages/FilmsPage";
 
 function ScrollManager() {
   const { pathname, hash } = useLocation();
@@ -57,6 +58,7 @@ const App = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/brides" element={<BridesPage />} />
           <Route path="/grooms" element={<GroomsPage />} />
+          <Route path="/films" element={<FilmsPage />} />
           {/* <Route path="*" element={<NotFound />} /> */}
         </Routes>
         <BackToTop />
