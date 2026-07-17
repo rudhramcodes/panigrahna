@@ -66,9 +66,6 @@ function FeaturedFilms() {
               transition={{ duration: 0.7, ease, delay: i * 0.1 }}
             >
               <div className="group">
-                <span className="mb-2 block font-sans text-[11px] font-medium uppercase tracking-[0.12em] text-taupe/60">
-                  {film.label}
-                </span>
                 <div className="overflow-hidden rounded-[8px]">
                   <VideoPlayer
                     videoId={film.id}

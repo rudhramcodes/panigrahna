@@ -2,12 +2,6 @@ import { rawCloudinaryUrl } from "../lib/cloudinary";
 
 export const FEATURED_FILMS = [
   {
-    id: "GZdRiO-vgKw",
-    label: "Film I",
-    title: "Prachi & Preet",
-    thumbnailUrl: rawCloudinaryUrl("pp-thumbnail"),
-  },
-  {
     id: "rxYLqrZryr4",
     label: "Film II",
     title: "Harsh & Sayonee",
@@ -24,6 +18,12 @@ export const FEATURED_FILMS = [
     label: "Film IV",
     title: "Ronak & Jessica",
     thumbnailUrl: rawCloudinaryUrl("rj-thumbnail"),
+  },
+  {
+    id: "GZdRiO-vgKw",
+    label: "Film I",
+    title: "Prachi & Preet",
+    thumbnailUrl: rawCloudinaryUrl("pp-thumbnail"),
   },
 ];
 
