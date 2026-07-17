@@ -15,8 +15,8 @@ export const COUPLES = [
       secondary: "hs22.jpg",
     },
     soundtrack: {
-      title: "Saath, Always",
-      src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+      title: "Jaan Ban Gaye",
+      src: "https://res.cloudinary.com/dvsrgdyi7/video/upload/jaan_ban_gaye",
     },
     story:
       "A tender celebration of quiet closeness, heirloom details, and the kind of portraits that feel like they have always belonged to the family archive.",
@@ -32,8 +32,8 @@ export const COUPLES = [
       secondary: "046.jpg",
     },
     soundtrack: {
-      title: "Home in Your Eyes",
-      src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+      title: "Vachindamma",
+      src: "https://res.cloudinary.com/dvsrgdyi7/video/upload/vachindamma",
     },
     story:
       "Four days of warmth, tradition, laughter, and effortless connection. Their story stayed with us because every glance felt honest and deeply their own.",
@@ -53,8 +53,8 @@ export const COUPLES = [
       secondary: "PP19.jpg",
     },
     soundtrack: {
-      title: "Until Forever",
-      src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+      title: "Tose Naina Mily Ke",
+      src: "https://res.cloudinary.com/dvsrgdyi7/video/upload/tose_naina_mily_ke",
     },
     story:
       "A graceful union where modern romance met ceremonial beauty, filled with soft gestures, vivid textures, and moments that unfolded without performance.",
@@ -87,8 +87,8 @@ export const COUPLES = [
       secondary: "RA13.jpg",
     },
     soundtrack: {
-      title: "Tera Mera Safar",
-      src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
+      title: "Leja",
+      src: "https://res.cloudinary.com/dvsrgdyi7/video/upload/leja",
     },
     story:
       "A layered wedding story of blessings, family, and luminous rituals, preserved through portraits that feel calm, devotional, and quietly cinematic.",

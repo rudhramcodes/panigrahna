@@ -4,7 +4,9 @@ import { motion, useScroll, useTransform } from "framer-motion";
 
 import { cloudinaryUrl, RAW_VERSION } from "../lib/cloudinary";
 import Footer from "../components/footer/Footer";
+import SoundtrackPlayer from "../components/ui/SoundtrackPlayer";
 
+import { COUPLES } from "../data/couples";
 import harshSayoneeImages from "../data/couples/harsh-and-sayonee.json";
 import rahulJeevaniImages from "../data/couples/rahul-and-jeevani.json";
 import prachiPreetImages from "../data/couples/prachi-and-preet.json";
@@ -78,6 +80,8 @@ export default function CoupleProject() {
   }
 
   const coupleImages = COUPLE_IMAGES[slug] || [];
+  const coupleData = COUPLES.find((c) => c.slug === slug);
+  const soundtrack = coupleData?.soundtrack;
 
   const gridItems = useMemo(
     () =>
@@ -229,6 +233,14 @@ export default function CoupleProject() {
                 )}
               </AnimatePresence>
             </motion.div>
+          </div>
+        </section>
+      )}
+
+      {soundtrack && (
+        <section className="px-5 sm:px-8 md:px-12 lg:px-16">
+          <div className="mx-auto max-w-[1480px]">
+            <SoundtrackPlayer soundtrack={soundtrack} />
           </div>
         </section>
       )}
