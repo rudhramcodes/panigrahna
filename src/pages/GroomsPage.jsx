@@ -11,7 +11,7 @@ import { useSmoothScroll } from "../components/smooth-scroll/SmoothScroll";
 const ALL_GROOMS = [
   "G1.jpg", "G3.jpg", "G5.jpg",
   "G6.jpg", "G7.jpg",
-  "G11.jpg", "G12.jpg", "G13.jpg", "G14.jpg", "G15.jpg",
+  "G11.jpg", "G12.jpg", "G13.jpg", "G14.jpg", "G15.jpg", "G16.jpg", "G17.jpg"
 ];
 
 const EASE = [0.76, 0, 0.24, 1];
@@ -180,13 +180,11 @@ export default function GroomsPage() {
                       <div key={item.num} className="flex-1 min-w-0 group cursor-pointer" onClick={() => openViewer(item.num - 1)}>
                         <div className="overflow-hidden rounded-sm">
                           <ParallaxWrapper>
-                            <motion.img
+                        <motion.img
                               src={item.src}
                               alt=""
                               className="w-full h-auto select-none transition-transform duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:scale-[1.04]"
                               loading="lazy"
-                              whileHover={{ scale: 1.04 }}
-                              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                             />
                           </ParallaxWrapper>
                         </div>
@@ -213,8 +211,6 @@ export default function GroomsPage() {
                         alt=""
                         className="w-full h-auto select-none transition-transform duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:scale-[1.04]"
                         loading="lazy"
-                        whileHover={{ scale: 1.04 }}
-                        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                       />
                     </ParallaxWrapper>
                   </div>
