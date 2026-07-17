@@ -30,13 +30,11 @@ export const FEATURED_FILMS = [
 export const REELS = [
   {
     id: "_WwMPNdhivw",
-    label: "Reel I",
     title: "Highlights from the dance floor",
     thumbnailUrl: rawCloudinaryUrl("pp-thumbnail"),
   },
   {
     id: "dQw4w9WgXcQ",
-    label: "Reel II",
     title: "Candid wedding moments",
     thumbnailUrl: rawCloudinaryUrl("hs-thumbnail"),
   },

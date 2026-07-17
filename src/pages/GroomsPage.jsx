@@ -11,7 +11,7 @@ import { useSmoothScroll } from "../components/smooth-scroll/SmoothScroll";
 const ALL_GROOMS = [
   "G1.jpg", "G3.jpg", "G5.jpg",
   "G6.jpg", "G7.jpg",
-  "G11.jpg", "G12.jpg", "G13.jpg", "G14.jpg", "G15.jpg", "G16.jpg", "G17.jpg"
+  "G11.jpg", "G12.jpg", "G13.jpg", "G14.jpg", "G15.jpg", "G17.jpg", "G16.jpg"
 ];
 
 const EASE = [0.76, 0, 0.24, 1];

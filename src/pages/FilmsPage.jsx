@@ -34,12 +34,6 @@ function FeaturedFilms() {
             visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
           }}
         >
-          <motion.span
-            variants={fadeUp}
-            className="block font-sans text-[11px] font-semibold uppercase tracking-[0.25em] text-cinnamon-300"
-          >
-            Featured Films
-          </motion.span>
           <motion.h2
             variants={fadeUp}
             className="mt-4 font-serif font-light leading-[1.05] tracking-tight text-walnut"
@@ -52,7 +46,7 @@ function FeaturedFilms() {
             className="mt-4 max-w-[520px] font-sans font-light leading-relaxed text-taupe"
             style={{ fontSize: "clamp(0.85rem, 1vw, 1rem)" }}
           >
-            From the quiet glances to the unrestrained laughter — every highlight film is a window into the heart of a celebration, crafted to feel as timeless as the love it holds.
+            A look that speaks volumes. A chuckle nobody expects. A feeling that lingers well into the evening hours. Each highlight film is put together to recapture all of these emotions, just like they happened before.
           </motion.p>
         </motion.div>
 
@@ -109,14 +103,14 @@ function ReelsSection() {
             className="mt-4 font-serif font-light leading-[1.05] tracking-tight text-walnut"
             style={{ fontSize: "clamp(2rem, 4.5vw, 4rem)" }}
           >
-            Moments in <span className="italic text-cinnamon-300">Motion</span>
+            Moments on the <span className="italic text-cinnamon-300">Move</span>
           </motion.h2>
           <motion.p
             variants={fadeUp}
             className="mt-4 max-w-[480px] font-sans font-light leading-relaxed text-taupe"
             style={{ fontSize: "clamp(0.85rem, 1vw, 1rem)" }}
           >
-            Quick glimpses into the joy, laughter, and love that define every celebration.
+            A smile that comes out of nowhere. A laugh that lights up the place. An expression that speaks volumes. It’s these small moments that make all celebrations come alive.
           </motion.p>
         </motion.div>
 
@@ -130,9 +124,6 @@ function ReelsSection() {
               transition={{ duration: 0.7, ease, delay: i * 0.1 }}
             >
               <div className="group">
-                <span className="mb-2 block font-sans text-[11px] font-medium uppercase tracking-[0.12em] text-taupe/60">
-                  {reel.label}
-                </span>
                 <div className="overflow-hidden rounded-[8px]">
                   <VideoPlayer
                     videoId={reel.id}
@@ -164,9 +155,6 @@ function FilmsCTA() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, ease }}
         >
-          <span className="block font-sans text-[11px] font-semibold uppercase tracking-[0.25em] text-cinnamon-300">
-            Your Story
-          </span>
           <h2
             className="mt-4 font-serif font-light leading-[1.05] tracking-tight text-walnut"
             style={{ fontSize: "clamp(2rem, 4.5vw, 4rem)" }}

@@ -39,10 +39,9 @@ export default function Films() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease: EASE, delay: 0.15 }}
-            className="font-sans text-sm sm:text-base text-taupe/70 leading-relaxed max-w-2xl mt-4"
+            className="font-sans text-sm sm:text-base text-taupe/70 leading-relaxed max-w-2xl lg:max-w-3xl mt-4"
           >
-            Each film is crafted to honour the intimacy and grandeur of your celebration —
-            a timeless narrative woven through light, movement, and emotion.
+            A look that speaks volumes. A chuckle nobody expects. A feeling that lingers well into the evening hours. Each highlight film is put together to recapture all of these emotions, just like they happened before.
           </motion.p>
         </div>
 
