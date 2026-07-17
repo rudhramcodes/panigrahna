@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import SEO from "../components/ui/SEO";
 import VideoPlayer from "../components/films/VideoPlayer";
@@ -146,6 +146,7 @@ function ReelsSection() {
 function FilmsCTA() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
+  const navigate = useNavigate();
 
   return (
     <section ref={ref} className="bg-ivory py-16 sm:py-20 lg:py-24">
@@ -167,21 +168,29 @@ function FilmsCTA() {
             className="mx-auto mt-4 max-w-[480px] font-sans font-light leading-relaxed text-taupe"
             style={{ fontSize: "clamp(0.85rem, 1vw, 1rem)" }}
           >
-            Every love story is unique. Let&rsquo;s craft a film that captures yours
-            with the artistry, intimacy, and timelessness it deserves.
+            All love stories are special and different from one another. Let us create a film worthy of yours through its beauty and uniqueness.
           </p>
-          <Link
-            to="/contact"
-            className="mt-8 inline-flex min-h-12 w-fit cursor-pointer items-center gap-4 rounded-full border border-walnut px-6 text-[9px] font-semibold uppercase tracking-[0.22em] text-walnut transition-colors duration-200 hover:bg-walnut hover:text-ivory focus:outline-none focus-visible:ring-2 focus-visible:ring-walnut focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
-          >
-            Get in Touch
-            <ArrowUpRight
-              size={15}
-              strokeWidth={1.4}
-              aria-hidden="true"
-              className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-            />
-          </Link>
+          <div className="mt-8 flex justify-center">
+            <button
+              onClick={() => navigate("/contact")}
+              className="group relative inline-flex h-12 sm:h-14 items-center justify-center gap-3 overflow-hidden rounded-full bg-walnut px-6 sm:px-8 text-sand transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.02] cursor-pointer"
+            >
+              <div className="relative z-10 flex items-center gap-3">
+                <span className="font-sans text-[11px] uppercase tracking-[4px]">
+                  Let's Begin
+                </span>
+                <div className="relative w-[18px] h-[18px]">
+                  <span className="absolute inset-0 flex items-center justify-center transition-all duration-[350ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:opacity-0 group-hover:translate-x-[10px] group-hover:-translate-y-[10px] group-hover:scale-[0.3]">
+                    <ArrowUpRight size={18} strokeWidth={1.5} />
+                  </span>
+                  <span className="absolute inset-0 flex items-center justify-center transition-all duration-[350ms] ease-[cubic-bezier(0.16,1,0.3,1)] opacity-0 -translate-x-[10px] translate-y-[10px] scale-[0.3] group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 group-hover:scale-100">
+                    <ArrowUpRight size={18} strokeWidth={1.5} />
+                  </span>
+                </div>
+              </div>
+              <div className="absolute inset-0 scale-0 rounded-full bg-cinnamon-400/20 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100" />
+            </button>
+          </div>
         </motion.div>
       </div>
     </section>

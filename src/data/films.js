@@ -9,7 +9,7 @@ export const FEATURED_FILMS = [
   {
     id: "XN7-idfiri4",
     title: "Rutvik & Aishwarya",
-    thumbnailUrl: rawCloudinaryUrl("ra-thumbnail"),
+    thumbnailUrl: rawCloudinaryUrl("ra-thumbnail-2"),
   },
   {
     id: "FsVTLyDW93g",
@@ -22,6 +22,16 @@ export const FEATURED_FILMS = [
     title: "Prachi & Preet",
     thumbnailUrl: rawCloudinaryUrl("pp-thumbnail"),
   },
+  {
+    id: "PVD8H_itBA4",
+    title: "Rahul & Jeevni",
+    thumbnailUrl: rawCloudinaryUrl("r-jeevani-thumbnail"),
+  },
+  {
+    id: "iG2bEou3E8s",
+    title: "Harsh Sayonee Pre-wedding",
+    thumbnailUrl: rawCloudinaryUrl("hs-thumbnail-2"),
+  }
 ];
 
 export const REELS = [
@@ -31,8 +41,8 @@ export const REELS = [
     thumbnailUrl: rawCloudinaryUrl("pp-thumbnail"),
   },
   {
-    id: "dQw4w9WgXcQ",
-    title: "Candid wedding moments",
-    thumbnailUrl: rawCloudinaryUrl("hs-thumbnail"),
-  },
+    id: "iG2bEou3E8s",
+    title: "Emotional wedding moments",
+    thumbnailUrl: rawCloudinaryUrl("ra-thumbnail"),
+  }
 ];

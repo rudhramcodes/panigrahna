@@ -8,10 +8,10 @@ import MaskText from "../mask-text/MaskText";
 const EASE = [0.76, 0, 0.24, 1];
 
 const VIDEOS = [
-  { id: "rxYLqrZryr4", label: "Film II", title: "Harsh & Sayonee", thumbnailUrl: rawCloudinaryUrl("hs-thumbnail") },
-  { id: "MzLEO98OMQg", label: "Film III", title: "Rutvik & Aishwarya", thumbnailUrl: rawCloudinaryUrl("ra-thumbnail") },
-  { id: "FsVTLyDW93g", label: "Film IV", title: "Ronak & Jessica", thumbnailUrl: rawCloudinaryUrl("rj-thumbnail") },
-  { id: "GZdRiO-vgKw", label: "Film I", title: "Prachi & Preet", thumbnailUrl: rawCloudinaryUrl("pp-thumbnail") },
+  { id: "rxYLqrZryr4", title: "Harsh & Sayonee", thumbnailUrl: rawCloudinaryUrl("hs-thumbnail") },
+  { id: "MzLEO98OMQg", title: "Rutvik & Aishwarya", thumbnailUrl: rawCloudinaryUrl("ra-thumbnail-2") },
+  { id: "FsVTLyDW93g", title: "Ronak & Jessica", thumbnailUrl: rawCloudinaryUrl("rj-thumbnail") },
+  { id: "GZdRiO-vgKw", title: "Prachi & Preet", thumbnailUrl: rawCloudinaryUrl("pp-thumbnail") },
 ];
 
 export default function Films() {
