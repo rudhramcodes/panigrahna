@@ -13,7 +13,6 @@ export const FEATURED_FILMS = [
   },
   {
     id: "FsVTLyDW93g",
-
     title: "Ronak & Jessica",
     thumbnailUrl: rawCloudinaryUrl("rj-thumbnail"),
   },

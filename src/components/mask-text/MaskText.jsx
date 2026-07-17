@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 
 export default function MaskText({
@@ -13,7 +13,7 @@ export default function MaskText({
   const ref = useRef(null);
   const isInView = useInView(ref, { amount, once: true });
 
-  const MotionTag = motion(Tag);
+  const MotionTag = useMemo(() => motion(Tag), [Tag]);
 
   const animation = {
     initial: { y: "100%" },

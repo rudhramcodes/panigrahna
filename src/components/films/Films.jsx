@@ -9,7 +9,7 @@ const EASE = [0.76, 0, 0.24, 1];
 
 const VIDEOS = [
   { id: "rxYLqrZryr4", title: "Harsh & Sayonee", thumbnailUrl: rawCloudinaryUrl("hs-thumbnail") },
-  { id: "MzLEO98OMQg", title: "Rutvik & Aishwarya", thumbnailUrl: rawCloudinaryUrl("ra-thumbnail-2") },
+  { id: "XN7-idfiri4", title: "Rutvik & Aishwarya", thumbnailUrl: rawCloudinaryUrl("ra-thumbnail-2") },
   { id: "FsVTLyDW93g", title: "Ronak & Jessica", thumbnailUrl: rawCloudinaryUrl("rj-thumbnail") },
   { id: "GZdRiO-vgKw", title: "Prachi & Preet", thumbnailUrl: rawCloudinaryUrl("pp-thumbnail") },
 ];
