@@ -20,18 +20,16 @@ export default function Films() {
   return (
     <section className="relative w-full bg-sand/50 overflow-hidden py-20 sm:py-24 md:py-32">
       <div className="mx-auto max-w-[1480px] px-5 sm:px-8 md:px-12 lg:px-16">
-        <div className="mb-10 sm:mb-12 md:mb-14">
+        <div className="text-center mb-10 sm:mb-12 md:mb-14">
           <MaskText
             outerTag="h2"
             tag="span"
-            amount={0.3}
-            className="font-serif text-walnut font-light leading-none tracking-tight"
-            outerStyle={{ fontSize: "clamp(1.8rem, 4.5vw, 3.2rem)" }}
+            amount={0.5}
+            className="font-serif text-walnut font-thin leading-[1.1] tracking-tighter"
+            outerStyle={{ fontSize: "clamp(1.8rem, 4vw, 3.2rem)" }}
             lines={[
-              <span key="line">
-                <em className="italic">Some moments</em> pass in seconds,{" "}
-                <em className="italic">yet stay with us forever.</em>
-              </span>,
+              <span key="l1">Some <span className="text-[#c8a882]">moments</span> pass in seconds,</span>,
+              <span key="l2"><em className="italic">yet stay with us <span className="italic text-[#c8a882]">forever.</span></em></span>,
             ]}
           />
           <motion.p
@@ -39,9 +37,9 @@ export default function Films() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease: EASE, delay: 0.15 }}
-            className="font-sans text-sm sm:text-base text-taupe/70 leading-relaxed max-w-2xl lg:max-w-3xl mt-4"
+            className="font-sans text-taupe/80 text-xs sm:text-base max-w-xl mt-3 leading-relaxed font-light mx-auto"
           >
-            A look that speaks volumes. A chuckle nobody expects. A feeling that lingers well into the evening hours. Each highlight film is put together to recapture all of these emotions, just like they happened before.
+            Each highlight film is crafted to recapture the laughter, the glances, and the emotions that make your celebration unforgettable.
           </motion.p>
         </div>
 
