@@ -1,582 +1,338 @@
-import { useRef } from "react";
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Heart, Eye, Feather, BookOpen, Target } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import SEO from "../components/ui/SEO";
-import { rawCloudinaryUrl } from "../lib/cloudinary";
 import Footer from "../components/footer/Footer";
+import { rawCloudinaryUrl } from "../lib/cloudinary";
 
-/* ─────────────────────────────────────────
-   Shared Animation Variants
-   ───────────────────────────────────────── */
+const AWARD_IMAGE = "/images/viral-awards.png";
+const VIRAL_PORTRAIT = "https://res.cloudinary.com/dvsrgdyi7/image/upload/v1784355013/Viralsir.jpg";
 
-const ease = [0.16, 1, 0.3, 1];
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 50 },
-  visible: (i = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.8, ease, delay: i * 0.12 },
-  }),
-};
-
-const scaleIn = {
-  hidden: { opacity: 0, scale: 0.93 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: { duration: 0.9, ease },
+const principles = [
+  {
+    title: "Observe",
+    text: "We stay close enough to feel the moment, and quiet enough to let it remain honest.",
   },
-};
-
-const stagger = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.18 },
+  {
+    title: "Trust",
+    text: "Couples invite us into deeply personal spaces. That trust shapes how we move, speak, and photograph.",
   },
-};
+  {
+    title: "Preserve",
+    text: "The final story is made for the couple today, and for the families who will return to it years later.",
+  },
+];
 
-/* ─────────────────────────────────────────
-   Section Wrapper
-   ───────────────────────────────────────── */
+const services = [
+  {
+    title: "Wedding photography",
+    eyebrow: "Still memories",
+    text: "Candid frames, rituals, portraits, family emotions, and the quiet in-between moments.",
+  },
+  {
+    title: "Cinematic wedding films",
+    eyebrow: "Moving stories",
+    text: "Films shaped around voices, atmosphere, laughter, music, and the rhythm of the celebration.",
+  },
+  {
+    title: "Pre-wedding stories",
+    eyebrow: "Before the vows",
+    text: "A calmer portrait of the couple before the wedding begins, made with intimacy and ease.",
+  },
+  {
+    title: "Destination celebrations",
+    eyebrow: "Wherever love gathers",
+    text: "Coverage for weddings across India and overseas, with the same quiet, observant presence.",
+  },
+  { title: "Traditional rituals" },
+  { title: "Candid moments" },
+  { title: "Bride portraits" },
+  { title: "Groom portraits" },
+  { title: "Family stories" },
+  { title: "Highlight films" },
+  { title: "Wedding planning" },
+];
 
-function Section({ className = "", children, ...props }) {
+function SectionLabel({ children, className = "" }) {
   return (
-    <section className={`relative w-full overflow-hidden ${className}`} {...props}>
+    <span className={`block text-[9px] font-semibold uppercase tracking-[0.25em] text-cinnamon-300 ${className}`}>
       {children}
+    </span>
+  );
+}
+
+function Hero() {
+  return (
+    <section className="px-5 pb-14 pt-36 sm:px-8 sm:pt-44 md:px-12 lg:px-16 lg:pt-52">
+      <div className="mx-auto max-w-[1440px]">
+        <div className="grid items-end gap-10 lg:grid-cols-12 lg:gap-6">
+          <div className="lg:col-span-7">
+            <SectionLabel>About Panigrahna</SectionLabel>
+            <h1 className="mt-5 max-w-[980px] font-serif text-[clamp(4.2rem,9.4vw,9rem)] font-light leading-[0.78] tracking-[-0.045em] text-walnut">
+              Stories That Return You
+              <span className="block italic text-cinnamon-300">to How It Felt</span>
+            </h1>
+          </div>
+
+          <div className="flex flex-col gap-7 lg:col-span-5 lg:flex-row lg:items-end lg:justify-between lg:pb-2">
+            <p className="max-w-[360px] text-[0.9rem] font-light leading-[1.75] text-taupe">
+              A wedding photography and filmmaking studio with its main office in Mumbai and operations in
+              Surat, creating quiet, emotional visual stories across India and around the world.
+            </p>
+            <a
+              href="#viral-gohil"
+              className="group inline-flex w-fit cursor-pointer items-center gap-3 border-b border-walnut/35 pb-1 text-[9px] font-semibold uppercase tracking-[0.22em] text-walnut transition-colors duration-200 hover:border-cinnamon-400 hover:text-cinnamon-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-walnut"
+            >
+              Meet Viral
+              <ArrowUpRight
+                size={15}
+                strokeWidth={1.4}
+                aria-hidden="true"
+                className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+              />
+            </a>
+          </div>
+        </div>
+
+        <div className="mt-14 aspect-[16/9] overflow-hidden rounded-[10px] bg-sandstone-200 sm:mt-16 lg:mt-20">
+          <img
+            src={rawCloudinaryUrl("about-collage.avif")}
+            alt="A wedding celebration photographed by Panigrahna"
+            className="h-full w-full object-cover"
+            fetchPriority="high"
+            decoding="async"
+          />
+        </div>
+      </div>
     </section>
   );
 }
 
-/* ─────────────────────────────────────────
-   Section 1: Hero
-   ───────────────────────────────────────── */
-
-function AboutHero() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const imgY = useTransform(scrollYProgress, [0, 1], [0, 120]);
-  const textY = useTransform(scrollYProgress, [0, 1], [0, 60]);
-  const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-
+function StudioStory() {
   return (
-    <Section ref={ref} className="h-screen">
-      {/* Parallax Background Image */}
-      <motion.div className="absolute inset-0" style={{ y: imgY }}>
-        <img
-          src={rawCloudinaryUrl("001.jpg")}
-          alt="Panigrahna Studio"
-          className="w-full h-full object-cover object-[center_30%]"
-          fetchpriority="high"
-          decoding="async"
-        />
-      </motion.div>
-
-      {/* Overlays */}
-      <div className="absolute inset-0 bg-gradient-to-t from-walnut/50 via-walnut/20 to-walnut/10" />
-      <div className="absolute inset-0 bg-gradient-to-r from-walnut/30 via-transparent to-transparent" />
-
-      {/* Content */}
-      <motion.div
-        className="relative z-10 h-full flex flex-col justify-end px-5 sm:px-8 md:px-12 lg:px-16 pb-16 sm:pb-20 lg:pb-24"
-        style={{ y: textY, opacity }}
-      >
-        <div className="max-w-[1200px] mx-auto w-full">
-          <motion.h1
-            className="font-serif text-sand font-light leading-[.9] tracking-tighter"
-            style={{ fontSize: "clamp(3.5rem, 12vw, 8rem)" }}
-            initial={{ opacity: 0, y: 40 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, ease, delay: 0.3 }}
-          >
-            Inside 
-            <br />
-            the {" "}
-            <span className="italic font-light">Studio</span>
-          </motion.h1>
-
-          <motion.p
-            className="font-sans text-sand/60 font-light max-w-[500px] mt-4 sm:mt-6 leading-relaxed"
-            style={{ fontSize: "clamp(0.85rem, 1.1vw, 1.05rem)" }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, ease, delay: 0.5 }}
-          >
-            Step inside panigrahna, where creativity is inspired by tradition and every film begins with a story waiting to be beautifully told.
-          </motion.p>
+    <section className="bg-parchment px-5 py-16 sm:px-8 sm:py-20 md:px-12 lg:px-16 lg:py-28">
+      <div className="mx-auto grid max-w-[1240px] gap-10 lg:grid-cols-[0.8fr_0.95fr_0.8fr] lg:gap-12">
+        <div className="lg:pt-10">
+          <SectionLabel>The Studio</SectionLabel>
+          <h2 className="mt-5 max-w-[520px] font-serif text-[clamp(2.5rem,4.8vw,5rem)] font-light leading-[0.92] tracking-[-0.035em] text-walnut">
+            Every celebration has a story worth remembering.
+          </h2>
         </div>
-      </motion.div>
-    </Section>
+
+        <div className="relative mx-auto aspect-[0.82] w-full max-w-[430px] overflow-hidden rounded-sm bg-sandstone-200 lg:max-w-none">
+          <img
+            src={rawCloudinaryUrl("office.avif")}
+            alt="A Panigrahna wedding ritual"
+            className="h-full w-full object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+
+        <div className="flex items-end">
+          <div className="max-w-[430px] space-y-5 lg:mb-10">
+            <p className="text-[0.9rem] font-light leading-[1.85] text-taupe">
+              Panigrahna was created to preserve weddings as they are truly experienced, not only through
+              ceremonies and details, but through the emotions living between them.
+            </p>
+            <p className="text-[0.9rem] font-light leading-[1.85] text-taupe/80">
+              We look for the quiet glance, the unplanned laughter, the parent holding back tears, and the
+              energy of two families coming together. These are the moments that make a celebration personal.
+            </p>
+            <p className="font-serif text-[clamp(1.1rem,1.5vw,1.45rem)] font-light italic leading-[1.55] text-cinnamon-500">
+              The photograph should not only show what happened. It should bring back the atmosphere of the
+              room.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
-/* ─────────────────────────────────────────
-   Section 2: The Studio
-   ───────────────────────────────────────── */
-
-function TheStudio() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const imgY = useTransform(scrollYProgress, [0, 1], [60, -60]);
-
+function ViralStory() {
   return (
-    <Section ref={ref} className="bg-ivory py-[clamp(4rem,10vw,10rem)]">
-      <div className="mx-auto max-w-[1480px] px-5 sm:px-8 md:px-12 lg:px-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-          {/* Image */}
-          <motion.div className="lg:col-span-6 relative" style={{ y: imgY }}>
-            <motion.div
-              variants={scaleIn}
-              initial="hidden"
-              animate={isInView ? "visible" : "hidden"}
-              className="relative overflow-hidden"
-              style={{ aspectRatio: "4/5" }}
-            >
+    <section id="viral-gohil" className="bg-ivory px-5 py-16 sm:px-8 sm:py-20 md:px-12 lg:px-16 lg:py-28">
+      <div className="mx-auto grid max-w-[1320px] items-center gap-12 lg:grid-cols-12 lg:gap-16">
+        <div className="lg:col-span-5">
+          <div className="relative mx-auto max-w-[520px]">
+            <div className="aspect-[4/5] overflow-hidden rounded-[8px] bg-sandstone-200">
               <img
-                src={rawCloudinaryUrl("001.jpg")}
-                alt="The Studio"
-                className="w-full h-full object-cover"
+                src={VIRAL_PORTRAIT}
+                alt="Viral Gohil"
+                className="h-full w-full object-cover"
                 loading="lazy"
                 decoding="async"
               />
-            </motion.div>
-
-            {/* Floating stat badge */}
-            {/* <motion.div
-              className="absolute -bottom-3 -right-3 sm:-bottom-5 sm:-right-5 bg-walnut rounded-full flex flex-col items-center justify-center text-sand shadow-2xl"
-              style={{ width: "clamp(90px, 10vw, 130px)", height: "clamp(90px, 10vw, 130px)" }}
-              initial={{ opacity: 0, scale: 0 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ delay: 0.6, duration: 0.6, ease }}
-            >
-              <span className="font-serif text-xl sm:text-2xl font-light leading-none tracking-tighter">8+</span>
-              <span className="font-sans text-[9px] sm:text-[10px] uppercase tracking-[0.15em] text-sand/60 mt-1 text-center leading-tight px-2">
-                Years
-              </span>
-            </motion.div> */}
-          </motion.div>
-
-          {/* Content */}
-          <motion.div
-            className="lg:col-span-6"
-            variants={stagger}
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-          >
-            <motion.span
-              variants={fadeUp}
-              className="block font-sans text-cinnamon-300 text-xs uppercase tracking-[0.25em] mb-4"
-            >
-              The Studio
-            </motion.span>
-
-            <motion.h2
-              variants={fadeUp}
-              className="font-serif text-walnut font-light leading-[1.05] tracking-tight mb-6"
-              style={{ fontSize: "clamp(2rem, 4.5vw, 4rem)" }}
-            >
-              The Art of{" "}
-              <span className="italic text-cinnamon-300">Meaningful Storytelling</span>
-            </motion.h2>
-
-            <motion.p
-              variants={fadeUp}
-              className="font-sans text-taupe leading-relaxed font-light mb-4"
-              style={{ fontSize: "clamp(0.85rem, 1vw, 1rem)" }}
-            >
-              Every frame we create begins with a simple intention to preserve what matters most. Beyond the celebrations, the décor, and the traditions are the emotions that define each wedding.
-            </motion.p>
-
-            <motion.p
-              variants={fadeUp}
-              className="font-sans text-taupe/70 leading-relaxed font-light"
-              style={{ fontSize: "clamp(0.8rem, 0.9vw, 0.95rem)" }}
-            >
-              Those are the moments we choose to remember. With an understated cinematic style and a deep respect for every family's story, we create films that feel as genuine decades later as they do today.
-            </motion.p>
-
-            {/* <motion.div variants={fadeUp} className="mt-8 flex flex-wrap gap-6">
-              {[
-                { label: "Couples Served", value: "150+" },
-                { label: "Cities Covered", value: "25+" },
-                { label: "Films Delivered", value: "500+" },
-              ].map((stat) => (
-                <div key={stat.label} className="text-left">
-                  <span className="block font-serif text-xl sm:text-2xl font-light text-walnut leading-none tracking-tighter">
-                    {stat.value}
-                  </span>
-                  <span className="block font-sans text-[11px] uppercase tracking-[0.1em] text-taupe/60 mt-1">
-                    {stat.label}
-                  </span>
-                </div>
-              ))}
-            </motion.div> */}
-          </motion.div>
+            </div>
+            <div className="absolute -bottom-5 right-5 rounded-sm bg-walnut px-5 py-4 text-sand shadow-2xl shadow-walnut/15">
+              <p className="font-serif text-3xl font-light leading-none">32+</p>
+              <p className="mt-1 text-[8px] font-semibold uppercase tracking-[0.22em] text-sand/65">
+                Years behind the lens
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
-    </Section>
-  );
-}
 
-/* ─────────────────────────────────────────
-   Section 3: Philosophy
-   ───────────────────────────────────────── */
-
-function Philosophy() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.35 });
-
-  return (
-    <Section ref={ref} className="bg-walnut py-[clamp(5rem,12vw,12rem)]">
-      <div className="mx-auto max-w-[1000px] px-5 sm:px-8 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, ease }}
-        >
-          {/* Decorative */}
-          <motion.div
-            className="flex items-center justify-center gap-4 mb-8"
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.2, duration: 0.6 }}
-          >
-            <span className="block w-8 h-[1px] bg-cinnamon-300/40" />
-            <Heart size={14} className="text-cinnamon-300/60" strokeWidth={1.5} />
-            <span className="block w-8 h-[1px] bg-cinnamon-300/40" />
-          </motion.div>
-
-          <motion.span
-            className="block font-sans text-cinnamon-300/70 text-xs uppercase tracking-[0.25em] mb-6"
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.3, duration: 0.6 }}
-          >
-            Our Philosophy
-          </motion.span>
-
-          <blockquote>
-            <p
-              className="font-serif text-sand font-light leading-[1.15] tracking-tight"
-              style={{ fontSize: "clamp(1.6rem, 3.8vw, 3.5rem)" }}
-            >
-              <span className="italic text-cinnamon-200/50 font-normal text-[1.2em] leading-none align-middle">"</span>
-              Beyond every celebration
-              <br />
-              <span className="italic text-cinnamon-200">is a story worth keeping.</span>
-              <span className="italic text-cinnamon-200/50 font-normal text-[1.2em] leading-none align-middle">"</span>
-            </p>
-          </blockquote>
-
-          <motion.p
-            className="font-sans text-sand/50 font-light max-w-[600px] mx-auto mt-6 sm:mt-8 leading-relaxed"
-            style={{ fontSize: "clamp(0.85rem, 1vw, 1rem)" }}
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.5, duration: 0.6 }}
-          >
-            Our work is shaped by people rather than perfection. Every film reflects the individuality, emotion, and quiet beauty that make each journey entirely its own.
-          </motion.p>
-        </motion.div>
-      </div>
-    </Section>
-  );
-}
-
-/* ─────────────────────────────────────────
-   Section 4: Core Values
-   ───────────────────────────────────────── */
-
-// const VALUES = [
-//   {
-//     icon: Eye,
-//     title: "Authentic Eye",
-//     description:
-//       "We capture real moments as they unfold - unscripted, unfiltered, and deeply human. No forced poses, just honest emotion.",
-//     color: "text-cinnamon-300",
-//   },
-//   {
-//     icon: Heart,
-//     title: "Heartfelt Approach",
-//     description:
-//       "Every couple we work with becomes family. We invest ourselves fully in your story, earning the trust to document your most intimate moments.",
-//     color: "text-ember-300",
-//   },
-//   {
-//     icon: Feather,
-//     title: "Gentle Presence",
-//     description:
-//       "We move through your celebration like quiet observers - unseen yet ever-present, ensuring nothing is staged and everything is felt.",
-//     color: "text-cinnamon-300",
-//   },
-//   {
-//     icon: Target,
-//     title: "Uncompromising Craft",
-//     description:
-//       "From cinematic composition to nuanced colour grading, every frame is refined until it carries the emotional weight it deserves.",
-//     color: "text-ember-300",
-//   },
-// ];
-
-// function CoreValues() {
-//   const ref = useRef(null);
-//   const isInView = useInView(ref, { once: true, amount: 0.15 });
-
-//   return (
-//     <Section ref={ref} className="bg-sand/40 py-[clamp(4rem,8vw,8rem)]">
-//       <div className="mx-auto max-w-[1480px] px-5 sm:px-8 md:px-12 lg:px-16">
-//         <motion.div
-//           className="text-center mb-12 sm:mb-16"
-//           variants={stagger}
-//           initial="hidden"
-//           animate={isInView ? "visible" : "hidden"}
-//         >
-//           <motion.span
-//             variants={fadeUp}
-//             className="block font-sans text-cinnamon-300 text-xs uppercase tracking-[0.25em] mb-4"
-//           >
-//             What We Stand For
-//           </motion.span>
-//           <motion.h2
-//             variants={fadeUp}
-//             className="font-serif text-walnut font-light tracking-tight"
-//             style={{ fontSize: "clamp(2rem, 4.5vw, 4rem)" }}
-//           >
-//             Our <span className="italic text-cinnamon-300">Values</span>
-//           </motion.h2>
-//         </motion.div>
-
-//         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
-//           {VALUES.map((val, i) => {
-//             const Icon = val.icon;
-//             const cardRef = useRef(null);
-//             const cardInView = useInView(cardRef, { once: true, amount: 0.3 });
-
-//             return (
-//               <motion.div
-//                 key={val.title}
-//                 ref={cardRef}
-//                 className="group bg-ivory p-8 sm:p-10 lg:p-12 transition-all duration-500 hover:shadow-2xl hover:shadow-walnut/5"
-//                 initial={{ opacity: 0, y: 40 }}
-//                 animate={cardInView ? { opacity: 1, y: 0 } : {}}
-//                 transition={{ delay: i * 0.1, duration: 0.7, ease }}
-//               >
-//                 <Icon size={24} className={`${val.color} mb-5`} strokeWidth={1.2} />
-
-//                 <h3
-//                   className="font-serif text-walnut font-light mb-3"
-//                   style={{ fontSize: "clamp(1.2rem, 1.8vw, 1.6rem)" }}
-//                 >
-//                   {val.title}
-//                 </h3>
-
-//                 <p className="font-sans text-taupe/70 font-light leading-relaxed text-sm sm:text-base max-w-[420px]">
-//                   {val.description}
-//                 </p>
-//               </motion.div>
-//             );
-//           })}
-//         </div>
-//       </div>
-//     </Section>
-//   );
-// }
-
-/* ─────────────────────────────────────────
-   Section 5: Our Journey (Timeline)
-   ───────────────────────────────────────── */
-
-const MILESTONES = [
-  { year: "2016", title: "The Beginning", description: "Panigrahna was founded with a single camera and an unwavering belief in the power of story." },
-  { year: "2018", title: "First Milestone", description: "We documented our 50th wedding - a moment that affirmed our path and deepened our craft." },
-  { year: "2020", title: "Finding New Language", description: "Amid global stillness, we reimagined intimacy in storytelling, emerging with a refined cinematic voice." },
-  { year: "2022", title: "Across India", description: "Our team grew, spanning Mumbai to Surat and beyond - covering 25+ cities and counting." },
-  { year: "2024", title: "500 Films Strong", description: "Five hundred love stories. Five hundred distinct narratives. And the same devotion that started it all." },
-  { year: "2025", title: "The Next Chapter", description: "New horizons, new stories. Every wedding remains a privilege - a story we are honoured to tell." },
-];
-
-function Journey() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.1 });
-
-  return (
-    <Section ref={ref} className="bg-ivory py-[clamp(4rem,8vw,8rem)]">
-      <div className="mx-auto max-w-[1200px] px-5 sm:px-8 md:px-12 lg:px-16">
-        <motion.div
-          className="text-center mb-16 sm:mb-20"
-          variants={stagger}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-        >
-          <motion.span
-            variants={fadeUp}
-            className="block font-sans text-cinnamon-300 text-xs uppercase tracking-[0.25em] mb-4"
-          >
-            Our Journey
-          </motion.span>
-          <motion.h2
-            variants={fadeUp}
-            className="font-serif text-walnut font-light tracking-tight"
-            style={{ fontSize: "clamp(2rem, 4.5vw, 4rem)" }}
-          >
-            The Road <span className="italic text-cinnamon-300">We've Walked</span>
-          </motion.h2>
-        </motion.div>
-
-        <div className="relative">
-          {/* Vertical line */}
-          <div className="absolute left-[30px] sm:left-1/2 top-0 bottom-0 w-[1px] bg-sand/80 -translate-x-1/2" />
-
-          {MILESTONES.map((milestone, i) => {
-            const itemRef = useRef(null);
-            const itemInView = useInView(itemRef, { once: true, amount: 0.3 });
-            const isLeft = i % 2 === 0;
-
-            return (
-              <div
-                key={milestone.year}
-                ref={itemRef}
-                className="relative flex items-start mb-12 sm:mb-16 last:mb-0"
-              >
-                {/* Desktop layout */}
-                <div className="hidden sm:grid sm:grid-cols-2 w-full items-start">
-                  {/* Content alternating left/right */}
-                  <div className={`${isLeft ? "pr-12 text-right" : "pl-12 col-start-2"}`}>
-                    <motion.div
-                      initial={{ opacity: 0, y: 30 }}
-                      animate={itemInView ? { opacity: 1, y: 0 } : {}}
-                      transition={{ duration: 0.7, ease, delay: 0.1 }}
-                    >
-                      <span className="font-serif text-cinnamon-300 text-sm tracking-[0.2em] uppercase">
-                        {milestone.year}
-                      </span>
-                      <h3
-                        className="font-serif text-walnut font-light mt-1 mb-2"
-                        style={{ fontSize: "clamp(1.2rem, 1.8vw, 1.6rem)" }}
-                      >
-                        {milestone.title}
-                      </h3>
-                      <p className="font-sans text-taupe/70 font-light leading-relaxed text-sm">
-                        {milestone.description}
-                      </p>
-                    </motion.div>
-                  </div>
-
-                  {/* Dot on the line */}
-                  <div className="absolute left-1/2 top-0 -translate-x-1/2">
-                    <motion.div
-                      className="w-3 h-3 rounded-full bg-ivory border-2 border-cinnamon-300"
-                      initial={{ scale: 0 }}
-                      animate={itemInView ? { scale: 1 } : {}}
-                      transition={{ duration: 0.4, ease, delay: 0.2 }}
-                    />
-                  </div>
-                </div>
-
-                {/* Mobile layout */}
-                <div className="sm:hidden w-full pl-14">
-                  <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={itemInView ? { opacity: 1, x: 0 } : {}}
-                    transition={{ duration: 0.7, ease, delay: 0.1 }}
-                  >
-                    <div className="flex items-center gap-3 mb-1">
-                      <span className="font-serif text-cinnamon-300 text-xs tracking-[0.2em] uppercase">
-                        {milestone.year}
-                      </span>
-                    </div>
-                    <h3
-                      className="font-serif text-walnut font-light mb-1"
-                      style={{ fontSize: "clamp(1.1rem, 4vw, 1.4rem)" }}
-                    >
-                      {milestone.title}
-                    </h3>
-                    <p className="font-sans text-taupe/70 font-light leading-relaxed text-sm">
-                      {milestone.description}
-                    </p>
-                  </motion.div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </Section>
-  );
-}
-
-/* ─────────────────────────────────────────
-   Section 6: CTA
-   ───────────────────────────────────────── */
-
-function AboutCTA() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
-
-  return (
-    <Section ref={ref} className="bg-sand/50 py-[clamp(5rem,10vw,10rem)]">
-      <div className="mx-auto max-w-[800px] px-5 sm:px-8 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, ease }}
-        >
-          <span className="block font-sans text-cinnamon-300 text-xs uppercase tracking-[0.25em] mb-4">
-            Let's Create
-          </span>
-
-          <h2
-            className="font-serif text-walnut font-light leading-[1.05] tracking-tight mb-6"
-            style={{ fontSize: "clamp(2rem, 4.5vw, 4rem)" }}
-          >
-            Your Story
-            <br />
-            <span className="italic text-cinnamon-300">Awaits</span>
+        <div className="lg:col-span-7">
+          <SectionLabel>The Man Behind the Vision</SectionLabel>
+          <h2 className="mt-5 max-w-[760px] font-serif text-[clamp(3.2rem,6vw,6.4rem)] font-light leading-[0.86] tracking-[-0.045em] text-walnut">
+            A Life Behind the Lens
           </h2>
+          <div className="mt-8 grid gap-6 text-[0.92rem] font-light leading-[1.85] text-taupe md:grid-cols-2">
+            <p>
+              I am Viral Gohil, a wedding and corporate photographer with more than 32 years of experience
+              in the photography industry.
+            </p>
+            <p>
+              For me, photography has never been limited to pressing the shutter. It is about observing
+              people, anticipating emotions, and telling a story without interrupting its honesty.
+            </p>
+            <p>
+              Through every change in the craft, I have remained connected to patience, integrity, creativity,
+              and respect for every moment.
+            </p>
+            <p>
+              Every family carries its own traditions. Every couple shares a different connection. Every
+              celebration moves to its own rhythm. That individuality is what Panigrahna preserves.
+            </p>
+          </div>
+          <p className="mt-8 font-serif text-2xl font-light italic text-cinnamon-300">Viral Gohil</p>
+        </div>
+      </div>
+    </section>
+  );
+}
 
-          <p
-            className="font-sans text-taupe/70 font-light max-w-[500px] mx-auto leading-relaxed mb-8 sm:mb-10"
-            style={{ fontSize: "clamp(0.85rem, 1vw, 1rem)" }}
-          >
-            Every love story is unique. Let's craft a film that captures yours 
-            with the artistry, intimacy, and timelessness it deserves.
+function Recognition() {
+  return (
+    <section className="bg-walnut px-5 py-16 text-sand sm:px-8 sm:py-20 md:px-12 lg:px-16 lg:py-28">
+      <div className="mx-auto grid max-w-[1240px] items-center gap-12 lg:grid-cols-12 lg:gap-16">
+        <div className="lg:col-span-7">
+          <SectionLabel className="text-cinnamon-200">Recognition</SectionLabel>
+          <h2 className="mt-5 max-w-[760px] font-serif text-[clamp(2.8rem,5.6vw,5.8rem)] font-light leading-[0.9] tracking-[-0.04em]">
+            Recognition, kept as a milestone.
+          </h2>
+          <p className="mt-7 max-w-[560px] text-[0.95rem] font-light leading-[1.85] text-sand/65">
+            Over the years, Viral Gohil's contribution to photography, visual storytelling, and the business
+            of the craft has been recognised by the industry.
           </p>
+          <p className="mt-5 max-w-[560px] text-[0.95rem] font-light leading-[1.85] text-sand/55">
+            In 2021, he was honoured as a Brand Awardee at the Pahechaan Awards. On this page, the complete
+            poster is treated as an archive piece, while the story remains centred on the work and the people
+            behind it.
+          </p>
+        </div>
 
+        <figure className="lg:col-span-5">
+          <div className="overflow-hidden rounded-[8px] border border-sand/20 bg-black/20 p-3 shadow-2xl shadow-black/20">
+            <img
+              src={AWARD_IMAGE}
+              alt="Viral Gohil Brand Awardee at Pahechaan Awards 2021"
+              className="h-auto w-full rounded-[4px]"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <figcaption className="mt-4 text-[9px] font-semibold uppercase tracking-[0.22em] text-sand/50">
+            Viral Gohil, Brand Awardee at Pahechaan Awards 2021
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+  );
+}
+
+function Approach() {
+  return (
+    <section className="bg-ivory px-5 py-16 sm:px-8 sm:py-20 md:px-12 lg:px-16 lg:py-28">
+      <div className="mx-auto max-w-[1240px]">
+        <div className="grid gap-6 border-t border-walnut/15 pt-6 md:grid-cols-2 lg:grid-cols-12">
+          <SectionLabel className="lg:col-span-4">Our Approach</SectionLabel>
+          <h2 className="max-w-[780px] font-serif text-[clamp(2.6rem,5vw,5rem)] font-light leading-[0.92] tracking-[-0.03em] md:text-right lg:col-span-8 lg:justify-self-end">
+            We do not arrive to direct your wedding. We arrive to understand it.
+          </h2>
+        </div>
+
+        <div className="mt-14 grid gap-8 md:grid-cols-3">
+          {principles.map((principle, index) => (
+            <article key={principle.title} className="border-t border-walnut/15 pt-6">
+              <span className="font-serif text-sm tracking-[0.2em] text-cinnamon-300">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <h3 className="mt-5 font-serif text-[clamp(1.8rem,2.8vw,2.7rem)] font-light leading-none text-walnut">
+                {principle.title}
+              </h3>
+              <p className="mt-5 text-[0.9rem] font-light leading-[1.8] text-taupe">{principle.text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ServicesAndReach() {
+  return (
+    <section className="bg-ivory px-5 py-10 sm:px-8 sm:py-14 md:px-12 lg:px-16 lg:py-18">
+      <div className="mx-auto max-w-[1240px]">
+        <div className="border-t border-walnut/15 pt-5">
+          <SectionLabel>What We Create</SectionLabel>
+          <h2 className="mt-4 max-w-[600px] font-serif text-[clamp(1.8rem,3.6vw,3.2rem)] font-light leading-[0.92] tracking-[-0.03em] text-walnut">
+            Films & photographs with a personal memory.
+          </h2>
+        </div>
+
+        <div className="mt-6 flex flex-wrap gap-2.5">
+          {services.map((service) => (
+            <div
+              key={service.title}
+              className="inline-flex min-h-8 items-center rounded-full border border-walnut/15 bg-sand/20 px-3.5 text-taupe"
+            >
+              <span className="text-[8px] font-semibold uppercase tracking-[0.14em]">
+                {service.title}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-8 flex flex-col items-start gap-3 border-t border-walnut/10 pt-5 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-[0.82rem] font-light text-taupe">
+            Mumbai & Surat · Available worldwide
+          </p>
           <Link
             to="/contact"
-            className="group inline-flex items-center gap-2 px-8 py-4 rounded-full bg-walnut text-sand text-sm font-sans no-underline transition-all duration-500 hover:bg-walnut/90 hover:scale-[1.02]"
+            className="group inline-flex items-center gap-2 border-b border-walnut/35 pb-0.5 text-[9px] font-semibold uppercase tracking-[0.22em] text-walnut transition-colors duration-200 hover:border-cinnamon-400 hover:text-cinnamon-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-walnut"
           >
-            Get in Touch
-            <ArrowUpRight size={18} className="transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            Tell us your story
+            <ArrowUpRight
+              size={13}
+              strokeWidth={1.4}
+              aria-hidden="true"
+              className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+            />
           </Link>
-        </motion.div>
+        </div>
       </div>
-    </Section>
+    </section>
   );
 }
-
-/* ─────────────────────────────────────────
-   Main About Page
-   ───────────────────────────────────────── */
 
 export default function About() {
   return (
     <>
       <SEO
-        title="About - Best Wedding Photographer in Mumbai"
-        description="Meet Panigrahna - Mumbai's traditional wedding photography and planning company. We capture candid stories, cinematic films, and timeless rituals across India."
+        title="About Panigrahna - Wedding Photography and Films"
+        description="Meet Panigrahna and Viral Gohil, creating wedding photography and cinematic films from Mumbai and Surat for celebrations across India and worldwide."
       />
-      <AboutHero />
-      <TheStudio />
-      <Philosophy />
-      {/* <CoreValues /> */}
-      <Journey />
-      {/* <AboutCTA /> */}
-      <Footer />
+      <main className="min-h-screen overflow-x-hidden bg-ivory text-walnut">
+        <Hero />
+        <StudioStory />
+        <ViralStory />
+        <Recognition />
+        <Approach />
+        <ServicesAndReach />
+      </main>
+      <Footer hideCTA />
     </>
   );
 }
