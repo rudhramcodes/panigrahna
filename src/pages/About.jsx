@@ -82,18 +82,6 @@ function Hero() {
               A wedding photography and filmmaking studio with its main office in Mumbai and operations in
               Surat, creating quiet, emotional visual stories across India and around the world.
             </p>
-            {/* <a
-              href="#viral-gohil"
-              className="group inline-flex w-fit cursor-pointer items-center gap-3 border-b border-walnut/35 pb-1 text-[9px] font-semibold uppercase tracking-[0.22em] text-walnut transition-colors duration-200 hover:border-cinnamon-400 hover:text-cinnamon-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-walnut"
-            >
-              Meet Viral
-              <ArrowUpRight
-                size={15}
-                strokeWidth={1.4}
-                aria-hidden="true"
-                className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-              />
-            </a> */}
           </div>
         </div>
 
