@@ -3,6 +3,10 @@ import { ArrowUpRight } from "lucide-react";
 import SEO from "../components/ui/SEO";
 import Footer from "../components/footer/Footer";
 import { rawCloudinaryUrl } from "../lib/cloudinary";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+
+const EASE = [0.16, 1, 0.3, 1];
 
 const AWARD_IMAGE = "/images/viral-awards.png";
 const VIRAL_PORTRAIT = "https://res.cloudinary.com/dvsrgdyi7/image/upload/v1784355013/Viralsir.jpg";
@@ -78,7 +82,7 @@ function Hero() {
               A wedding photography and filmmaking studio with its main office in Mumbai and operations in
               Surat, creating quiet, emotional visual stories across India and around the world.
             </p>
-            <a
+            {/* <a
               href="#viral-gohil"
               className="group inline-flex w-fit cursor-pointer items-center gap-3 border-b border-walnut/35 pb-1 text-[9px] font-semibold uppercase tracking-[0.22em] text-walnut transition-colors duration-200 hover:border-cinnamon-400 hover:text-cinnamon-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-walnut"
             >
@@ -89,7 +93,7 @@ function Hero() {
                 aria-hidden="true"
                 className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
               />
-            </a>
+            </a> */}
           </div>
         </div>
 
@@ -271,47 +275,168 @@ function Approach() {
   );
 }
 
-function ServicesAndReach() {
+// function ServicesAndReach() {
+//   return (
+//     <section className="bg-ivory px-4 py-12 sm:px-8 sm:py-16 md:px-12 lg:px-16 lg:py-24">
+//       <div className="relative isolate mx-auto max-w-[1440px] overflow-hidden rounded-[22px] border border-walnut/10 bg-[radial-gradient(circle_at_14%_4%,rgba(255,250,244,0.98),transparent_38%),radial-gradient(circle_at_92%_16%,rgba(201,124,46,0.22),transparent_32%),linear-gradient(135deg,#fdf3e7_0%,#f0ddd0_52%,#eedfc0_100%)] px-5 py-8 shadow-[0_30px_90px_rgba(61,43,26,0.12)] sm:rounded-[28px] sm:px-8 sm:py-10 lg:px-14 lg:py-14 xl:px-20 xl:py-16">
+//         <div className="pointer-events-none absolute -bottom-32 -left-20 h-72 w-72 rounded-full bg-cinnamon-200/30 blur-3xl" />
+//         <div className="pointer-events-none absolute -right-20 -top-24 h-80 w-80 rounded-full bg-rose-beige/80 blur-3xl" />
+//         <div className="pointer-events-none absolute inset-3 rounded-[16px] border border-white/45 sm:inset-4 sm:rounded-[21px]" />
+
+//         <div className="relative z-10 grid gap-10 lg:grid-cols-12 lg:gap-12">
+//           <div className="lg:col-span-7 lg:py-3">
+//             <SectionLabel>What We Create</SectionLabel>
+//             <h2 className="mt-5 max-w-[780px] font-serif text-[clamp(2.7rem,5.8vw,6.2rem)] font-light leading-[0.86] tracking-[-0.045em] text-walnut">
+//               Films and photographs that bring the
+//               <span className="block italic text-cinnamon-500">feeling back.</span>
+//             </h2>
+//             <p className="mt-7 max-w-[590px] text-[0.9rem] font-light leading-[1.85] text-walnut/70 sm:text-[0.98rem]">
+//               From quiet rituals to the wildest celebrations, we preserve your wedding as it truly felt—personal,
+//               honest, and entirely your own.
+//             </p>
+//           </div>
+
+//           <div className="rounded-[18px] border border-white/65 bg-ivory/50 p-5 shadow-[0_18px_50px_rgba(61,43,26,0.07)] backdrop-blur-sm sm:p-6 lg:col-span-5">
+//             <p className="mb-2 text-[8px] font-semibold uppercase tracking-[0.22em] text-cinnamon-500">
+//               Our work
+//             </p>
+//             <ul className="grid min-[430px]:grid-cols-2 min-[430px]:gap-x-5">
+//               {services.map((service, index) => (
+//                 <li key={service.title} className="flex items-center gap-3 border-b border-walnut/10 py-3.5">
+//                   <span className="font-serif text-[10px] tracking-[0.14em] text-cinnamon-400">
+//                     {String(index + 1).padStart(2, "0")}
+//                   </span>
+//                   <span className="text-[9px] font-semibold uppercase leading-[1.45] tracking-[0.13em] text-walnut/75">
+//                     {service.title}
+//                   </span>
+//                 </li>
+//               ))}
+//             </ul>
+//           </div>
+//         </div>
+
+//         <div className="relative z-10 mt-10 flex flex-col items-start gap-6 border-t border-walnut/15 pt-7 sm:flex-row sm:items-center sm:justify-between lg:mt-14">
+//           <div>
+//             <p className="font-serif text-xl font-light text-walnut sm:text-2xl">
+//               Mumbai & Surat
+//             </p>
+//             <p className="mt-1 text-[9px] font-semibold uppercase tracking-[0.2em] text-walnut/55">
+//               Celebrations worldwide
+//             </p>
+//           </div>
+
+//           <Link
+//             to="/contact"
+//             className="group relative inline-flex h-14 w-full cursor-pointer items-center justify-center overflow-hidden rounded-full bg-walnut px-8 text-sand transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.02] focus:outline-none focus-visible:ring-2 focus-visible:ring-walnut focus-visible:ring-offset-4 focus-visible:ring-offset-rose-beige sm:w-auto"
+//           >
+//             <span className="relative z-10 flex items-center gap-3">
+//               <span className="font-sans text-[11px] uppercase tracking-[4px]">Check Availability</span>
+//               <span className="relative h-[18px] w-[18px]" aria-hidden="true">
+//                 <span className="absolute inset-0 flex items-center justify-center transition-all duration-[350ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-[10px] group-hover:translate-x-[10px] group-hover:scale-[0.3] group-hover:opacity-0">
+//                   <ArrowUpRight size={18} strokeWidth={1.5} />
+//                 </span>
+//                 <span className="absolute inset-0 flex -translate-x-[10px] translate-y-[10px] scale-[0.3] items-center justify-center opacity-0 transition-all duration-[350ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-0 group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100">
+//                   <ArrowUpRight size={18} strokeWidth={1.5} />
+//                 </span>
+//               </span>
+//             </span>
+//             <span className="absolute inset-0 scale-0 rounded-full bg-cinnamon-400/20 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100" />
+//           </Link>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// }
+
+function FinalCTA() {
+  const navigate = useNavigate();
+
   return (
-    <section className="bg-ivory px-5 py-10 sm:px-8 sm:py-14 md:px-12 lg:px-16 lg:py-18">
-      <div className="mx-auto max-w-[1240px]">
-        <div className="border-t border-walnut/15 pt-5">
-          <SectionLabel>What We Create</SectionLabel>
-          <h2 className="mt-4 max-w-[600px] font-serif text-[clamp(1.8rem,3.6vw,3.2rem)] font-light leading-[0.92] tracking-[-0.03em] text-walnut">
-            Films & photographs with a personal memory.
-          </h2>
-        </div>
+    <section className="relative isolate overflow-hidden px-5 py-28 sm:px-8 sm:py-36 md:px-12 lg:px-16 lg:py-44">
+      {/* Background image */}
+      <div className="absolute inset-0 -z-20">
+        <img
+          src={rawCloudinaryUrl("about-collage.avif")}
+          alt=""
+          className="h-full w-full scale-105 object-cover animate-[ken-burns_18s_ease-in-out_infinite_alternate]"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
 
-        <div className="mt-6 flex flex-wrap gap-2.5">
-          {services.map((service) => (
-            <div
-              key={service.title}
-              className="inline-flex min-h-8 items-center rounded-full border border-walnut/15 bg-sand/20 px-3.5 text-taupe"
-            >
-              <span className="text-[8px] font-semibold uppercase tracking-[0.14em]">
-                {service.title}
-              </span>
-            </div>
-          ))}
-        </div>
+      {/* Stronger behind the copy, softer around the photographs. */}
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(28,17,9,0.68)_0%,rgba(38,24,13,0.48)_48%,rgba(61,43,26,0.28)_100%)]" />
 
-        <div className="mt-8 flex flex-col items-start gap-3 border-t border-walnut/10 pt-5 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-[0.82rem] font-light text-taupe">
-            Mumbai & Surat · Available worldwide
-          </p>
-          <Link
-            to="/contact"
-            className="group inline-flex items-center gap-2 border-b border-walnut/35 pb-0.5 text-[9px] font-semibold uppercase tracking-[0.22em] text-walnut transition-colors duration-200 hover:border-cinnamon-400 hover:text-cinnamon-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-walnut"
+      <div className="relative mx-auto max-w-[860px] text-center">
+        <motion.span
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: EASE }}
+          className="block font-sans text-[10px] font-semibold uppercase tracking-[0.32em] text-cinnamon-100 drop-shadow-[0_1px_8px_rgba(0,0,0,0.45)]"
+        >
+          Let's Begin
+        </motion.span>
+
+        <motion.h2
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
+          className="mx-auto mt-6 max-w-[780px] font-serif text-[clamp(3rem,5vw,5rem)] font-light leading-[0.92] tracking-[-0.03em] text-ivory drop-shadow-[0_3px_24px_rgba(0,0,0,0.45)]"
+        >
+          <span className="block">Every Story Deserves</span>
+          <span className="mt-1 block italic text-cinnamon-200">to Be Told Well</span>
+        </motion.h2>
+
+        <motion.p
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: EASE, delay: 0.2 }}
+          className="mx-auto mt-7 max-w-[520px] font-sans text-[clamp(0.92rem,1vw,1.05rem)] font-normal leading-[1.75] text-ivory/90 drop-shadow-[0_2px_12px_rgba(0,0,0,0.55)]"
+        >
+          From Mumbai and Surat, we travel wherever your celebration takes us.
+          Let's talk about how we'd tell yours.
+        </motion.p>
+
+        <motion.div
+          className="mt-10 sm:mt-12 flex justify-center"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: EASE, delay: 0.3 }}
+        >
+          <button
+            onClick={() => navigate("/contact")}
+            className="group relative inline-flex h-14 w-full max-w-[290px] cursor-pointer items-center justify-center gap-3 overflow-hidden rounded-full bg-ivory px-8 text-walnut shadow-[0_12px_32px_rgba(0,0,0,0.18)] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.02] focus:outline-none focus-visible:ring-2 focus-visible:ring-cinnamon-200 focus-visible:ring-offset-4 focus-visible:ring-offset-walnut sm:w-auto sm:max-w-none"
           >
-            Tell us your story
-            <ArrowUpRight
-              size={13}
-              strokeWidth={1.4}
-              aria-hidden="true"
-              className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-            />
-          </Link>
-        </div>
+            <div className="relative z-10 flex items-center gap-3">
+              <span className="font-sans text-[10px] font-semibold uppercase tracking-[0.3em]">
+                Check Availability
+              </span>
+              <div className="relative w-[18px] h-[18px]">
+                <span className="absolute inset-0 flex items-center justify-center transition-all duration-[350ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:opacity-0 group-hover:translate-x-[10px] group-hover:-translate-y-[10px] group-hover:scale-[0.3]">
+                  <ArrowUpRight size={18} strokeWidth={1.5} />
+                </span>
+                <span className="absolute inset-0 flex items-center justify-center transition-all duration-[350ms] ease-[cubic-bezier(0.16,1,0.3,1)] opacity-0 -translate-x-[10px] translate-y-[10px] scale-[0.3] group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 group-hover:scale-100">
+                  <ArrowUpRight size={18} strokeWidth={1.5} />
+                </span>
+              </div>
+            </div>
+            <div className="absolute inset-0 scale-0 rounded-full bg-walnut/10 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100" />
+          </button>
+        </motion.div>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: EASE, delay: 0.4 }}
+          className="mt-8 font-sans text-[10px] font-medium uppercase tracking-[0.2em] text-ivory/75 drop-shadow-[0_1px_10px_rgba(0,0,0,0.45)]"
+        >
+          Mumbai & Surat · Available worldwide
+        </motion.p>
       </div>
     </section>
   );
@@ -330,7 +455,7 @@ export default function About() {
         <ViralStory />
         <Recognition />
         <Approach />
-        <ServicesAndReach />
+        <FinalCTA />
       </main>
       <Footer hideCTA />
     </>
