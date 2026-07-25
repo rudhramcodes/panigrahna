@@ -45,7 +45,7 @@ export default function Hero() {
         <span className="block font-sans text-[9px] md:text-[10px] font-bold uppercase tracking-[4px] text-walnut">
           A venture by
         </span>
-        <span className="block font-sans text-[11px] md:text-[12px] font-bold uppercase tracking-[4px] text-walnut mt-1.5">
+        <span className="block font-goldenbook text-[11px] md:text-[12px] font-bold uppercase tracking-[4px] text-walnut mt-1.5">
           Rudhram
         </span>
       </div>

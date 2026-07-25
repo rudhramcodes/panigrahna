@@ -116,6 +116,7 @@
 @theme {
   --font-sans: "Open Sans", sans-serif;
   --font-serif: "Berlingske Serif", "Georgia", serif;
+  --font-goldenbook: "goldenbook", serif;
 
   --color-ivory: #fffaf4;
   --color-parchment: #fdf3e7;

@@ -240,7 +240,7 @@ export default function Footer({ hideCTA = false }) {
                 <a href="#" className="font-sans text-[9px] font-bold uppercase tracking-[3px] text-white/20 hover:text-white/40 transition-colors">Terms</a>
               </div>
             </div>
-            <span className="font-sans text-[9px] font-bold uppercase tracking-[3px] text-white/15">
+            <span className="font-goldenbook text-[9px] font-bold uppercase tracking-[3px] text-white/50">
               A venture by Rudhram
             </span>
           </div>
