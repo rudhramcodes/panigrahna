@@ -232,7 +232,7 @@ export default function Footer({ hideCTA = false }) {
           </div>
 
           {/* ── Bottom Section: Minimal & Sharp ── */}
-          <div className="pt-12 flex flex-col md:flex-row justify-between items-center gap-8">
+          <div className="pt-12 flex flex-col items-center gap-8">
             <div className="flex flex-col md:flex-row items-center gap-4 md:gap-10">
               <span className="font-sans text-[9px] font-bold uppercase tracking-[3px] text-white/20">© 2026 Panigrahna</span>
               <div className="flex gap-10">
@@ -240,6 +240,9 @@ export default function Footer({ hideCTA = false }) {
                 <a href="#" className="font-sans text-[9px] font-bold uppercase tracking-[3px] text-white/20 hover:text-white/40 transition-colors">Terms</a>
               </div>
             </div>
+            <span className="font-sans text-[9px] font-bold uppercase tracking-[3px] text-white/15">
+              A venture by Rudhram
+            </span>
           </div>
         </div>
       </div>

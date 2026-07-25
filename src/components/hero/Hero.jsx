@@ -41,6 +41,15 @@ export default function Hero() {
       />
       <div className="absolute inset-0 bg-gradient-to-t from-walnut/30 via-transparent to-transparent" />
 
+      <div className="absolute bottom-8 right-8 md:bottom-12 md:right-14 text-right pointer-events-none select-none leading-none">
+        <span className="block font-sans text-[9px] md:text-[10px] font-bold uppercase tracking-[4px] text-walnut">
+          A venture by
+        </span>
+        <span className="block font-sans text-[11px] md:text-[12px] font-bold uppercase tracking-[4px] text-walnut mt-1.5">
+          Rudhram
+        </span>
+      </div>
+
       <div className="absolute inset-x-0 top-24 px-5 text-center sm:px-8 md:top-auto md:bottom-0 md:px-12 md:pb-10 md:text-left lg:px-16 lg:pb-4 pointer-events-none select-none">
         <h1 className="font-serif text-sand font-thin leading-none tracking-tight">
           <span
