@@ -67,12 +67,12 @@ export default function Nav({ onClose }) {
         exit="exit"
         className="fixed right-0 top-0 z-50 h-screen w-full bg-sandstone-500 text-white md:w-[450px]"
       >
-        <div className="flex h-full flex-col justify-between px-8 py-20 sm:px-12 md:px-16">
+        <div className="flex h-full flex-col justify-between pl-14 pr-8 py-16 sm:px-12 md:px-16">
           <div
-            className="mt-12 flex flex-col gap-3 md:mt-20"
+            className="mt-6 flex flex-col gap-4 sm:gap-3 md:mt-20"
             onMouseLeave={() => setSelectedIndicator(currentHref)}
           >
-            <div className="mb-8 border-b border-sandstone-400 pb-4 font-serif text-[11px] uppercase tracking-widest text-sandstone-300">
+            <div className="mb-6 sm:mb-8 border-b border-sandstone-400 pb-3 sm:pb-4 font-serif text-[11px] uppercase tracking-widest text-sandstone-300">
               Navigation
             </div>
             {NAV_ITEMS.map((data, index) => (
@@ -86,7 +86,7 @@ export default function Nav({ onClose }) {
             ))}
           </div>
 
-          <div className="flex w-full justify-between gap-10 font-serif text-xs text-sandstone-300">
+          <div className="flex w-full justify-between gap-6 sm:gap-10 font-serif text-xs text-sandstone-300">
             <a href="#" className="transition-colors hover:text-cinnamon-200">Instagram</a>
             <a href="#" className="transition-colors hover:text-cinnamon-200">LinkedIn</a>
             <a href="#" className="transition-colors hover:text-cinnamon-200">Twitter</a>
