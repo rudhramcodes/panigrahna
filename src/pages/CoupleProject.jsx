@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 
 import { cloudinaryUrl, RAW_VERSION } from "../lib/cloudinary";
 import Footer from "../components/footer/Footer";
+import { GallerySkeleton } from "../components/ui/SkeletonLoader";
 import SoundtrackPlayer from "../components/ui/SoundtrackPlayer";
 
 import { COUPLES } from "../data/couples";
@@ -12,6 +13,7 @@ import rahulJeevaniImages from "../data/couples/rahul-and-jeevani.json";
 import prachiPreetImages from "../data/couples/prachi-and-preet.json";
 import ronakJessicaImages from "../data/couples/ronak-and-jessica.json";
 import rutvikAishwaryaImages from "../data/couples/rutvik-and-aishwarya.json";
+import { buildLayoutFragments, ParallaxWrapper, loadImageRatios } from "../lib/gallery";
 
 const COUPLE_IMAGES = {
   "harsh-and-sayonee": harshSayoneeImages,
@@ -22,52 +24,14 @@ const COUPLE_IMAGES = {
 };
 
 const ALL_COUPLES = [
-  { slug: "harsh-and-sayonee", name: "Harsh & Sayonee", publicId: "TKS05225_1_jyeotg.jpg", quote: "A love story written in the stars", location: "Mumbai", date: "Dec 2024" },
-  { slug: "rahul-and-jeevani", name: "Rahul & Jeevani", publicId: "DSC04563_1_foxptm.jpg", quote: "Two hearts, one journey", location: "Udaipur", date: "Nov 2024",
+  { slug: "harsh-and-sayonee", publicId: "TKS05225_1_jyeotg.jpg", quote: "A love story written in the stars", location: "Mumbai", date: "Dec 2024" },
+  { slug: "rahul-and-jeevani", publicId: "DSC04563_1_foxptm.jpg", quote: "Two hearts, one journey", location: "Udaipur", date: "Nov 2024",
     premise: "Some weddings are remembered for how they looked. This one stayed with us because of how it felt. Over four days of traditions, laughter, family, and quiet moments, Rahul and Jeevni\u2019s celebration unfolded with a warmth that was impossible to miss. This is a glimpse into a wedding that felt honest, personal, and deeply their own.",
     description: "Rahul, a well-known Kannada actor, and Jeevni\u2019s wedding was one of those celebrations that felt effortless, personal, and true to the people at its heart. Held in the presence of their families and closest loved ones, the wedding embraced authentic Kannada traditions and rituals, with blessings from Lord Venkateswara of Tirupati woven into the celebrations.\n\nWhat stood out to us throughout the day was not any single ritual or grand moment, but the way Rahul and Jeevni\u2019s eyes naturally found each other in every meaningful moment. Whether they were surrounded by hundreds of guests or quietly participating in a ceremony, there was always a glance, a smile, or a moment of eye contact that reflected their comfort and connection with one another. Many of our favourite photographs from the wedding came from these simple, unscripted interactions.\n\nTheir celebration was also a reflection of the people and things they love. Family played a central role, and even their beloved dogs, who are very much a part of their lives, found a place in the story. From traditional rituals and emotional blessings to candid moments shared with loved ones, every part of the wedding felt genuine and meaningful. It was a joy to document a celebration that stayed rooted in tradition while remaining completely true to Rahul and Jeevni\u2019s journey together." },
-  { slug: "prachi-and-preet", name: "Prachi & Preet", publicId: "DSC06503_1_qx8pds.jpg", quote: "Where tradition meets forever", location: "Surat", date: "Oct 2024" },
-  { slug: "ronak-and-jessica", name: "Ronak & Jessica", publicId: "TKS04526_dxtewa.jpg", quote: "Dancing into eternity", location: "Goa", date: "Feb 2025" },
-  { slug: "rutvik-and-aishwarya", name: "Rutvik & Aishwarya", publicId: "HRS_6891_1_rpow6s.jpg", angle: -90, quote: "A promise made in heaven", location: "Jaipur", date: "Jan 2025" },
+  { slug: "prachi-and-preet", publicId: "DSC06503_1_qx8pds.jpg", quote: "Where tradition meets forever", location: "Surat", date: "Oct 2024" },
+  { slug: "ronak-and-jessica", publicId: "TKS04526_dxtewa.jpg", quote: "Dancing into eternity", location: "Goa", date: "Feb 2025" },
+  { slug: "rutvik-and-aishwarya", publicId: "HRS_6891_1_rpow6s.jpg", angle: -90, quote: "A promise made in heaven", location: "Jaipur", date: "Jan 2025" },
 ];
-
-function buildLayoutFromRatios(images, ratios) {
-  const fragments = [];
-  let i = 0;
-  while (i < images.length) {
-    const r0 = ratios[i];
-    const r1 = ratios[i + 1];
-    const bothPortrait = r0 < 1 && r1 !== undefined && r1 < 1;
-    // only pair if both portrait and aspect ratios are within 10%
-    const sameAspect = bothPortrait && Math.abs(r0 - r1) < 0.1;
-    if (bothPortrait && sameAspect) {
-      fragments.push({ type: "pair", items: [images[i], images[i + 1]] });
-      i += 2;
-    } else {
-      fragments.push({ type: "single", items: [images[i]], isLandscape: r0 >= 1 });
-      i++;
-    }
-  }
-  return fragments;
-}
-
-function ParallaxWrapper({ children, speed = 0.15, fullHeight }) {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
-
-  return (
-    <div ref={ref} className={`overflow-hidden ${fullHeight ? "h-full" : ""}`}>
-      <motion.div style={{ y, willChange: "transform" }} className={fullHeight ? "h-full" : ""}>
-        {children}
-      </motion.div>
-    </div>
-  );
-}
 
 export default function CoupleProject() {
   const { slug } = useParams();
@@ -94,25 +58,10 @@ export default function CoupleProject() {
   );
 
   const [imageRatios, setImageRatios] = useState(null);
-  useEffect(() => {
-    if (gridItems.length === 0) { setImageRatios({}); return; }
-    let mounted = true;
-    const ratios = {};
-    let remaining = gridItems.length;
-    const imgs = [];
-    const done = () => { if (mounted) setImageRatios(ratios); };
-    gridItems.forEach((item, i) => {
-      const img = new Image();
-      imgs.push(img);
-      img.onload = () => { ratios[i] = img.naturalWidth / img.naturalHeight; if (!--remaining) done(); };
-      img.onerror = () => { ratios[i] = 1.5; if (!--remaining) done(); };
-      img.src = item.src;
-    });
-    return () => { mounted = false; imgs.forEach((img) => { img.onload = null; img.onerror = null; }); };
-  }, [gridItems]);
+  useEffect(() => loadImageRatios(gridItems, setImageRatios), [gridItems]);
 
   const layoutFragments = useMemo(
-    () => imageRatios ? buildLayoutFromRatios(gridItems, imageRatios) : [],
+    () => imageRatios ? buildLayoutFragments(gridItems, imageRatios) : [],
     [gridItems, imageRatios]
   );
 
@@ -307,11 +256,7 @@ export default function CoupleProject() {
               })}
             </div>
           ) : (
-            <div className="flex justify-center py-32">
-              <span className="font-sans text-cinnamon-300/50 text-xs uppercase tracking-[0.25em]">
-                Loading gallery&hellip;
-              </span>
-            </div>
+            <GallerySkeleton />
           )}
         </div>
       </section>

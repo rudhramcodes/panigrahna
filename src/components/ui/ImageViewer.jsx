@@ -30,6 +30,10 @@ export default function ImageViewer({ images, initialIndex = 0, onClose }) {
   const suppressTransition = useRef(false);
 
   const current = images[index];
+  const imgSrc = current?.img || current || "";
+  const isVideo = typeof imgSrc === "string" && imgSrc.includes(".mp4");
+  /* ponytail: fix Cloudinary URL — image base se video base */
+  const videoSrc = isVideo ? imgSrc.replace("/image/upload/", "/video/upload/") : null;
 
   useEffect(() => {
     stateRef.current.zoom = zoom;
@@ -171,6 +175,7 @@ export default function ImageViewer({ images, initialIndex = 0, onClose }) {
 
   const handleWheel = useCallback(
     (e) => {
+      if (isVideo) return;
       e.preventDefault();
       const rect = containerRef.current?.getBoundingClientRect();
       if (!rect) return;
@@ -179,11 +184,12 @@ export default function ImageViewer({ images, initialIndex = 0, onClose }) {
       const factor = e.deltaY < 0 ? 1 + ZOOM_STEP : 1 / (1 + ZOOM_STEP);
       applyZoom(factor, cx, cy);
     },
-    [applyZoom],
+    [applyZoom, isVideo],
   );
 
   const handleDoubleClick = useCallback(
     (e) => {
+      if (isVideo) return;
       e.stopPropagation();
       const s = stateRef.current;
       if (s.zoom > 1) {
@@ -199,7 +205,7 @@ export default function ImageViewer({ images, initialIndex = 0, onClose }) {
         applyZoom(3, cx, cy);
       }
     },
-    [applyZoom, resetZoom],
+    [applyZoom, resetZoom, isVideo],
   );
 
   const dragRef = useRef({
@@ -212,6 +218,7 @@ export default function ImageViewer({ images, initialIndex = 0, onClose }) {
   });
 
   const handlePointerDown = useCallback((e) => {
+    if (isVideo) return;
     if (e.pointerType === "touch") return;
     isGesturing.current = true;
     dragRef.current = {
@@ -223,7 +230,7 @@ export default function ImageViewer({ images, initialIndex = 0, onClose }) {
       moved: false,
     };
     e.currentTarget.setPointerCapture(e.pointerId);
-  }, []);
+  }, [isVideo]);
 
   const handlePointerMove = useCallback(
     (e) => {
@@ -282,6 +289,7 @@ export default function ImageViewer({ images, initialIndex = 0, onClose }) {
   });
 
   const handleTouchStart = useCallback((e) => {
+    if (isVideo) return;
     const t = touchRef.current;
     isGesturing.current = true;
     if (e.touches.length === 1) {
@@ -299,7 +307,7 @@ export default function ImageViewer({ images, initialIndex = 0, onClose }) {
       );
       gestureTransform.current = { ...stateRef.current };
     }
-  }, []);
+  }, [isVideo]);
 
   const handleTouchMove = useCallback(
     (e) => {
@@ -426,6 +434,7 @@ export default function ImageViewer({ images, initialIndex = 0, onClose }) {
         {String(images.length).padStart(2, "0")}
       </span>
 
+      {!isVideo && (
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-3 bg-white/10 backdrop-blur-md rounded-full px-4 py-2">
         <button
           onClick={(e) => {
@@ -453,6 +462,7 @@ export default function ImageViewer({ images, initialIndex = 0, onClose }) {
           <Plus size={14} />
         </button>
       </div>
+      )}
 
       <button
         onClick={(e) => {
@@ -477,30 +487,44 @@ export default function ImageViewer({ images, initialIndex = 0, onClose }) {
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
-        style={{ touchAction: "none" }}
+        style={{ touchAction: isVideo ? "auto" : "none" }}
       >
         <div
           ref={imageWrapRef}
           className="absolute inset-0 flex items-center justify-center"
         >
           <AnimatePresence mode="wait" custom={dir}>
-            <motion.img
-              key={current?.id || index}
-              custom={dir}
-              variants={zoom === 1 ? slideVariants : {}}
-              initial={zoom === 1 ? "enter" : undefined}
-              animate={zoom === 1 ? "center" : undefined}
-              exit={zoom === 1 ? "exit" : undefined}
-              transition={
-                zoom === 1
-                  ? { duration: 0.3, ease: [0.16, 1, 0.3, 1] }
-                  : undefined
-              }
-              src={current?.img || current}
-              alt=""
-              className="max-w-full max-h-full object-contain pointer-events-none"
-              draggable={false}
-            />
+            {isVideo ? (
+              <video
+                key={current?.id || index}
+                src={videoSrc}
+                className="max-w-full max-h-full object-contain"
+                controls
+                autoPlay
+                loop
+                muted
+                playsInline
+                controlsList="nodownload"
+              />
+            ) : (
+              <motion.img
+                key={current?.id || index}
+                custom={dir}
+                variants={zoom === 1 ? slideVariants : {}}
+                initial={zoom === 1 ? "enter" : undefined}
+                animate={zoom === 1 ? "center" : undefined}
+                exit={zoom === 1 ? "exit" : undefined}
+                transition={
+                  zoom === 1
+                    ? { duration: 0.3, ease: [0.16, 1, 0.3, 1] }
+                    : undefined
+                }
+                src={current?.img || current}
+                alt=""
+                className="max-w-full max-h-full object-contain pointer-events-none"
+                draggable={false}
+              />
+            )}
           </AnimatePresence>
         </div>
       </div>

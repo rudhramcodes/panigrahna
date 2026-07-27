@@ -1,17 +1,19 @@
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { useImageProtection } from "./lib/useImageProtection";
 import SmoothScroll from "./components/smooth-scroll/SmoothScroll";
 import Navbar from "./components/navbar/Navbar";
 import BackToTop from "./components/ui/BackToTop";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Projects from "./pages/Projects";
-import ProjectListing from "./pages/ProjectListing";
-import Contact from "./pages/Contact";
-import BridesPage from "./pages/BridesPage";
-import GroomsPage from "./pages/GroomsPage";
-import FilmsPage from "./pages/FilmsPage";
+import { PageSkeleton } from "./components/ui/SkeletonLoader";
+
+const Home = lazy(() => import("./pages/Home"));
+const About = lazy(() => import("./pages/About"));
+const Projects = lazy(() => import("./pages/Projects"));
+const ProjectListing = lazy(() => import("./pages/ProjectListing"));
+const Contact = lazy(() => import("./pages/Contact"));
+const BridesPage = lazy(() => import("./pages/BridesPage"));
+const GroomsPage = lazy(() => import("./pages/GroomsPage"));
+const FilmsPage = lazy(() => import("./pages/FilmsPage"));
 
 function ScrollManager() {
   const { pathname, hash } = useLocation();
@@ -50,6 +52,7 @@ const App = () => {
       <ScrollManager />
       <SmoothScroll>
         <Navbar />
+        <Suspense fallback={<PageSkeleton />}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
@@ -61,6 +64,7 @@ const App = () => {
           <Route path="/films" element={<FilmsPage />} />
           {/* <Route path="*" element={<NotFound />} /> */}
         </Routes>
+        </Suspense>
         <BackToTop />
       </SmoothScroll>
     </>

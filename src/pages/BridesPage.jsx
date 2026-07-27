@@ -1,12 +1,14 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
 import SEO from "../components/ui/SEO";
 import ImageViewer from "../components/ui/ImageViewer";
 import Footer from "../components/footer/Footer";
 import { rawCloudinaryUrl } from "../lib/cloudinary";
 import { useSmoothScroll } from "../components/smooth-scroll/SmoothScroll";
+import { GallerySkeleton } from "../components/ui/SkeletonLoader";
+import { buildLandscapeFragments as buildLayoutFragments, ParallaxWrapper, loadImageRatios } from "../lib/gallery";
 
 const ALL_BRIDES = [
   "b1.jpg", "b3.avif", "B04.avif", "B03.jpg", "B04.5.jpg", "B05.jpg", "B12.jpg", "B17.jpg", "b04.avif", "b9.avif", "b10.avif",
@@ -14,44 +16,6 @@ const ALL_BRIDES = [
 ];
 
 const EASE = [0.76, 0, 0.24, 1];
-
-function buildLayoutFragments(images, ratios) {
-  const fragments = [];
-  let i = 0;
-  while (i < images.length) {
-    const r0 = ratios?.[i];
-    const r1 = ratios?.[i + 1];
-    const bothNonPortrait = r0 !== undefined && r1 !== undefined && r0 >= 1 && r1 >= 1;
-    const sameAspect = bothNonPortrait && Math.abs(r0 - r1) < 0.1;
-    if (r0 !== undefined && r1 !== undefined && bothNonPortrait && sameAspect) {
-      fragments.push({ type: "pair", items: [images[i], images[i + 1]] });
-      i += 2;
-    } else {
-      fragments.push({ type: "single", items: [images[i]], isLandscape: r0 !== undefined && r0 >= 1 });
-      i++;
-    }
-  }
-  return fragments;
-}
-
-function ParallaxWrapper({ children, speed = 0.28, fullHeight }) {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-
-  const pct = Math.round(speed * 80);
-  const y = useTransform(scrollYProgress, [0, 1], [`-${pct}%`, `${pct}%`]);
-
-  return (
-    <div ref={ref} className={`overflow-hidden ${fullHeight ? "h-full" : ""}`}>
-      <motion.div style={{ y, willChange: "transform" }} className={fullHeight ? "h-full" : ""}>
-        {children}
-      </motion.div>
-    </div>
-  );
-}
 
 export default function BridesPage() {
   const navigate = useNavigate();
@@ -69,22 +33,7 @@ export default function BridesPage() {
     []
   );
 
-  useEffect(() => {
-    if (gridItems.length === 0) { setImageRatios({}); return; }
-    let mounted = true;
-    const ratios = {};
-    let remaining = gridItems.length;
-    const imgs = [];
-    const done = () => { if (mounted) setImageRatios(ratios); };
-    gridItems.forEach((item, i) => {
-      const img = new Image();
-      imgs.push(img);
-      img.onload = () => { ratios[i] = img.naturalWidth / img.naturalHeight; if (!--remaining) done(); };
-      img.onerror = () => { ratios[i] = 1.5; if (!--remaining) done(); };
-      img.src = item.src;
-    });
-    return () => { mounted = false; imgs.forEach((img) => { img.onload = null; img.onerror = null; }); };
-  }, [gridItems]);
+  useEffect(() => loadImageRatios(gridItems, setImageRatios), [gridItems]);
 
   const layoutFragments = useMemo(() => imageRatios ? buildLayoutFragments(gridItems, imageRatios) : [], [gridItems, imageRatios]);
 
@@ -218,11 +167,7 @@ export default function BridesPage() {
               })}
             </motion.div>
           ) : (
-            <div className="flex justify-center py-32">
-              <span className="font-sans text-cinnamon-300/50 text-xs uppercase tracking-[0.25em]">
-                Loading gallery&hellip;
-              </span>
-            </div>
+            <GallerySkeleton />
           )}
         </div>
       </section>

@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import SEO from "../components/ui/SEO";
 import ImageViewer from "../components/ui/ImageViewer";
@@ -8,6 +8,8 @@ import SoundtrackPlayer from "../components/ui/SoundtrackPlayer";
 import { rawCloudinaryUrl, RAW_VERSION } from "../lib/cloudinary";
 import { useSmoothScroll } from "../components/smooth-scroll/SmoothScroll";
 import { COUPLES } from "../data/couples";
+import { GallerySkeleton } from "../components/ui/SkeletonLoader";
+import { buildLayoutFragments, ParallaxWrapper, loadImageRatios } from "../lib/gallery";
 
 const headingSlide = {
   enter: (dir) => ({ y: 60, opacity: 0, scale: 0.97, filter: "blur(6px)" }),
@@ -20,44 +22,6 @@ const counterSlide = {
   center: { y: 0, opacity: 1 },
   exit: { y: -20, opacity: 0 },
 };
-
-function buildLayoutFragments(images, ratios) {
-  const fragments = [];
-  let i = 0;
-  while (i < images.length) {
-    const r0 = ratios?.[i];
-    const r1 = ratios?.[i + 1];
-    const bothPortrait = r0 !== undefined && r1 !== undefined && r0 < 1 && r1 < 1;
-    const sameAspect = bothPortrait && Math.abs(r0 - r1) < 0.1;
-    if (r0 !== undefined && r1 !== undefined && bothPortrait && sameAspect) {
-      fragments.push({ type: "pair", items: [images[i], images[i + 1]] });
-      i += 2;
-    } else {
-      fragments.push({ type: "single", items: [images[i]], isLandscape: r0 !== undefined && r0 >= 1 });
-      i++;
-    }
-  }
-  return fragments;
-}
-
-function ParallaxWrapper({ children, speed = 0.28, fullHeight }) {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-
-  const pct = Math.round(speed * 80);
-  const y = useTransform(scrollYProgress, [0, 1], [`-${pct}%`, `${pct}%`]);
-
-  return (
-    <div ref={ref} className={`overflow-hidden ${fullHeight ? "h-full" : ""}`}>
-      <motion.div style={{ y, willChange: "transform" }} className={fullHeight ? "h-full" : ""}>
-        {children}
-      </motion.div>
-    </div>
-  );
-}
 
 function AnimatedCounter({ value, total }) {
   return (
@@ -199,22 +163,7 @@ export default function Projects() {
     [activeIndex]
   );
 
-  useEffect(() => {
-    if (gridImages.length === 0) { setImageRatios({}); return; }
-    let mounted = true;
-    const ratios = {};
-    let remaining = gridImages.length;
-    const imgs = [];
-    const done = () => { if (mounted) setImageRatios(ratios); };
-    gridImages.forEach((item, i) => {
-      const img = new Image();
-      imgs.push(img);
-      img.onload = () => { ratios[i] = img.naturalWidth / img.naturalHeight; if (!--remaining) done(); };
-      img.onerror = () => { ratios[i] = 1.5; if (!--remaining) done(); };
-      img.src = item.src;
-    });
-    return () => { mounted = false; imgs.forEach((img) => { img.onload = null; img.onerror = null; }); };
-  }, [gridImages]);
+  useEffect(() => loadImageRatios(gridImages, setImageRatios), [gridImages]);
 
   const layoutFragments = useMemo(() => imageRatios ? buildLayoutFragments(gridImages, imageRatios) : [], [gridImages, imageRatios]);
 
@@ -461,11 +410,7 @@ export default function Projects() {
               </motion.div>
             </AnimatePresence>
           ) : (
-            <div className="flex justify-center py-32">
-              <span className="font-sans text-cinnamon-300/50 text-xs uppercase tracking-[0.25em]">
-                Loading gallery&hellip;
-              </span>
-            </div>
+            <GallerySkeleton />
           )}
         </div>
       </section>

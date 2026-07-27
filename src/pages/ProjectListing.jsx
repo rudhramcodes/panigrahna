@@ -61,7 +61,7 @@ function ProjectStory({ couple, number }) {
             width={700}
             options={{ version: couple.coverVersion, crop: "fill", gravity: "auto" }}
             wrapperClassName="h-full w-full transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.06]"
-            imgClassName={`h-full w-full object-cover ${couple.listingImages.secondary === "RJ18.jpg" && "PP19.jpg" ? "object-bottom" : "object-center"} will-change-transform`}
+            imgClassName="h-full w-full object-cover object-center will-change-transform"
             loading="lazy"
             decoding="async"
           />
