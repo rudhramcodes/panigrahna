@@ -4,14 +4,18 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import ImageViewer from "../ui/ImageViewer";
 import MaskText from "../mask-text/MaskText";
-import { rawCloudinaryUrl } from "../../lib/cloudinary";
+import { rawCloudinaryUrl, RAW_VERSION } from "../../lib/cloudinary";
+
+const VIDEO_BASE = "https://res.cloudinary.com/dvsrgdyi7/video/upload";
 
 const BRIDES = [
-  "B1.jpg", "B3.avif", "B04.avif", "B03.jpg", "B04.5.jpg", "B05.jpg", "B12.jpg", "B17.jpg",
+  "B1.jpg", "aish.mp4", "B04.avif", "B12.jpg", "pooja.mp4", "B05.jpg", "sayonee.mp4", "B17.jpg",
 ];
 
 const GROOMS = [
-  "G1.jpg", "G3.avif", "G5.jpg", "G7.jpg", "G11.jpg", "G17.jpg", "G16.jpg", "G15.jpg"
+  // "G1.jpg", "G3.avif", "G5.jpg", "harsh.mp4", "G11.jpg", "rutvik.mp4", "G16.jpg", "ronak.mp4"
+  "G1.jpg", "G3.avif", "ronak.mp4", "harsh.mp4", "G16.jpg", "G5.jpg", "G12.jpg", "rutvik.mp4",
+
 ];
 
 const EASE = [0.76, 0, 0.24, 1];
@@ -23,13 +27,25 @@ function ImageTile({ publicId, className, onClick }) {
       className={`group cursor-pointer overflow-hidden rounded-sm bg-sand/20 ${className}`}
       onClick={onClick}
     >
-      <img
-        src={rawCloudinaryUrl(publicId)}
-        alt=""
-        className="w-full h-full object-cover transition-all duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:scale-[1.04]"
-        loading="lazy"
-        decoding="async"
-      />
+      {publicId.endsWith(".mp4") ? (
+        <video
+          src={`${VIDEO_BASE}/${RAW_VERSION}/${publicId}`}
+          className="w-full h-full object-cover"
+          autoPlay
+          loop
+          muted
+          playsInline
+          controls={false}
+        />
+      ) : (
+        <img
+          src={rawCloudinaryUrl(publicId)}
+          alt=""
+          className="w-full h-full object-cover transition-all duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:scale-[1.04]"
+          loading="lazy"
+          decoding="async"
+        />
+      )}
       <div className="absolute inset-0 border border-white/0 group-hover:border-white/30 rounded-sm transition-all duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] pointer-events-none" />
     </motion.div>
   );

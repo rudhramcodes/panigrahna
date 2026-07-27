@@ -1,19 +1,21 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
-import { rawCloudinaryUrl } from "../../lib/cloudinary";
+import { rawCloudinaryUrl, RAW_VERSION } from "../../lib/cloudinary";
+
+const VIDEO_BASE = "https://res.cloudinary.com/dvsrgdyi7/video/upload";
 
 const IMG_800 = [
-  "PS1.jpg",
   "PS2.jpg",
+  "rj.mp4",
   "PS3.jpg",
-  "PS4.jpg",
   "PS5.jpg",
+  "uncle-vid.mp4",
   "PS6.jpg",
   "PS7.jpg",
   "PS8.jpg",
+  "prachi-dad.mp4",
   "PS9.jpg",
-  "PS10.jpg",
 ];
 
 const COLUMNS = [
@@ -31,13 +33,26 @@ function Column({ images, y, offset }) {
     >
       {images.map((publicId) => (
         <div key={publicId} className="relative flex-1 rounded-[1vw] overflow-hidden">
-          <img
-            src={rawCloudinaryUrl(publicId)}
-            alt=""
-            className="w-full h-full object-cover"
-            loading="lazy"
-            decoding="async"
-          />
+          {publicId.endsWith(".mp4") ? (
+            <video
+              src={`${VIDEO_BASE}/${RAW_VERSION}/${publicId}`}
+              className="w-full h-full object-cover"
+              autoPlay
+              loop
+              muted
+              playsInline
+              controls={false}
+              onLoadedMetadata={(e) => { if (publicId === "rj.mp4") e.target.playbackRate = 0.5; }}
+            />
+          ) : (
+            <img
+              src={rawCloudinaryUrl(publicId)}
+              alt=""
+              className="w-full h-full object-cover"
+              loading="lazy"
+              decoding="async"
+            />
+          )}
         </div>
       ))}
     </motion.div>
