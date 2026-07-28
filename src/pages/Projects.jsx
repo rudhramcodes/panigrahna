@@ -25,7 +25,7 @@ const counterSlide = {
 
 function AnimatedCounter({ value, total }) {
   return (
-    <span className="font-serif text-taupe/50 text-sm sm:text-base italic font-light overflow-hidden inline-flex items-center">
+    <span className="font-serif text-cinnamon-400/80 text-sm sm:text-base italic font-light overflow-hidden inline-flex items-center">
       <span className="relative inline-block w-[2.2ch] h-[1.2em]">
         <AnimatePresence mode="popLayout">
           <motion.span
@@ -41,7 +41,7 @@ function AnimatedCounter({ value, total }) {
           </motion.span>
         </AnimatePresence>
       </span>
-      <span className="mx-1 text-taupe/20">/</span>
+      <span className="mx-1 text-cinnamon-400/30">/</span>
       {String(total).padStart(2, "0")}
     </span>
   );
@@ -62,7 +62,7 @@ function DotNav({ total, active, onChange }) {
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
             className={`block h-full rounded-full ${
               i === active
-                ? "bg-walnut"
+                ? "bg-cinnamon-400"
                 : "bg-taupe/20 group-hover:bg-taupe/40"
             }`}
             style={{ width: i === active ? 24 : 6 }}
@@ -78,8 +78,7 @@ function NavButton({ dir, onClick, label }) {
   return (
     <motion.button
       onClick={onClick}
-      className="group flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2.5 sm:py-3 rounded-full border border-taupe/15 text-taupe bg-white/50 backdrop-blur-sm hover:bg-walnut hover:text-sand hover:border-walnut transition-colors duration-500 cursor-pointer select-none"
-      whileHover={{ scale: 1.03 }}
+      className="group flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2.5 sm:py-3 rounded-full bg-cinnamon-400 text-white transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-cinnamon-500 hover:scale-[1.02] cursor-pointer select-none"
       whileTap={{ scale: 0.96 }}
       aria-label={label}
     >

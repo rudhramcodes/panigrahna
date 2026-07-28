@@ -41,7 +41,7 @@ export default function BackToTop() {
           transition={{ duration: 0.25, ease: "easeOut" }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className={`fixed right-6 sm:right-8 z-50 flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-walnut text-sand shadow-lg cursor-pointer ${
+          className={`fixed right-6 sm:right-8 z-50 flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-cinnamon-400 text-white shadow-lg shadow-cinnamon-400/20 hover:bg-cinnamon-500 cursor-pointer ${
             isProjects
               ? "bottom-24 sm:bottom-28"
               : "bottom-6 sm:bottom-8"

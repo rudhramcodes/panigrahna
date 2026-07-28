@@ -33,7 +33,7 @@ function ContentSection() {
       <section id="projects"><Project2 /></section>
       <section id="films"><Films /></section>
       <section id="brides-grooms"><BridesGrooms /></section>
-      <section id="contact"><ContactForm /></section>
+      {/* <section id="contact"><ContactForm /></section> */}
       <Footer />
     </div>
   );

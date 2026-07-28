@@ -73,7 +73,7 @@ function Hero() {
             <SectionLabel>About Panigrahna</SectionLabel>
             <h1 className="mt-5 max-w-[980px] font-serif text-[clamp(4.2rem,9.4vw,9rem)] font-light leading-[0.78] tracking-[-0.045em] text-walnut">
               Stories That Return You
-              <span className="block italic text-cinnamon-300">to How It Felt</span>
+              <span className="block italic text-cinnamon-400">to How It Felt</span>
             </h1>
           </div>
 
@@ -188,7 +188,7 @@ function ViralStory() {
               celebration moves to its own rhythm. That individuality is what Panigrahna preserves.
             </p>
           </div>
-          <p className="mt-8 font-serif text-2xl font-light italic text-cinnamon-300">Viral Gohil</p>
+          <p className="mt-8 font-serif text-2xl font-light italic text-cinnamon-400">Viral Gohil</p>
         </div>
       </div>
     </section>
@@ -248,7 +248,7 @@ function Approach() {
         <div className="mt-14 grid gap-8 md:grid-cols-3">
           {principles.map((principle, index) => (
             <article key={principle.title} className="border-t border-walnut/15 pt-6">
-              <span className="font-serif text-sm tracking-[0.2em] text-cinnamon-300">
+              <span className="font-serif text-sm tracking-[0.2em] text-cinnamon-400">
                 {String(index + 1).padStart(2, "0")}
               </span>
               <h3 className="mt-5 font-serif text-[clamp(1.8rem,2.8vw,2.7rem)] font-light leading-none text-walnut">
@@ -353,7 +353,7 @@ function FinalCTA() {
       </div>
 
       {/* Stronger behind the copy, softer around the photographs. */}
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(28,17,9,0.68)_0%,rgba(38,24,13,0.48)_48%,rgba(61,43,26,0.28)_100%)]" />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(44,30,18,0.68)_0%,rgba(44,30,18,0.48)_48%,rgba(44,30,18,0.28)_100%)]" />
 
       <div className="relative mx-auto max-w-[860px] text-center">
         <motion.span

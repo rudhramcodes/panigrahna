@@ -24,7 +24,7 @@ function ProjectStory({ couple, number }) {
         </p>
         <Link
           to={`/projects/${couple.slug}`}
-          className="group mt-8 inline-flex min-h-12 w-fit cursor-pointer items-center gap-4 rounded-full border border-walnut px-6 text-[9px] font-semibold uppercase tracking-[0.22em] transition-colors duration-200 hover:bg-walnut hover:text-ivory focus:outline-none focus-visible:ring-2 focus-visible:ring-walnut focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
+          className="group mt-8 inline-flex min-h-12 w-fit cursor-pointer items-center gap-4 rounded-full bg-cinnamon-400 px-6 text-[9px] font-semibold uppercase tracking-[0.22em] text-white transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-cinnamon-500 hover:scale-[1.02] focus:outline-none focus-visible:ring-2 focus-visible:ring-cinnamon-400 focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
         >
           View story
           <ArrowUpRight

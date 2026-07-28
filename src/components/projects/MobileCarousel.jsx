@@ -36,7 +36,7 @@ export default function MobileCarousel({ items, interval = 5000 }) {
   const item = items[activeIndex];
 
   return (
-    <div className="relative w-full h-full overflow-hidden bg-[#2c241a] select-none">
+    <div className="relative w-full h-full overflow-hidden bg-walnut select-none">
       {/* Image */}
       <AnimatePresence mode="wait">
         <motion.div
@@ -74,7 +74,7 @@ export default function MobileCarousel({ items, interval = 5000 }) {
             key={i}
             className={`rounded-full transition-all duration-300 ${
               i === activeIndex
-                ? "w-6 h-[3px] bg-[#c97c2e]"
+                ? "w-6 h-[3px] bg-cinnamon-400"
                 : "w-[3px] h-[3px] bg-white/20"
             }`}
           />

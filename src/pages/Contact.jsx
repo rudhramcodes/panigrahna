@@ -279,7 +279,7 @@ export default function Contact() {
                   className="font-serif text-[clamp(3.5rem,8vw,9rem)] leading-[1] tracking-tighter text-walnut font-thin mb-12"
                   lines={[
                     <span key="line1">Tell us your</span>,
-                    <span key="line2"><span className="italic text-cinnamon-300 pr-4">visual</span> story.</span>,
+                    <span key="line2"><span className="italic text-cinnamon-400 pr-4">visual</span> story.</span>,
                   ]}
                 />
               </motion.div>
@@ -627,7 +627,7 @@ export default function Contact() {
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="group relative inline-flex h-14 w-full md:w-52 items-center justify-center overflow-hidden rounded-full bg-walnut text-sand transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                        className="group relative inline-flex h-14 w-full md:w-52 items-center justify-center overflow-hidden rounded-full bg-cinnamon-400 text-white transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-cinnamon-500 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                       >
                         <div className="relative z-10 flex items-center gap-3">
                           {isSubmitting ? (

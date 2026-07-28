@@ -44,7 +44,7 @@ export default function SoundtrackPlayer({ soundtrack }) {
   };
 
   return (
-    <div className="mx-auto mt-6 flex w-full max-w-[620px] flex-wrap items-center gap-3 rounded-2xl border border-walnut/15 bg-parchment/75 p-2.5 text-left shadow-[0_10px_30px_rgba(61,43,26,0.05)] sm:flex-nowrap sm:rounded-full sm:pr-4">
+    <div className="mx-auto mt-6 flex w-full max-w-[620px] flex-wrap items-center gap-3 rounded-2xl border border-walnut/15 bg-parchment/75 p-2.5 text-left shadow-[0_10px_30px_rgba(44,30,18,0.05)] sm:flex-nowrap sm:rounded-full sm:pr-4">
       <audio
         ref={audioRef}
         src={soundtrack.src}
@@ -60,7 +60,7 @@ export default function SoundtrackPlayer({ soundtrack }) {
       <button
         type="button"
         onClick={togglePlayback}
-        className="grid size-11 shrink-0 cursor-pointer place-items-center rounded-full bg-walnut text-ivory transition-colors duration-300 hover:bg-cinnamon-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-walnut focus-visible:ring-offset-2 focus-visible:ring-offset-parchment"
+        className="grid size-11 shrink-0 cursor-pointer place-items-center rounded-full bg-cinnamon-400 text-white transition-colors duration-300 hover:bg-cinnamon-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-cinnamon-400 focus-visible:ring-offset-2 focus-visible:ring-offset-parchment"
         aria-label={playing ? `Pause ${soundtrack.title}` : `Play ${soundtrack.title}`}
       >
         {playing ? <Pause size={17} fill="currentColor" /> : <Play size={17} fill="currentColor" className="translate-x-px" />}

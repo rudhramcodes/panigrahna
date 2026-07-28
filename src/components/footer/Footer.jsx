@@ -87,11 +87,11 @@ export default function Footer({ hideCTA = false }) {
   const bgY = useTransform(scrollYProgress, [0.85, 1], [0, -60]);
 
   return (
-    <footer className="relative z-10 bg-walnut overflow-hidden">
+    <footer className="relative z-10 bg-cinnamon-500 overflow-hidden">
       {/* ══════ PRE-FOOTER CTA (Awwwards Level) ══════ */}
       {!hideCTA && (
         <motion.section
-        className="relative z-20 bg-[#f5ede4] pt-[clamp(5rem,8vw,8rem)] pb-[clamp(3rem,5vw,8rem)]"
+        className="relative z-20 bg-cinnamon-100 pt-[clamp(5rem,8vw,8rem)] pb-[clamp(3rem,5vw,8rem)]"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
@@ -104,7 +104,7 @@ export default function Footer({ hideCTA = false }) {
             className="font-serif text-[clamp(2.3rem,5.5vw,5rem)] font-light leading-[1] tracking-tighter text-walnut mb-12"
             lines={[
               <span key="line1">Let&rsquo;s Create What</span>,
-              <span key="line2"><span className="italic font-light text-cinnamon-300">Time </span>Cannot Erase.</span>,
+              <span key="line2"><span className="italic font-light text-cinnamon-400">Time </span>Cannot Erase.</span>,
             ]}
           />
 
@@ -112,19 +112,19 @@ export default function Footer({ hideCTA = false }) {
             <Magnetic strength={0.2}>
               <Link
                 to="/contact"
-                className="group relative flex h-[clamp(100px,18vw,180px)] w-[clamp(100px,18vw,180px)] items-center justify-center rounded-full bg-walnut text-sand no-underline transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.05] shadow-2xl shadow-black/40 ring-2 ring-cinnamon-200/20"
+                className="group relative flex h-[clamp(100px,18vw,180px)] w-[clamp(100px,18vw,180px)] items-center justify-center rounded-full bg-cinnamon-400 text-white no-underline transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-cinnamon-500 hover:scale-[1.05] shadow-2xl shadow-cinnamon-400/40 ring-2 ring-cinnamon-300/30"
               >
                 {/* Rolling Text Animation */}
                 <div className="relative z-10 overflow-hidden h-[44px] flex items-start justify-center">
                   <div className="flex flex-col transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-[44px]">
-                    <span className="font-serif tracking-tight text-[15px] uppercase tracking-[3px] text-sand h-[44px] flex items-center justify-center">Start Project</span>
-                    <span className="font-serif italic text-[18px] text-cinnamon-200 h-[44px] flex items-center justify-center">Connect</span>
+                    <span className="font-serif text-[13px] md:text-[15px] uppercase text-white h-[44px] flex items-center justify-center">Start <br/> Project</span>
+                    <span className="font-serif italic md:text-[18px] text-cinnamon-100 h-[44px] flex items-center justify-center">Connect</span>
                   </div>
                 </div>
 
                 {/* Arrow Icon */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 translate-y-[34px] opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-[22px] group-hover:opacity-100">
-                  <ArrowUpRight size={20} className="text-cinnamon-200" />
+                  <ArrowUpRight size={20} className="text-white" />
                 </div>
 
                 {/* Liquid Background Fill Effect */}
@@ -140,7 +140,7 @@ export default function Footer({ hideCTA = false }) {
       <div className="relative pt-[clamp(4rem,8vw,8rem)] pb-12 px-6 sm:px-10 md:px-16">
         <div className="relative z-10 mx-auto max-w-[1600px]">
           
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-12 gap-y-20 border-b border-white/5 pb-24">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-12 gap-y-20 border-b border-white/10 pb-24">
             
             {/* ── Column 1: Huge Brand Visual (5 cols) ── */}
             <motion.div 
@@ -154,18 +154,18 @@ export default function Footer({ hideCTA = false }) {
                 <motion.div variants={fadeUp} className="mb-10">
                   <img src="/images/logo.svg" alt="Logo" className="h-12 w-auto brightness-0 invert" />
                 </motion.div>
-                <motion.h3 variants={fadeUp} className="font-serif text-[clamp(1.6rem,3vw,2.4rem)] leading-[1.15] text-sand/90 font-thin tracking-tight mb-6">
+                <motion.h3 variants={fadeUp} className="font-serif text-[clamp(1.6rem,3vw,2.4rem)] leading-[1.15] text-white/80 font-thin tracking-tight mb-6">
                   Every celebration fades with time.{" "}
-                  <span className="italic text-cinnamon-300">A meaningful story never does.</span>
+                  <span className="italic text-cinnamon-100">A meaningful story never does.</span>
                 </motion.h3>
                 <motion.div variants={fadeUp} className="flex gap-4">
-                  <a href="https://instagram.com/panigrahna.rudhram" target="_blank" rel="noopener noreferrer" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white/40 hover:border-cinnamon-200 hover:text-cinnamon-200 transition-all duration-500">
+                  <a href="https://instagram.com/panigrahna.rudhram" target="_blank" rel="noopener noreferrer" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 text-white/70 hover:border-white hover:text-white transition-all duration-500">
                     <Instagram />
                   </a>
-                  <a href="https://facebook.com/panigrahna.rudhram" target="_blank" rel="noopener noreferrer" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white/40 hover:border-cinnamon-200 hover:text-cinnamon-200 transition-all duration-500">
+                  <a href="https://facebook.com/panigrahna.rudhram" target="_blank" rel="noopener noreferrer" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 text-white/70 hover:border-white hover:text-white transition-all duration-500">
                     <Facebook />
                   </a>
-                  <a href="https://pinterest.com/panigrahna_rudhram" target="_blank" rel="noopener noreferrer" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white/40 hover:border-cinnamon-200 hover:text-cinnamon-200 transition-all duration-500">
+                  <a href="https://pinterest.com/panigrahna_rudhram" target="_blank" rel="noopener noreferrer" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 text-white/70 hover:border-white hover:text-white transition-all duration-500">
                     <Pinterest />
                   </a>
                 </motion.div>
@@ -180,7 +180,7 @@ export default function Footer({ hideCTA = false }) {
               viewport={{ once: true }}
               variants={stagger}
             >
-              <motion.h4 variants={fadeUp} className="font-sans text-[10px] font-bold uppercase tracking-[4px] text-cinnamon-200/50 mb-10">Menu</motion.h4>
+              <motion.h4 variants={fadeUp} className="font-sans text-[10px] font-bold uppercase tracking-[4px] text-cinnamon-100/80 mb-10">Menu</motion.h4>
               <ul className="flex flex-col gap-5">
                 {[
                   { label: "Home", to: "/" },
@@ -190,9 +190,9 @@ export default function Footer({ hideCTA = false }) {
                   { label: "Contact", to: "/contact" },
                 ].map((item, i) => (
                   <motion.li key={item.label} variants={fadeUp} custom={i}>
-                    <Link to={item.to} className="group relative overflow-hidden inline-block font-serif italic font-light text-2xl text-white/50 hover:text-sand transition-colors">
+                    <Link to={item.to} className="group relative overflow-hidden inline-block font-serif italic font-light text-2xl text-white/70 hover:text-white transition-colors">
                       <span className="block transition-transform duration-500 group-hover:-translate-y-full">{item.label}</span>
-                      <span className="absolute top-full left-0 block transition-transform duration-500 group-hover:-translate-y-full italic font-light text-cinnamon-200">{item.label}</span>
+                      <span className="absolute top-full left-0 block transition-transform duration-500 group-hover:-translate-y-full italic font-light text-cinnamon-100">{item.label}</span>
                     </Link>
                   </motion.li>
                 ))}
@@ -208,24 +208,24 @@ export default function Footer({ hideCTA = false }) {
               variants={stagger}
             >
               <motion.div variants={fadeUp}>
-                <h4 className="font-sans text-[10px] font-bold uppercase tracking-[4px] text-cinnamon-200/50 mb-10">Mumbai Studio</h4>
-                <address className="not-italic font-sans text-sm leading-[1.8] text-white/40 max-w-[240px]">
+                <h4 className="font-sans text-[10px] font-bold uppercase tracking-[4px] text-cinnamon-100/80 mb-10">Mumbai Studio</h4>
+                <address className="not-italic font-sans text-sm leading-[1.8] text-white/60 max-w-[240px]">
                   1171-1172, Solitaire Corporate Park,<br />
                   Andheri (E), Mumbai 400093
                 </address>
-                <a href="tel:+917284980137" className="inline-block mt-4 font-serif text-white/60 hover:text-cinnamon-200 transition-colors">+91 72849 80137</a>
+                <a href="tel:+917284980137" className="inline-block mt-4 font-serif text-white/80 hover:text-white transition-colors">+91 72849 80137</a>
                 <br />
-                <a href="tel:+917285833101" className="inline-block mt-1 font-serif text-white/60 hover:text-cinnamon-200 transition-colors">+91 72858 33101</a>
+                <a href="tel:+917285833101" className="inline-block mt-1 font-serif text-white/80 hover:text-white transition-colors">+91 72858 33101</a>
               </motion.div>
 
               <motion.div variants={fadeUp}>
-                <h4 className="font-sans text-[10px] font-bold uppercase tracking-[4px] text-cinnamon-200/50 mb-10">Surat Studio</h4>
-                <address className="not-italic font-sans text-sm leading-[1.8] text-white/40 max-w-[240px]">
+                <h4 className="font-sans text-[10px] font-bold uppercase tracking-[4px] text-cinnamon-100/80 mb-10">Surat Studio</h4>
+                <address className="not-italic font-sans text-sm leading-[1.8] text-white/60 max-w-[240px]">
                   HG1, SNS Platina, Near <br />
                   Someshwara Enclave, Vesu,<br />
                   Surat, GJ 395007
                 </address>
-                <a href="mailto:hello@panigrahna.com" className="inline-block mt-4 font-serif text-white/60 hover:text-cinnamon-200 transition-colors">hello@panigrahna.com</a>
+                <a href="mailto:hello@panigrahna.com" className="inline-block mt-4 font-serif text-white/80 hover:text-white transition-colors">hello@panigrahna.com</a>
               </motion.div>
             </motion.div>
 
@@ -234,10 +234,10 @@ export default function Footer({ hideCTA = false }) {
           {/* ── Bottom Section: Minimal & Sharp ── */}
           <div className="pt-12 flex flex-col items-center gap-8">
             <div className="flex flex-col md:flex-row items-center gap-4 md:gap-10">
-              <span className="font-sans text-[9px] font-bold uppercase tracking-[3px] text-white/20">© 2026 Panigrahna</span>
+              <span className="font-sans text-[9px] font-bold uppercase tracking-[3px] text-white/40">© 2026 Panigrahna</span>
               <div className="flex gap-10">
-                <a href="#" className="font-sans text-[9px] font-bold uppercase tracking-[3px] text-white/20 hover:text-white/40 transition-colors">Privacy</a>
-                <a href="#" className="font-sans text-[9px] font-bold uppercase tracking-[3px] text-white/20 hover:text-white/40 transition-colors">Terms</a>
+                <a href="#" className="font-sans text-[9px] font-bold uppercase tracking-[3px] text-white/40 hover:text-white/70 transition-colors">Privacy</a>
+                <a href="#" className="font-sans text-[9px] font-bold uppercase tracking-[3px] text-white/40 hover:text-white/70 transition-colors">Terms</a>
               </div>
             </div>
             <span className="font-goldenbook text-[9px] font-bold uppercase tracking-[3px] text-white/50">

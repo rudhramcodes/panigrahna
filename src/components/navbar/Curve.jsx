@@ -20,7 +20,7 @@ export default function Curve() {
       className="absolute left-[-99px] top-0 h-full w-[100px]"
       viewBox="0 0 200 1000"
       preserveAspectRatio="none"
-      fill="var(--color-sandstone-500)"
+      fill="var(--color-cinnamon-400)"
       stroke="none"
     >
       <motion.path

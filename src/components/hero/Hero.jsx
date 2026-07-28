@@ -39,7 +39,7 @@ export default function Hero() {
         fetchpriority="high"
         decoding="async"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-walnut/30 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-cinnamon-400/30 via-transparent to-transparent" />
 
       <div className="absolute bottom-8 right-3 md:bottom-12 md:right-14 text-right pointer-events-none select-none leading-none">
         <span className="block font-sans text-[9px] md:text-[10px] font-bold uppercase tracking-[4px] text-walnut">
