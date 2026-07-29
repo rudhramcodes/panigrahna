@@ -11,17 +11,7 @@ export default function Navbar() {
   const location = useLocation();
 
   const lineColor = isActive ? "bg-white" : "bg-black";
-  const [heroVisible, setHeroVisible] = useState(true);
-
-  useEffect(() => {
-    const onScroll = () => setHeroVisible(window.scrollY < window.innerHeight * 0.8);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const isHome = location.pathname === "/";
-  const logoWhite = isActive || (isHome && heroVisible);
+  const logoWhite = isActive;
 
   useEffect(() => {
     const lenis = lenisRef?.current;
