@@ -337,6 +337,7 @@ class Media {
       this.extra += this.widthTotal;
       this.isBefore = this.isAfter = false;
     }
+
   }
   onResize({ screen, viewport } = {}) {
     if (screen) this.screen = screen;
@@ -388,6 +389,7 @@ class App {
     this.createMedias(items, bend, textColor, borderRadius, font);
     this.update();
     this.addEventListeners();
+    this.observeResize();
   }
   createRenderer() {
     this.renderer = new Renderer({
@@ -548,6 +550,11 @@ class App {
     this.scroll.last = this.scroll.current;
     this.raf = window.requestAnimationFrame(this.update.bind(this));
   }
+  observeResize() {
+    this.ro = new ResizeObserver(() => this.onResize());
+    this.ro.observe(this.container);
+  }
+
   addEventListeners() {
     this.boundOnResize = this.onResize.bind(this);
     this.boundOnWheel = this.onWheel.bind(this);
@@ -581,6 +588,7 @@ class App {
     if (this.container) {
       this.container.removeEventListener('keydown', this.boundOnKeyDown);
     }
+    if (this.ro) this.ro.disconnect();
   }
 }
 

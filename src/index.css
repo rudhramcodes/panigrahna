@@ -116,29 +116,30 @@
 @theme {
   --font-sans: "Open Sans", sans-serif;
   --font-serif: "Berlingske Serif", "Georgia", serif;
+  /* --font-serif: "Red Rose", serif;; */
   --font-goldenbook: "goldenbook", serif;
 
-  --color-ivory: #fffaf4;
+  --color-ivory: #fff8f0;
   --color-parchment: #fdf3e7;
-  --color-walnut: #3d2b1a;
-  --color-taupe: #7a6a58;
+  --color-walnut: #2c1e12;
+  --color-taupe: #8a7a68;
   --color-sand: #e8d5bc;
   --color-rose-beige: #f0ddd0;
-  --color-maize: #eedfc0;
+  --color-maize: #efe0c8;
 
   --color-sand-50: #e8d5bc8b;
 
-  --color-sandstone-100: #f5ece0;
-  --color-sandstone-200: #d9c3a8;
-  --color-sandstone-300: #b89878;
-  --color-sandstone-400: #8c7055;
-  --color-sandstone-500: #5e4a36;
+  --color-sandstone-100: #f5ede4;
+  --color-sandstone-200: #e8d5bc;
+  --color-sandstone-300: #c4ad90;
+  --color-sandstone-400: #a08b70;
+  --color-sandstone-500: #7a6450;
 
-  --color-cinnamon-100: #f7e8d4;
-  --color-cinnamon-200: #e8b87a;
-  --color-cinnamon-300: #c97c2e;
-  --color-cinnamon-400: #ae6f31;
-  --color-cinnamon-500: #8a5220;
+  --color-cinnamon-100: #f7ead8;
+  --color-cinnamon-200: #e8c49a;
+  --color-cinnamon-300: #c4884a;
+  --color-cinnamon-400: #b37839;
+  --color-cinnamon-500: #8a5c2a;
 
   --color-ember-100: #fbeae5;
   --color-ember-200: #f0a898;
@@ -152,9 +153,9 @@
   --color-gold-400: #c08a0c;
   --color-gold-500: #8f6308;
 
-  --color-primary: #351c03;
-  --color-secondary: #7a6a58;
-  --color-accent: #f0ddd0;
+  --color-primary: #b37839;
+  --color-secondary: #8a7a68;
+  --color-accent: #e8c49a;
 
   --ease-expo: cubic-bezier(0.76, 0, 0.24, 1);
   --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);

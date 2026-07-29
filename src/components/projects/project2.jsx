@@ -61,7 +61,7 @@ export default function Project2() {
 
   return (
     <section
-      className="relative flex flex-col w-full bg-sand/50 overflow-hidden select-none"
+      className="relative flex flex-col w-full bg-cinnamon-100/50 overflow-hidden select-none"
       style={{ height: "100dvh", minHeight: isMobile ? "680px" : "620px" }}
     >
       <div ref={headerRef} className="shrink-0 px-6 sm:px-8 md:px-12 lg:px-16 pt-10 sm:pt-12 md:pt-24 pb-3 sm:pb-3 md:pb-4 lg:text-center text-left">
@@ -74,7 +74,7 @@ export default function Project2() {
           amount={0.5}
           className="font-serif text-walnut font-thin leading-none tracking-tight"
           outerStyle={{ fontSize: "clamp(1.5rem, 3.5vw, 2.8rem)" }}
-          lines={[<span key="stories">Every Story <span className="italic text-[#c8a882]">Deserves</span> to Be Remembered.</span>]}
+          lines={[<span key="stories">Every Story <span className="italic text-cinnamon-400">Deserves</span> to Be Remembered.</span>]}
         />
         <p className="header-desc font-sans text-taupe/80 text-xs sm:text-base max-w-xl mt-3 leading-relaxed font-light lg:mx-auto">
           Every couple has a story worth telling. Through our lens, we capture
@@ -92,7 +92,7 @@ export default function Project2() {
             bend={2.5}
             borderRadius={0.06}
             font="300 22px Berlingske Serif"
-            textColor="#3d2b1a"
+            textColor="#2c1e12"
             scrollSpeed={1.4}
             scrollEase={0.05}
             onItemClick={handleCoupleClick}

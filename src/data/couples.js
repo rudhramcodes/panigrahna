@@ -10,6 +10,7 @@ export const COUPLES = [
     name: "Harsh & Sayonee",
     coverPublicId: "hs38.5.jpg",
     coverVersion: "v1781762717",
+    coverVideoId: "harsh-sayonee.mp4",
     listingImages: {
       primary: "hs38.5.jpg",
       secondary: "hs22.jpg",
@@ -27,6 +28,7 @@ export const COUPLES = [
     name: "Rahul & Jeevani",
     coverPublicId: "021.jpg",
     coverVersion: "v1781762717",
+    // coverVideoId: "rahul-jeevani.mp4",
     listingImages: {
       primary: "150.jpg",
       secondary: "046.jpg",
@@ -65,6 +67,7 @@ export const COUPLES = [
     name: "Ronak & Jessica",
     coverPublicId: "rj72.jpg",
     coverVersion: "v1781762717",
+    coverVideoId: "ronak-jessica.mp4",
     listingImages: {
       primary: "rj72.jpg",
       secondary: "RJ18.jpg",
@@ -82,6 +85,7 @@ export const COUPLES = [
     name: "Rutvik & Aishwarya",
     coverPublicId: "ra.jpg",
     coverVersion: "v1781762717",
+    // coverVideoId: "rutvik-aishwarya.mp4",
     listingImages: {
       primary: "RA28.jpg",
       secondary: "RA13.jpg",

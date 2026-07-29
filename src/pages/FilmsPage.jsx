@@ -39,7 +39,7 @@ function FeaturedFilms() {
             className="mt-4 font-serif font-light leading-[1.05] tracking-tight text-walnut"
             style={{ fontSize: "clamp(2rem, 4.5vw, 4rem)" }}
           >
-            Stories <span className="italic text-cinnamon-300">We're Proud Of</span>
+            Stories <span className="italic text-cinnamon-400">We're Proud Of</span>
           </motion.h2>
           <motion.p
             variants={fadeUp}
@@ -103,7 +103,7 @@ function ReelsSection() {
             className="mt-4 font-serif font-light leading-[1.05] tracking-tight text-walnut"
             style={{ fontSize: "clamp(2rem, 4.5vw, 4rem)" }}
           >
-            Moments on the <span className="italic text-cinnamon-300">Move</span>
+            Moments on the <span className="italic text-cinnamon-400">Move</span>
           </motion.h2>
           <motion.p
             variants={fadeUp}
@@ -162,7 +162,7 @@ function FilmsCTA() {
           >
             Ready for Your
             <br />
-            <span className="italic text-cinnamon-300">Cinematic Tale?</span>
+            <span className="italic text-cinnamon-400">Cinematic Tale?</span>
           </h2>
           <p
             className="mx-auto mt-4 max-w-[480px] font-sans font-light leading-relaxed text-taupe"
@@ -173,7 +173,7 @@ function FilmsCTA() {
           <div className="mt-8 flex justify-center">
             <button
               onClick={() => navigate("/contact")}
-              className="group relative inline-flex h-12 sm:h-14 items-center justify-center gap-3 overflow-hidden rounded-full bg-walnut px-6 sm:px-8 text-sand transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.02] cursor-pointer"
+              className="group relative inline-flex h-12 sm:h-14 items-center justify-center gap-3 overflow-hidden rounded-full bg-cinnamon-400 px-6 sm:px-8 text-white transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-cinnamon-500 hover:scale-[1.02] cursor-pointer"
             >
               <div className="relative z-10 flex items-center gap-3">
                 <span className="font-sans text-[11px] uppercase tracking-[4px]">

@@ -98,7 +98,7 @@ export default function DatePicker({
                 hasValue
                   ? "text-walnut border-taupe/15 hover:border-taupe/30"
                   : "text-taupe/25 border-taupe/15 hover:border-taupe/30"
-              } ${open ? "border-cinnamon-300/50 shadow-[0_0_0_3px_rgba(201,124,46,0.08)]" : ""}`
+              } ${open ? "border-cinnamon-300/50 shadow-[0_0_0_3px_rgba(179,120,57,0.08)]" : ""}`
         }`}
       >
         <span className="truncate">{displayText()}</span>
@@ -130,14 +130,14 @@ export default function DatePicker({
           >
             <style>{`
               .rdp-root {
-                --rdp-accent-color: #c97c2e;
-                --rdp-accent-background-color: #f7e8d4;
+                --rdp-accent-color: #b37839;
+                --rdp-accent-background-color: #f7ead8;
                 --rdp-day-height: 42px;
                 --rdp-day-width: 42px;
                 --rdp-day_button-height: 42px;
                 --rdp-day_button-width: 42px;
                 --rdp-day_button-border-radius: 9999px;
-                --rdp-today-color: #c97c2e;
+                --rdp-today-color: #b37839;
                 --rdp-nav-height: 2.5rem;
                 --rdp-nav_button-width: 2rem;
                 --rdp-nav_button-height: 2rem;
@@ -147,13 +147,13 @@ export default function DatePicker({
               .rdp-root {
                 font-family: "Open Sans", sans-serif;
                 font-size: 0.875rem;
-                color: #3d2b1a;
+                color: #2c1e12;
               }
               .rdp-caption_label {
                 font-family: "Berlingske Serif", "Georgia", serif;
                 font-size: 0.95rem;
                 font-weight: 500;
-                color: #3d2b1a;
+                color: #2c1e12;
               }
               .rdp-day_button {
                 font-size: 0.8rem;
@@ -161,7 +161,7 @@ export default function DatePicker({
                 transition: background-color 0.2s ease, transform 0.15s ease;
               }
               .rdp-day_button:hover {
-                background-color: #f7e8d4;
+                background-color: #f7ead8;
                 transform: scale(1.06);
               }
               .rdp-day_button:active {
@@ -177,45 +177,45 @@ export default function DatePicker({
                 background-color: transparent;
               }
               .rdp-selected .rdp-day_button {
-                background-color: #c97c2e;
+                background-color: #b37839;
                 color: #fff;
                 font-weight: 500;
               }
               .rdp-range_start .rdp-day_button,
               .rdp-range_end .rdp-day_button {
-                background-color: #c97c2e !important;
+                background-color: #b37839 !important;
                 color: #fff !important;
                 font-weight: 600;
                 border-radius: 9999px;
-                box-shadow: 0 2px 6px rgba(201, 124, 46, 0.35);
+                box-shadow: 0 2px 6px rgba(179, 120, 57, 0.35);
               }
               .rdp-range_middle {
-                background-color: #f7e8d4;
+                background-color: #f7ead8;
               }
               .rdp-range_middle .rdp-day_button {
-                background-color: #f7e8d4;
-                color: #3d2b1a;
+                background-color: #f7ead8;
+                color: #2c1e12;
                 font-weight: 450;
                 border-radius: 9999px;
               }
               .rdp-range_middle .rdp-day_button:hover {
-                background-color: #e8d5bc;
+                background-color: #f7ead8;
                 transform: scale(1.06);
               }
               .rdp-today:not(.rdp-outside):not(.rdp-range_start):not(.rdp-range_end) .rdp-day_button {
                 font-weight: 600;
-                box-shadow: 0 0 0 1.5px #c97c2e40;
+                box-shadow: 0 0 0 1.5px #b3783940;
               }
               .rdp-weekday {
                 font-size: 0.65rem;
                 text-transform: uppercase;
                 letter-spacing: 0.08em;
-                color: #7a6a58;
+                color: #8a7a68;
                 opacity: 0.5;
                 font-weight: 600;
               }
               .rdp-chevron {
-                fill: #7a6a58;
+                fill: #8a7a68;
               }
               .rdp-button_next,
               .rdp-button_previous {
@@ -224,7 +224,7 @@ export default function DatePicker({
               }
               .rdp-button_next:hover,
               .rdp-button_previous:hover {
-                background-color: #f7e8d4;
+                background-color: #f7ead8;
               }
               .rdp-outside {
                 opacity: 0.25;

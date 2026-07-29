@@ -128,7 +128,7 @@ function CategorySection({ title, description, images, viewAllPath, onImageClick
       >
         <button
           onClick={() => navigate(viewAllPath)}
-          className="group relative inline-flex h-14 items-center justify-center gap-3 overflow-hidden rounded-full bg-walnut px-8 text-sand transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.02] cursor-pointer"
+          className="group relative inline-flex h-14 items-center justify-center gap-3 overflow-hidden rounded-full bg-cinnamon-400 px-8 text-white transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-cinnamon-500 hover:scale-[1.02] cursor-pointer"
         >
           <div className="relative z-10 flex items-center gap-3">
             <span className="font-sans text-[11px] uppercase tracking-[4px]">
@@ -192,7 +192,7 @@ export default function BridesGrooms() {
   );
 
   return (
-    <section className="relative w-full bg-sand/50 overflow-hidden py-20 sm:py-24 md:py-32">
+    <section className="relative w-full bg-cinnamon-100/50 overflow-hidden py-20 sm:py-24 md:py-32">
       <div className="mx-auto max-w-[1480px] px-5 sm:px-8 md:px-12 lg:px-16">
         <div className="mb-24 sm:mb-28 md:mb-36">
           <CategorySection

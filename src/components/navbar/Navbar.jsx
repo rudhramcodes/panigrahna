@@ -11,6 +11,7 @@ export default function Navbar() {
   const location = useLocation();
 
   const lineColor = isActive ? "bg-white" : "bg-black";
+  const logoWhite = isActive;
 
   useEffect(() => {
     const lenis = lenisRef?.current;
@@ -49,7 +50,7 @@ export default function Navbar() {
           className="relative z-10 transition-opacity duration-300 hover:opacity-70"
           aria-label="Panigrahna - Home"
         >
-          <img src="/images/logo.svg" alt="Panigrahna" className="h-8 w-auto md:h-12" />
+          <img src="/images/logo.svg" alt="Panigrahna" className={`h-8 w-auto md:h-12 transition-all duration-300 ${logoWhite ? "brightness-0 invert" : ""}`} />
         </a>
 
         <button

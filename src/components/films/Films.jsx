@@ -18,7 +18,7 @@ export default function Films() {
   const navigate = useNavigate();
 
   return (
-    <section className="relative w-full bg-sand/50 overflow-hidden py-20 sm:py-24 md:py-32">
+    <section className="relative w-full bg-cinnamon-100/50 overflow-hidden py-20 sm:py-24 md:py-32">
       <div className="mx-auto max-w-[1480px] px-5 sm:px-8 md:px-12 lg:px-16">
         <div className="text-center mb-10 sm:mb-12 md:mb-14">
           <MaskText
@@ -28,8 +28,8 @@ export default function Films() {
             className="font-serif text-walnut font-thin leading-[1.1] tracking-tighter"
             outerStyle={{ fontSize: "clamp(1.8rem, 4vw, 3.2rem)" }}
             lines={[
-              <span key="l1">Some <span className="text-[#c8a882]">moments</span> pass in seconds,</span>,
-              <span key="l2"><em className="italic">yet stay with us <span className="italic text-[#c8a882]">forever.</span></em></span>,
+              <span key="l1">Some <span className="text-cinnamon-400">moments</span> pass in seconds,</span>,
+              <span key="l2"><em className="italic">yet stay with us <span className="italic text-cinnamon-400">forever.</span></em></span>,
             ]}
           />
           <motion.p
@@ -73,7 +73,7 @@ export default function Films() {
         >
           <button
             onClick={() => navigate("/films")}
-            className="group relative inline-flex h-14 items-center justify-center gap-3 overflow-hidden rounded-full bg-walnut px-8 text-sand transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.02] cursor-pointer"
+            className="group relative inline-flex h-14 items-center justify-center gap-3 overflow-hidden rounded-full bg-cinnamon-400 px-8 text-white transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-cinnamon-500 hover:scale-[1.02] cursor-pointer"
           >
             <div className="relative z-10 flex items-center gap-3">
               <span className="font-sans text-[11px] uppercase tracking-[4px]">

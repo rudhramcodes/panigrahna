@@ -4,8 +4,8 @@ import MaskText from "../mask-text/MaskText";
 import { rawCloudinaryUrl } from "../../lib/cloudinary";
 
 const HEADING_LINES = [
-  <span><em className="italic font-light">Documenting</em> the <em className="italic text-[#c8a882]">traditions</em></span>,
-  <span>the way they are <em className="italic text-[#c8a882]">meant to be.</em></span>,
+  <span><em className="italic font-light">Documenting</em> the <em className="italic text-cinnamon-400">traditions</em></span>,
+  <span>the way they are <em className="italic text-cinnamon-400">meant to be.</em></span>,
 ];
 
 const BODY_TEXT =
