@@ -2,6 +2,8 @@ import { useEffect, useRef } from "react";
 import { animate, stagger } from "animejs";
 import { rawCloudinaryUrl, RAW_VERSION } from "../../lib/cloudinary";
 
+const VIDEO_BASE = "https://res.cloudinary.com/dvsrgdyi7/video/upload";
+
 export default function MobileGallery({ items, onCoupleClick }) {
   const cardRefs = useRef([]);
 
@@ -34,15 +36,27 @@ export default function MobileGallery({ items, onCoupleClick }) {
             type="button"
           >
             <span className="relative block min-h-0 flex-1 overflow-hidden rounded-[18px] bg-cinnamon-100/50 ">
-              <img
-                src={rawCloudinaryUrl(item.publicId, item.version || RAW_VERSION)}
-                alt={item.text}
-                className="h-full w-full object-cover transition-transform duration-700 group-active:scale-[1.025]"
-                loading="eager"
-                fetchPriority={index < 3 ? "high" : "auto"}
-                decoding="async"
-                draggable={false}
-              />
+              {item.videoId ? (
+                <video
+                  src={`${VIDEO_BASE}/${item.version || RAW_VERSION}/${item.videoId}`}
+                  className="h-full w-full object-cover"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  controls={false}
+                />
+              ) : (
+                <img
+                  src={rawCloudinaryUrl(item.publicId, item.version || RAW_VERSION)}
+                  alt={item.text}
+                  className="h-full w-full object-cover transition-transform duration-700 group-active:scale-[1.025]"
+                  loading="eager"
+                  fetchPriority={index < 3 ? "high" : "auto"}
+                  decoding="async"
+                  draggable={false}
+                />
+              )}
             </span>
 
             <span className="mt-3 shrink-0 font-serif text-[1.08rem] font-light leading-tight text-walnut">

@@ -28,7 +28,7 @@ export const COUPLES = [
     name: "Rahul & Jeevani",
     coverPublicId: "021.jpg",
     coverVersion: "v1781762717",
-    // coverVideoId: "rahul-jeevani.mp4",
+    coverVideoId: "rahul-jeevani.mp4",
     listingImages: {
       primary: "150.jpg",
       secondary: "046.jpg",
@@ -50,6 +50,7 @@ export const COUPLES = [
     name: "Prachi & Preet",
     coverPublicId: "pp2.jpg",
     coverVersion: "v1782208255",
+    coverVideoId: "prachi-preet2.mp4",
     listingImages: {
       primary: "pp2.jpg",
       secondary: "PP19.jpg",
@@ -85,7 +86,7 @@ export const COUPLES = [
     name: "Rutvik & Aishwarya",
     coverPublicId: "ra.jpg",
     coverVersion: "v1781762717",
-    // coverVideoId: "rutvik-aishwarya.mp4",
+    coverVideoId: "rutvik-aishwarya.mp4",
     listingImages: {
       primary: "RA28.jpg",
       secondary: "RA13.jpg",

@@ -45,6 +45,7 @@ export default function Project2() {
         publicId: c.coverPublicId,
         version: c.coverVersion,
         text: c.name,
+        videoId: c.coverVideoId,
       })),
     []
   );
