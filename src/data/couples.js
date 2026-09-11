@@ -6,22 +6,58 @@ import rutvikAishwaryaImages from "./couples/rutvik-and-aishwarya.json";
 
 export const COUPLES = [
   {
-    slug: "harsh-and-sayonee",
-    name: "Harsh & Sayonee",
-    coverPublicId: "hs38.5.jpg",
+    slug: "rutvik-and-aishwarya",
+    name: "Rutvik & Aishwarya",
+    coverPublicId: "ra.jpg",
     coverVersion: "v1781762717",
-    coverVideoId: "harsh-sayonee.mp4",
+    coverVideoId: "rutvik-aishwarya.mp4",
     listingImages: {
-      primary: "hs38.5.jpg",
-      secondary: "hs22.jpg",
+      primary: "RA28.jpg",
+      secondary: "RA13.jpg",
     },
     soundtrack: {
-      title: "Jaan Ban Gaye",
-      src: "https://res.cloudinary.com/dvsrgdyi7/video/upload/jaan_ban_gaye",
+      title: "Leja",
+      src: "https://res.cloudinary.com/dvsrgdyi7/video/upload/leja",
     },
     story:
-      "A tender celebration of quiet closeness, heirloom details, and the kind of portraits that feel like they have always belonged to the family archive.",
-    images: harshSayoneeImages,
+      "A layered wedding story of blessings, family, and luminous rituals, preserved through portraits that feel calm, devotional, and quietly cinematic.",
+    images: rutvikAishwaryaImages,
+  },
+  {
+    slug: "ronak-and-jessica",
+    name: "Ronak & Jessica",
+    coverPublicId: "rj72.jpg",
+    coverVersion: "v1781762717",
+    coverVideoId: "ronak-jessica.mp4",
+    listingImages: {
+      primary: "rj72.jpg",
+      secondary: "RJ18.jpg",
+    },
+    soundtrack: {
+      title: "Rangsari",
+      src: "https://res.cloudinary.com/dvsrgdyi7/video/upload/rangisari",
+    },
+    story:
+      "An intimate story shaped by movement, joy, and the easy rhythm of two people completely present with each other and everyone they love.",
+    images: ronakJessicaImages,
+  },
+  {
+    slug: "prachi-and-preet",
+    name: "Prachi & Preet",
+    coverPublicId: "pp2.jpg",
+    coverVersion: "v1782208255",
+    coverVideoId: "prachi-preet2.mp4",
+    listingImages: {
+      primary: "pp2.jpg",
+      secondary: "PP19.jpg",
+    },
+    soundtrack: {
+      title: "Tose Naina Mily Ke",
+      src: "https://res.cloudinary.com/dvsrgdyi7/video/upload/tose_naina_mily_ke",
+    },
+    story:
+      "A graceful union where modern romance met ceremonial beauty, filled with soft gestures, vivid textures, and moments that unfolded without performance.",
+    images: prachiPreetImages,
   },
   {
     slug: "rahul-and-jeevani",
@@ -46,57 +82,21 @@ export const COUPLES = [
       "Rahul, a well-known Kannada actor, and Jeevni's wedding was one of those celebrations that felt effortless, personal, and true to the people at its heart. Held in the presence of their families and closest loved ones, the wedding embraced authentic Kannada traditions and rituals, with blessings from Lord Venkateswara of Tirupati woven into the celebrations.\n\nWhat stood out to us throughout the day was not any single ritual or grand moment, but the way Rahul and Jeevni's eyes naturally found each other in every meaningful moment. Whether they were surrounded by hundreds of guests or quietly participating in a ceremony, there was always a glance, a smile, or a moment of eye contact that reflected their comfort and connection with one another. Many of our favourite photographs from the wedding came from these simple, unscripted interactions.\n\nTheir celebration was also a reflection of the people and things they love. Family played a central role, and even their beloved dogs, who are very much a part of their lives, found a place in the story. From traditional rituals and emotional blessings to candid moments shared with loved ones, every part of the wedding felt genuine and meaningful. It was a joy to document a celebration that stayed rooted in tradition while remaining completely true to Rahul and Jeevni's journey together.",
   },
   {
-    slug: "prachi-and-preet",
-    name: "Prachi & Preet",
-    coverPublicId: "pp2.jpg",
-    coverVersion: "v1782208255",
-    coverVideoId: "prachi-preet2.mp4",
-    listingImages: {
-      primary: "pp2.jpg",
-      secondary: "PP19.jpg",
-    },
-    soundtrack: {
-      title: "Tose Naina Mily Ke",
-      src: "https://res.cloudinary.com/dvsrgdyi7/video/upload/tose_naina_mily_ke",
-    },
-    story:
-      "A graceful union where modern romance met ceremonial beauty, filled with soft gestures, vivid textures, and moments that unfolded without performance.",
-    images: prachiPreetImages,
-  },
-  {
-    slug: "ronak-and-jessica",
-    name: "Ronak & Jessica",
-    coverPublicId: "rj72.jpg",
+    slug: "harsh-and-sayonee",
+    name: "Harsh & Sayonee",
+    coverPublicId: "hs38.5.jpg",
     coverVersion: "v1781762717",
-    coverVideoId: "ronak-jessica.mp4",
+    coverVideoId: "harsh-sayonee.mp4",
     listingImages: {
-      primary: "rj72.jpg",
-      secondary: "RJ18.jpg",
+      primary: "hs38.5.jpg",
+      secondary: "hs22.jpg",
     },
     soundtrack: {
-      title: "Rangsari",
-      src: "https://res.cloudinary.com/dvsrgdyi7/video/upload/rangisari",
+      title: "Jaan Ban Gaye",
+      src: "https://res.cloudinary.com/dvsrgdyi7/video/upload/jaan_ban_gaye",
     },
     story:
-      "An intimate story shaped by movement, joy, and the easy rhythm of two people completely present with each other and everyone they love.",
-    images: ronakJessicaImages,
-  },
-  {
-    slug: "rutvik-and-aishwarya",
-    name: "Rutvik & Aishwarya",
-    coverPublicId: "ra.jpg",
-    coverVersion: "v1781762717",
-    coverVideoId: "rutvik-aishwarya.mp4",
-    listingImages: {
-      primary: "RA28.jpg",
-      secondary: "RA13.jpg",
-    },
-    soundtrack: {
-      title: "Leja",
-      src: "https://res.cloudinary.com/dvsrgdyi7/video/upload/leja",
-    },
-    story:
-      "A layered wedding story of blessings, family, and luminous rituals, preserved through portraits that feel calm, devotional, and quietly cinematic.",
-    images: rutvikAishwaryaImages,
+      "A tender celebration of quiet closeness, heirloom details, and the kind of portraits that feel like they have always belonged to the family archive.",
+    images: harshSayoneeImages,
   },
 ];
