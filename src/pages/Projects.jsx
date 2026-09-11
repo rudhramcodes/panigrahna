@@ -329,7 +329,7 @@ export default function Projects() {
                 )}
               </AnimatePresence>
 
-              <SoundtrackPlayer soundtrack={couple.soundtrack} />
+              <SoundtrackPlayer soundtrack={couple.soundtrack} coupleName={couple.name} />
             </motion.div>
           </div>
         </section>
