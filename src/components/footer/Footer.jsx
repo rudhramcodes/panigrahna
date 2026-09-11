@@ -225,7 +225,7 @@ export default function Footer({ hideCTA = false }) {
                   Someshwara Enclave, Vesu,<br />
                   Surat, GJ 395007
                 </address>
-                <a href="mailto:hello@panigrahna.com" className="inline-block mt-4 font-serif text-white/80 hover:text-white transition-colors">hello@panigrahna.com</a>
+                <a href="mailto:panigrahna@rudhramenterprises.com" className="inline-block mt-4 font-serif text-white/80 hover:text-white transition-colors">hello@panigrahna.com</a>
               </motion.div>
             </motion.div>
 

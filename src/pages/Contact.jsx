@@ -322,7 +322,7 @@ export default function Contact() {
                     <div className="space-y-6">
                       <motion.a
                         variants={fadeUp}
-                        href="mailto:hello@panigrahna.com"
+                        href="mailto:panigrahna@rudhramenterprises.com"
                         className="group flex items-center gap-4 text-walnut hover:text-cinnamon-400 transition-colors duration-500"
                       >
                         <div className="w-10 h-10 rounded-full border border-taupe/20 flex items-center justify-center group-hover:border-cinnamon-400/30 transition-colors">
