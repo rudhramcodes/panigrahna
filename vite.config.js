@@ -8,7 +8,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:3000",  // uncomment this line for local development
+        target: "http://194.238.19.57:3001",  // uncomment this line for local development
         // target: "https://panigrahna-api.onrender.com", // uncomment this line for production deployment
         changeOrigin: true,
       },

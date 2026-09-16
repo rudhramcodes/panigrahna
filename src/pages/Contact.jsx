@@ -83,9 +83,8 @@ function CustomField({
     <div className="relative group mb-8 sm:mb-10">
       <label
         htmlFor={name}
-        className={`block font-sans text-[10px] uppercase tracking-[0.3em] transition-colors duration-500 mb-3 ${
-          focused ? "text-cinnamon-400" : hasError ? "text-ember-400" : "text-taupe/60"
-        }`}
+        className={`block font-sans text-[10px] uppercase tracking-[0.3em] transition-colors duration-500 mb-3 ${focused ? "text-cinnamon-400" : hasError ? "text-ember-400" : "text-taupe/60"
+          }`}
       >
         {label} {required && <span className="text-cinnamon-300">*</span>}
       </label>
@@ -101,9 +100,8 @@ function CustomField({
           onChange={onChange}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
-          className={`w-full bg-transparent border-b py-3 font-serif italic text-lg sm:text-xl text-walnut outline-none transition-all duration-500 placeholder:text-taupe/20 resize-none ${
-            hasError ? "border-ember-300/60" : "border-taupe/20 focus:border-walnut"
-          }`}
+          className={`w-full bg-transparent border-b py-3 font-serif italic text-lg sm:text-xl text-walnut outline-none transition-all duration-500 placeholder:text-taupe/20 resize-none ${hasError ? "border-ember-300/60" : "border-taupe/20 focus:border-walnut"
+            }`}
         />
         {name === "guestCount" && (
           <input
@@ -401,37 +399,37 @@ export default function Contact() {
                     </div>
                   </motion.div>
 
-                    <div>
-                      <h4 className="font-sans text-[10px] font-bold uppercase tracking-[4px] text-cinnamon-300/60 mb-8">
-                        Follow
-                      </h4>
-                      <div className="flex gap-4">
-                        <a
-                          href="https://instagram.com/panigrahna.rudhram"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex h-10 w-10 items-center justify-center rounded-full border border-taupe/20 text-taupe/60 hover:border-cinnamon-400/30 hover:text-cinnamon-400 transition-all duration-500"
-                        >
-                          <InstagramIcon />
-                        </a>
-                        <a
-                          href="https://facebook.com/panigrahna.rudhram"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex h-10 w-10 items-center justify-center rounded-full border border-taupe/20 text-taupe/60 hover:border-cinnamon-400/30 hover:text-cinnamon-400 transition-all duration-500"
-                        >
-                          <FacebookIcon />
-                        </a>
-                        <a
-                          href="https://pinterest.com/panigrahna_rudhram"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex h-10 w-10 items-center justify-center rounded-full border border-taupe/20 text-taupe/60 hover:border-cinnamon-400/30 hover:text-cinnamon-400 transition-all duration-500"
-                        >
-                          <PinterestIcon />
-                        </a>
-                      </div>
+                  <div>
+                    <h4 className="font-sans text-[10px] font-bold uppercase tracking-[4px] text-cinnamon-300/60 mb-8">
+                      Follow
+                    </h4>
+                    <div className="flex gap-4">
+                      <a
+                        href="https://instagram.com/panigrahna.rudhram"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex h-10 w-10 items-center justify-center rounded-full border border-taupe/20 text-taupe/60 hover:border-cinnamon-400/30 hover:text-cinnamon-400 transition-all duration-500"
+                      >
+                        <InstagramIcon />
+                      </a>
+                      <a
+                        href="https://facebook.com/panigrahna.rudhram"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex h-10 w-10 items-center justify-center rounded-full border border-taupe/20 text-taupe/60 hover:border-cinnamon-400/30 hover:text-cinnamon-400 transition-all duration-500"
+                      >
+                        <FacebookIcon />
+                      </a>
+                      <a
+                        href="https://pinterest.com/panigrahna_rudhram"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex h-10 w-10 items-center justify-center rounded-full border border-taupe/20 text-taupe/60 hover:border-cinnamon-400/30 hover:text-cinnamon-400 transition-all duration-500"
+                      >
+                        <PinterestIcon />
+                      </a>
                     </div>
+                  </div>
                 </div>
 
                 <motion.div
@@ -614,62 +612,62 @@ export default function Contact() {
                       </div>
 
                       {apiError && (
-                      <motion.p
-                        initial={{ opacity: 0, y: -4 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="font-sans text-[11px] tracking-wide text-ember-400 mb-6"
-                      >
-                        {apiError}
-                      </motion.p>
-                    )}
+                        <motion.p
+                          initial={{ opacity: 0, y: -4 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="font-sans text-[11px] tracking-wide text-ember-400 mb-6"
+                        >
+                          {apiError}
+                        </motion.p>
+                      )}
 
-                    <motion.div variants={fadeUp} className="pt-6">
-                      <button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="group relative inline-flex h-14 w-full md:w-52 items-center justify-center overflow-hidden rounded-full bg-cinnamon-400 text-white transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-cinnamon-500 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-                      >
-                        <div className="relative z-10 flex items-center gap-3">
-                          {isSubmitting ? (
-                            <svg
-                              className="animate-spin h-5 w-5"
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                            >
-                              <circle
-                                className="opacity-25"
-                                cx="12"
-                                cy="12"
-                                r="10"
-                                stroke="currentColor"
-                                strokeWidth="4"
-                              />
-                              <path
-                                className="opacity-75"
-                                fill="currentColor"
-                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                              />
-                            </svg>
-                          ) : (
-                            <>
-                              <span className="font-sans text-[11px] uppercase tracking-[4px]">
-                                Send Inquiry
-                              </span>
-                              <div className="relative w-[18px] h-[18px]">
-                                <span className="absolute inset-0 flex items-center justify-center transition-all duration-[350ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:opacity-0 group-hover:translate-x-[10px] group-hover:-translate-y-[10px] group-hover:scale-[0.3]">
-                                  <ArrowUpRight size={18} />
+                      <motion.div variants={fadeUp} className="pt-6">
+                        <button
+                          type="submit"
+                          disabled={isSubmitting}
+                          className="group relative inline-flex h-14 w-full md:w-52 items-center justify-center overflow-hidden rounded-full bg-cinnamon-400 text-white transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-cinnamon-500 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                        >
+                          <div className="relative z-10 flex items-center gap-3">
+                            {isSubmitting ? (
+                              <svg
+                                className="animate-spin h-5 w-5"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                              >
+                                <circle
+                                  className="opacity-25"
+                                  cx="12"
+                                  cy="12"
+                                  r="10"
+                                  stroke="currentColor"
+                                  strokeWidth="4"
+                                />
+                                <path
+                                  className="opacity-75"
+                                  fill="currentColor"
+                                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                                />
+                              </svg>
+                            ) : (
+                              <>
+                                <span className="font-sans text-[11px] uppercase tracking-[4px]">
+                                  Send Inquiry
                                 </span>
-                                <span className="absolute inset-0 flex items-center justify-center transition-all duration-[350ms] ease-[cubic-bezier(0.16,1,0.3,1)] opacity-0 -translate-x-[10px] translate-y-[10px] scale-[0.3] group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 group-hover:scale-100">
-                                  <ArrowUpRight size={18} />
-                                </span>
-                              </div>
-                            </>
-                          )}
-                        </div>
-                        <div className="absolute inset-0 scale-0 rounded-full bg-cinnamon-400/20 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100" />
-                      </button>
-                    </motion.div>
+                                <div className="relative w-[18px] h-[18px]">
+                                  <span className="absolute inset-0 flex items-center justify-center transition-all duration-[350ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:opacity-0 group-hover:translate-x-[10px] group-hover:-translate-y-[10px] group-hover:scale-[0.3]">
+                                    <ArrowUpRight size={18} />
+                                  </span>
+                                  <span className="absolute inset-0 flex items-center justify-center transition-all duration-[350ms] ease-[cubic-bezier(0.16,1,0.3,1)] opacity-0 -translate-x-[10px] translate-y-[10px] scale-[0.3] group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 group-hover:scale-100">
+                                    <ArrowUpRight size={18} />
+                                  </span>
+                                </div>
+                              </>
+                            )}
+                          </div>
+                          <div className="absolute inset-0 scale-0 rounded-full bg-cinnamon-400/20 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100" />
+                        </button>
+                      </motion.div>
                     </form>
                   </motion.div>
                 )}
