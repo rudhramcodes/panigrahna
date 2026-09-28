@@ -1,13 +1,15 @@
 import { useEffect } from "react";
 
-const BASE = (import.meta.env.VITE_API_URL || "").trim().replace(/\/+$/, "").replace(/\/api$/, "");
+// const BASE = (import.meta.env.VITE_API_URL || "").trim().replace(/\/+$/, "").replace(/\/api$/, "");
+
+const BASE = "https://api.panigrahna.com";
 
 // Ping to wake up & prevent Render free-tier spin-down
 export function useKeepAlive(intervalMs = 60_000) {
   useEffect(() => {
     if (!BASE) return;
     const ping = () => {
-      fetch(`${BASE}/api/health`).catch(() => {});
+      fetch(`${BASE}/api/health`).catch(() => { });
     };
 
     // Ping immediately on mount so sleeping backend wakes up before user submits form
