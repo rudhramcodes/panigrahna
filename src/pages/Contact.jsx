@@ -214,7 +214,7 @@ export default function Contact() {
       const payload = {
         coupleName: formData.coupleName,
         email: formData.email,
-        phone: formData.phone ? `${countryCode} ${formData.phone}` : null,
+        phone: formData.phone ? `${countryCode} ${formData.phone}`.trim() : null,
         eventDateFrom: formData.eventDateRange.from?.toISOString(),
         eventDateTo: formData.eventDateRange.to?.toISOString() || null,
         eventLocation: formData.eventLocation,
