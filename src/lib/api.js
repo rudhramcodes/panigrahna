@@ -4,7 +4,7 @@
 */
 
 
-const rawBase = "https://api.panigrahna.com";
+const rawBase = (import.meta.env.VITE_API_URL || "https://api.panigrahna.com").trim().replace(/\/+$/, "");
 const BASE = rawBase.replace(/\/api$/, "");
 
 export async function apiPost(path, body) {
