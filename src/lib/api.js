@@ -2,7 +2,8 @@
    - Dev: VITE_API_URL is empty → uses Vite proxy (/api → localhost:3000)
    - Prod: VITE_API_URL is set to backend URL (e.g., https://panigrahna-api.onrender.com)
 */
-const BASE = import.meta.env.VITE_API_URL || "";
+const rawBase = (import.meta.env.VITE_API_URL || "").trim().replace(/\/+$/, "");
+const BASE = rawBase.replace(/\/api$/, "");
 
 export async function apiPost(path, body) {
   const res = await fetch(`${BASE}${path}`, {
